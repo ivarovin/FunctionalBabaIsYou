@@ -1,4 +1,5 @@
 using FluentAssertions;
+using static BabaIsYou.Subject;
 
 namespace BabaIsYou;
 
@@ -21,7 +22,7 @@ public class Tests
     public void NothingDefinesSubject_WhenNoBlockExist()
     {
         Array.Empty<((int x, int y), string subject)>()
-            .DefinitionOf("Baba")
+            .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
 
@@ -29,7 +30,7 @@ public class Tests
     public void AttachDefinition_ToSubject()
     {
         new[] { ((0, 0), "Baba"), ((1, 0), "is"), ((2, 0), "You") }
-            .DefinitionOf("Baba")
+            .DefinitionOf(Baba)
             .Should().Be("You");
     }
 
@@ -37,14 +38,22 @@ public class Tests
     public void Definition_CannotExist_WithoutLinkingVerb()
     {
         new[] { ((0, 0), "Baba"), ((1, 0), "You") }
-            .DefinitionOf("Baba")
+            .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
 }
 
+public readonly struct Subject
+{
+    readonly string whatIs;
+    Subject(string whatIs) => this.whatIs = whatIs;
+    public static Subject Baba => new("Baba");
+    public static implicit operator string(Subject subject) => subject.whatIs;
+}
+
 public static class safsafsa
 {
-    public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, string subject)
+    public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, Subject subject)
     {
         if (!blocks.Any())
             return string.Empty;
