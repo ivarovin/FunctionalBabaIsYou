@@ -29,7 +29,7 @@ public class Tests
     [Test]
     public void AttachDefinition_ToSubject()
     {
-        new[] { ((0, 0), "Baba"), ((1, 0), "is"), ((2, 0), "You") }
+        new[] { ((0, 0), Baba), ((1, 0), "is"), ((2, 0), "You") }
             .DefinitionOf(Baba)
             .Should().Be("You");
     }
@@ -37,18 +37,10 @@ public class Tests
     [Test]
     public void Definition_CannotExist_WithoutLinkingVerb()
     {
-        new[] { ((0, 0), "Baba"), ((1, 0), "You") }
+        new[] { ((0, 0), Baba), ((1, 0), "You") }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
-}
-
-public readonly struct Subject
-{
-    readonly string whatIs;
-    Subject(string whatIs) => this.whatIs = whatIs;
-    public static Subject Baba => new("Baba");
-    public static implicit operator string(Subject subject) => subject.whatIs;
 }
 
 public static class safsafsa
