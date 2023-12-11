@@ -32,6 +32,14 @@ public class Tests
             .DefinitionOf("Baba")
             .Should().Be("You");
     }
+
+    [Test]
+    public void Definition_CannotExist_WithoutLinkingVerb()
+    {
+        new[] { ((0, 0), "Baba"), ((1, 0), "You") }
+            .DefinitionOf("Baba")
+            .Should().BeEmpty();
+    }
 }
 
 public static class safsafsa
@@ -39,6 +47,8 @@ public static class safsafsa
     public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, string subject)
     {
         if (!blocks.Any())
+            return string.Empty;
+        if (!blocks.Any(x => x.block == "is"))
             return string.Empty;
 
         return blocks.Last().block;
