@@ -24,12 +24,23 @@ public class Tests
             .DefinitionOf("Baba")
             .Should().BeEmpty();
     }
+
+    [Test]
+    public void AttachDefinition_ToSubject()
+    {
+        new[] { ((0, 0), "Baba"), ((1, 0), "is"), ((2, 0), "You") }
+            .DefinitionOf("Baba")
+            .Should().Be("You");
+    }
 }
 
 public static class safsafsa
 {
     public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, string subject)
     {
-        return string.Empty;
+        if (!blocks.Any())
+            return string.Empty;
+
+        return blocks.Last().block;
     }
 }
