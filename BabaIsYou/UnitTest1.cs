@@ -68,4 +68,12 @@ public class GrammarTests
         sut.DefinitionOf(Baba).Should().Be(You);
         sut.DefinitionOf(Rock).Should().Be(Push);
     }
+
+    [Test]
+    public void Definition_CannotExist_WithoutDefinition_AfterLinkingVerb()
+    {
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle() }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
+    }
 }

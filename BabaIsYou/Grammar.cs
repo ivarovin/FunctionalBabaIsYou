@@ -16,6 +16,8 @@ public static class Grammar
             return string.Empty;
         
         var linkingVerbPosition = blocks.First(x => x.block == "is" && x.Item1.x > subjectPosition.x).Item1;
+        if (!blocks.Any(x => x.Item1.x > linkingVerbPosition.x))
+            return string.Empty;
         var definition = blocks.First(x => x.Item1.x > linkingVerbPosition.x);
         return definition.block;
     }
