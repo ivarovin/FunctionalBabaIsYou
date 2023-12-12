@@ -8,7 +8,9 @@ public static class Grammar
             throw new ArgumentException($"Subject {subject} is not defined");
 
         return blocks.ContainsDefinitionFor(subject)
-            ? blocks.First(block => block.whereIs.x > blocks.WhereIsLinkingVerbFor(subject).x).block
+            ? blocks.First(block =>
+                block.whereIs.x > blocks.WhereIsLinkingVerbFor(subject).x &&
+                block.AtSameHeightThan(blocks.WhereIs(subject))).block
             : string.Empty;
     }
 

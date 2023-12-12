@@ -60,7 +60,7 @@ public class GrammarTests
     }
 
     [Test]
-    public void Find_SeveralDefinitions_ForDifferentSubjects()
+    public void Attach_SeveralDefinitions_ToDifferentSubjects()
     {
         var sut = new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
             .Concat(new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() }.MoveToRight(5));
@@ -85,20 +85,30 @@ public class GrammarTests
             .DefinitionOf(Baba)
             .Should().Be(You);
     }
-    
+
     [Test]
     public void AllBlocks_MustBeAtSameHeight_ToDefineSubject()
     {
         new[] { Baba.AtOrigin(), ToBe.AtMiddle().MoveDown(1), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
-        
+
         new[] { Baba.AtOrigin().MoveDown(1), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
-        
+
         new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveDown(1) }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
+    }
+
+    [Test]
+    public void Attach_SeveralDefinitions_ToDifferentSubjects_AtDifferentHeights()
+    {
+        var sut = new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+            .Concat(new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() }.MoveDown(1));
+
+        sut.DefinitionOf(Baba).Should().Be(You);
+        sut.DefinitionOf(Rock).Should().Be(Push);
     }
 }
