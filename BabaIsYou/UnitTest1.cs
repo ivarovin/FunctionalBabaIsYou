@@ -76,4 +76,13 @@ public class GrammarTests
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
+
+    [Test]
+    public void AttachDefinition_ToSubject_InOtherHeight()
+    {
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+            .MoveDown(10)
+            .DefinitionOf(Baba)
+            .Should().Be(You);
+    }
 }
