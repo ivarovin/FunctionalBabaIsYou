@@ -1,5 +1,5 @@
 using FluentAssertions;
-using static BabaIsYou.Subject;
+using static BabaIsYou.Tests.PhraseBuilder;
 
 namespace BabaIsYou.Tests;
 
@@ -21,31 +21,31 @@ public class GrammarTests
     [Test]
     public void AttachDefinition_ToSubject()
     {
-        new[] { ((0, 0), Baba), ((1, 0), "is"), ((2, 0), "You") }
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
-            .Should().Be("You");
+            .Should().Be(You);
     }
 
     [Test]
     public void Definition_CannotExist_WithoutLinkingVerb()
     {
-        new[] { ((0, 0), Baba), ((1, 0), "You") }
+        new[] { Baba.AtOrigin(), You.AtMiddle() }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
-    
+
     [Test]
     public void LinkingVerb_ShouldBe_BetweenSubjectAndDefinition()
     {
-        new[] { ((0, 0), "is"), ((1, 0), Baba), ((2, 0), "You") }
+        new[] { ToBe.AtOrigin(), Baba.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
-    
+
     [Test]
     public void Definition_CannotExist_BeforeSubject()
     {
-        new[] { ((0, 0), "You"), ((1, 0), "is"), ((2, 0), Baba) }
+        new[] { You.AtOrigin(), ToBe.AtMiddle(), Baba.AtRight() }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }

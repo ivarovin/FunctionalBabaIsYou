@@ -2,7 +2,7 @@ namespace BabaIsYou;
 
 public static class Grammar
 {
-    public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, Subject what)
+    public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, string what)
     {
         if (!blocks.Any(x => x.block == what))
             throw new ArgumentException($"Subject {what} is not defined");
