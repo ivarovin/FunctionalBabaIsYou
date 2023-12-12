@@ -5,6 +5,8 @@ public static class PhraseBuilder
     public static string You => "You";
     public static string ToBe => "is";
     public static string Baba => "Baba";
+    public static string Rock => "Rock";
+    public static string Push => "Push";
     
     public static ((int x, int y), string what) At(this string what, int x, int y) => ((x, y), what);
     public static ((int x, int y), string what) AtOrigin(this string what) => what.At(0, 0);

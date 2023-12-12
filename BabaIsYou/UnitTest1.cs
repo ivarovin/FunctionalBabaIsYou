@@ -58,4 +58,14 @@ public class GrammarTests
             .DefinitionOf(Baba)
             .Should().Be(You);
     }
+
+    [Test]
+    public void Find_SeveralDefinitions_ForDifferentSubjects()
+    {
+        var sut = new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+            .Concat(new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() }.MoveToRight(5));
+
+        sut.DefinitionOf(Baba).Should().Be(You);
+        sut.DefinitionOf(Rock).Should().Be(Push);
+    }
 }

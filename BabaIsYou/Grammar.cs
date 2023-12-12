@@ -11,11 +11,12 @@ public static class Grammar
         if (!blocks.Any(x => x.block == "is"))
             return string.Empty;
         
-        var linkingVerbPosition = blocks.First(x => x.block == "is").Item1;
         var subjectPosition = blocks.First(x => x.block == what).Item1;
-        if (subjectPosition.x > linkingVerbPosition.x)
+        if (!blocks.Any(x => x.block == "is" && x.Item1.x > subjectPosition.x))
             return string.Empty;
-
-        return blocks.Last().block;
+        
+        var linkingVerbPosition = blocks.First(x => x.block == "is" && x.Item1.x > subjectPosition.x).Item1;
+        var definition = blocks.First(x => x.Item1.x > linkingVerbPosition.x);
+        return definition.block;
     }
 }
