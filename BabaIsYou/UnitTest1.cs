@@ -85,4 +85,12 @@ public class GrammarTests
             .DefinitionOf(Baba)
             .Should().Be(You);
     }
+    
+    [Test]
+    public void AllBlocks_MustBeAtSameHeight_ToDefineSubject()
+    {
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle().MoveDown(1), You.AtRight() }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
+    }
 }

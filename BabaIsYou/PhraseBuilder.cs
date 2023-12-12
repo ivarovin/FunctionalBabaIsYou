@@ -19,5 +19,8 @@ public static class PhraseBuilder
 
     public static IEnumerable<((int x, int y), string what)> MoveDown(
         this IEnumerable<((int x, int y), string what)> blocks, int howManyTimes)
-        => blocks.Select(x => ((x.Item1.x, x.Item1.y + howManyTimes), x.Item2));
+        => blocks.Select(x => ((x.Item1.x, x.Item1.y - howManyTimes), x.Item2));
+    
+    public static ((int x, int y), string what) MoveDown(this ((int x, int y), string what) block, int howManyTimes)
+        => ((block.Item1.x, block.Item1.y - howManyTimes), block.Item2);
 }

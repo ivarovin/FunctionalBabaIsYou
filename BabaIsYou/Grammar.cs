@@ -25,5 +25,5 @@ public static class Grammar
         => blocks.First(x => x.block == what).Item1;
 
     static bool ExistsLinkingVerbFor(this IEnumerable<((int x, int y), string block)> blocks, string what)
-        => blocks.Any(x => x.block == "is" && x.Item1.x > blocks.WhereIs(what).x);
+        => blocks.Any(x => x.block == "is" && x.Item1.x > blocks.WhereIs(what).x && x.Item1.y == blocks.WhereIs(what).y);
 }
