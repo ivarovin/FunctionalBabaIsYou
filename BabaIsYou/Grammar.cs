@@ -6,9 +6,8 @@ public static class Grammar
     {
         if (!blocks.Any(x => x.block == what))
             throw new ArgumentException($"Subject {what} is not defined");
+        
         if (!blocks.Any())
-            return string.Empty;
-        if (!blocks.Any(x => x.block == "is"))
             return string.Empty;
         if (!blocks.ExistsLinkingVerbFor(what))
             return string.Empty;
