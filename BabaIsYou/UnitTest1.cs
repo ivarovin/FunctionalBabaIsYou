@@ -49,6 +49,14 @@ public class Tests
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
+    
+    [Test]
+    public void Definition_CannotExist_BeforeSubject()
+    {
+        new[] { ((0, 0), "You"), ((1, 0), "is"), ((2, 0), Baba) }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
+    }
 }
 
 public static class safsafsa
