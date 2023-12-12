@@ -1,7 +1,7 @@
 using FluentAssertions;
 using static BabaIsYou.Subject;
 
-namespace BabaIsYou;
+namespace BabaIsYou.Tests;
 
 //OBJETIVO INICIAL
 //1. Algo se identifica como TÚ
@@ -16,7 +16,7 @@ namespace BabaIsYou;
 //3. Una frase puede tener o no sentido.
 //3.1 Cuando una frase tiene sentido resulta en un cambio de estado para el sujeto
 
-public class Tests
+public class GrammarTests
 {
     [Test]
     public void AttachDefinition_ToSubject()
