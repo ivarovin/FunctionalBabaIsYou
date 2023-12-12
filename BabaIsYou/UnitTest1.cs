@@ -92,5 +92,13 @@ public class GrammarTests
         new[] { Baba.AtOrigin(), ToBe.AtMiddle().MoveDown(1), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().BeEmpty();
+        
+        new[] { Baba.AtOrigin().MoveDown(1), ToBe.AtMiddle(), You.AtRight() }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
+        
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveDown(1) }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
     }
 }
