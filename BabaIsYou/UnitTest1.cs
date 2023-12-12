@@ -41,6 +41,14 @@ public class Tests
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
+    
+    [Test]
+    public void LinkingVerb_ShouldBe_BetweenSubjectAndDefinition()
+    {
+        new[] { ((0, 0), "is"), ((1, 0), Baba), ((2, 0), "You") }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
+    }
 }
 
 public static class safsafsa
@@ -50,6 +58,11 @@ public static class safsafsa
         if (!blocks.Any())
             return string.Empty;
         if (!blocks.Any(x => x.block == "is"))
+            return string.Empty;
+        
+        var linkingVerbPosition = blocks.First(x => x.block == "is").Item1;
+        var subjectPosition = blocks.First(x => x.block == subject).Item1;
+        if (subjectPosition.x > linkingVerbPosition.x)
             return string.Empty;
 
         return blocks.Last().block;
