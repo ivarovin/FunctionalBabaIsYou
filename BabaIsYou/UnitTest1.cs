@@ -49,4 +49,13 @@ public class GrammarTests
             .DefinitionOf(Baba)
             .Should().BeEmpty();
     }
+
+    [Test]
+    public void Definition_CanBeAssigned_AtAnyPlace()
+    {
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+            .MoveToRight(10)
+            .DefinitionOf(Baba)
+            .Should().Be(You);
+    }
 }
