@@ -19,14 +19,6 @@ namespace BabaIsYou;
 public class Tests
 {
     [Test]
-    public void NothingDefinesSubject_WhenNoBlockExist()
-    {
-        Array.Empty<((int x, int y), string subject)>()
-            .DefinitionOf(Baba)
-            .Should().BeEmpty();
-    }
-
-    [Test]
     public void AttachDefinition_ToSubject()
     {
         new[] { ((0, 0), Baba), ((1, 0), "is"), ((2, 0), "You") }
@@ -61,15 +53,17 @@ public class Tests
 
 public static class safsafsa
 {
-    public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, Subject subject)
+    public static string DefinitionOf(this IEnumerable<((int x, int y), string block)> blocks, Subject what)
     {
+        if (!blocks.Any(x => x.block == what))
+            throw new ArgumentException($"Subject {what} is not defined");
         if (!blocks.Any())
             return string.Empty;
         if (!blocks.Any(x => x.block == "is"))
             return string.Empty;
         
         var linkingVerbPosition = blocks.First(x => x.block == "is").Item1;
-        var subjectPosition = blocks.First(x => x.block == subject).Item1;
+        var subjectPosition = blocks.First(x => x.block == what).Item1;
         if (subjectPosition.x > linkingVerbPosition.x)
             return string.Empty;
 
