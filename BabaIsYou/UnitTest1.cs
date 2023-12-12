@@ -19,7 +19,7 @@ namespace BabaIsYou.Tests;
 public class GrammarTests
 {
     [Test]
-    public void AttachDefinition_ToSubject()
+    public void BabaIsYou()
     {
         new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)

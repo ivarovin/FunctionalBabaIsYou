@@ -12,10 +12,10 @@ public static class Grammar
             : string.Empty;
     }
 
-    static bool ContainsDefinitionFor(this IEnumerable<((int x, int y), string block)> blocks, string what)
+    static bool ContainsDefinitionFor(this IEnumerable<((int x, int y), string)> blocks, string what)
         => blocks.Any() && blocks.ExistsLinkingVerbFor(what) && blocks.ExistsDefinitionFor(what);
 
-    static bool ExistsDefinitionFor(this IEnumerable<((int x, int y), string block)> blocks, string subject)
+    static bool ExistsDefinitionFor(this IEnumerable<((int x, int y), string)> blocks, string subject)
         => blocks.Any(block => block.IsToTheRightOf(blocks.WhereIsLinkingVerbFor(subject)));
 
     static bool IsToTheRightOf(this ((int x, int y) whereIs, string block) block, (int x, int y) where)
