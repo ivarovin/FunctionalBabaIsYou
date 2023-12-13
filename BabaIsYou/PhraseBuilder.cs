@@ -23,4 +23,7 @@ public static class PhraseBuilder
 
     public static ((int x, int y), string what) MoveDown(this ((int x, int y), string what) block, int howManyTimes)
         => ((block.Item1.x, block.Item1.y - howManyTimes), block.Item2);
+
+    public static ((int x, int y), string what) MoveToRight(this ((int x, int y), string what) block, int howManyTimes)
+        => ((block.Item1.x + howManyTimes, block.Item1.y), block.Item2);
 }

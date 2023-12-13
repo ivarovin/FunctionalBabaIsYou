@@ -19,7 +19,7 @@ public static class Grammar
         => blocks.Any(block => block.IsToTheRightOf(blocks.WhereIsLinkingVerbFor(subject)));
 
     static bool IsToTheRightOf(this ((int x, int y) whereIs, string block) block, (int x, int y) where)
-        => block.whereIs.x > where.x && block.AtSameHeightThan(where);
+        => block.whereIs.x == where.x + 1 && block.AtSameHeightThan(where);
 
     static (int x, int y) WhereIsLinkingVerbFor(this IEnumerable<((int x, int y) whereIs, string block)> blocks,
         string what)

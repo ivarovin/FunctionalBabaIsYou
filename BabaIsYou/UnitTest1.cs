@@ -60,6 +60,14 @@ public class GrammarTests
     }
 
     [Test]
+    public void Definition_CannotExist_IfSeparated_FromLinkingVerb()
+    {
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveToRight(1) }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
+    }
+
+    [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects()
     {
         var sut = new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
