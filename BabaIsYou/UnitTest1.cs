@@ -68,6 +68,14 @@ public class GrammarTests
     }
 
     [Test]
+    public void Definition_CannotExist_IfSubject_IsSeparated()
+    {
+        new[] { Baba.AtOrigin().MoveToLeft(1), ToBe.AtMiddle(), You.AtRight() }
+            .DefinitionOf(Baba)
+            .Should().BeEmpty();
+    }
+
+    [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects()
     {
         var sut = new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
