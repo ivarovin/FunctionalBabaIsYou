@@ -127,4 +127,12 @@ public class GrammarTests
         sut.DefinitionOf(Baba).Should().Be(You);
         sut.DefinitionOf(Rock).Should().Be(Push);
     }
+
+    [Test]
+    public void FindSubject_AttachedToDefinition()
+    {
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+            .WhatIs(You)
+            .Should().Be(Baba);
+    }
 }
