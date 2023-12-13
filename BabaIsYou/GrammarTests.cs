@@ -135,4 +135,12 @@ public class GrammarTests
             .WhatIs(You)
             .Should().Be(Baba);
     }
+
+    [Test]
+    public void Subject_CannotExist_IfThereIsNo_LinkingVerb()
+    {
+        new[] { Baba.AtOrigin(), You.AtRight() }
+            .WhatIs(You)
+            .Should().BeEmpty();
+    }
 }
