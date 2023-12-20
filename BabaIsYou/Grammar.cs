@@ -17,7 +17,4 @@ public static class Grammar
 
         return new DefinitionSearch(blocks, subject).Definition.Match(x => x.block, () => string.Empty);
     }
-
-    public static (int x, int y) WhereIs(this IEnumerable<((int x, int y), string what)> blocks, string what)
-        => blocks.First(x => x.what == what).Item1;
 }
