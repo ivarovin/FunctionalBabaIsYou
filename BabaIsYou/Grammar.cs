@@ -31,9 +31,6 @@ public static class Grammar
     static bool ExistsSubjectFor(this IEnumerable<((int x, int y), string)> blocks, string definition)
         => blocks.Any(block => block.IsToTheLeftOf(blocks.WhereIsLinkingVerbForDefinition(definition)));
 
-    public static bool IsToTheRightOf(this ((int x, int y) whereIs, string block) block, (int x, int y) where)
-        => block.whereIs.x == where.x + 1 && block.AtSameHeightThan(where);
-
     static bool IsToTheLeftOf(this ((int x, int y) whereIs, string block) block, (int x, int y) where)
         => block.whereIs.x == where.x - 1 && block.AtSameHeightThan(where);
 
