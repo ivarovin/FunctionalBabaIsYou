@@ -151,4 +151,12 @@ public class GrammarTests
             .WhatIs(You)
             .Should().BeEmpty();
     }
+    
+    [Test]
+    public void Subject_CannotExist_IfThereIsNo_Definition()
+    {
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle() }
+            .WhatIs(You)
+            .Should().BeEmpty();
+    }
 }
