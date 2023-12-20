@@ -1,3 +1,5 @@
+using LanguageExt;
+
 namespace BabaIsYou;
 
 public static class Grammar
@@ -21,6 +23,9 @@ public static class Grammar
             .Definition
             .Match(x => x.block, () => string.Empty);
     }
+    
+    public static Option<T> FirstOrNone<T>(this IEnumerable<T> enumerable, Func<T, bool> predicate)
+        => enumerable.Any(predicate) ? enumerable.First(predicate) : Option<T>.None;
 
     static bool ContainsSubjectFor(this IEnumerable<((int x, int y) whereIs, string block)> blocks, string definition)
         => blocks.Any() && blocks.ExistsLinkingVerbForDefinition(definition) && blocks.ExistsSubjectFor(definition);
