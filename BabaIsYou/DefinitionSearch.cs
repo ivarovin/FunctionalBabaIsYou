@@ -13,10 +13,12 @@ public class DefinitionSearch
     static bool IsLinkingVerb(((int x, int y), string block) x) => x.block == "is";
 
     bool AtRightOfSubject(((int x, int y), string block) block) =>
-        block.Item1.x == WhereIsSubject.x + 1 && block.Item1.y == WhereIsSubject.y;
+        Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
 
-    (int x, int y) WhereIsSubject => WhereIs(subject);
-    (int x, int y) WhereIs(string what) => blocks.First(x => x.block == what).Item1;
+    static Func<((int x, int y), string), bool> AtLeftOf(((int x, int y), string) what)
+        => block => block.Item1.x == what.Item1.x - 1 && block.Item1.y == what.Item1.y;
+
+    Option<((int x, int y), string)> Subject => blocks.FirstOrNone(x => x.block == subject);
     static (int, int y) ToTheRight(((int x, int y), string block) x) => (x.Item1.x + 1, x.Item1.y);
     Option<((int x, int y), string)> Block((int x, int y) at) => blocks.FirstOrNone(x => x.Item1 == at);
 
