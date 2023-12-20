@@ -11,10 +11,10 @@ public static class Grammar
     }
 
     public static string DefinitionOf(this IEnumerable<((int x, int y) whereIs, string block)> blocks, string subject)
-    {
-        if (!blocks.Any(x => x.block == subject))
-            throw new ArgumentException($"Subject {subject} is not defined");
-
-        return new DefinitionSearch(blocks, subject).Definition.Match(x => x.block, () => string.Empty);
-    }
+        => new DefinitionSearch(blocks, subject)
+            .Definition.Match
+            (
+                x => x.block,
+                () => string.Empty
+            );
 }
