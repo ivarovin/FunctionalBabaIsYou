@@ -19,7 +19,7 @@ namespace BabaIsYou.Tests;
 public class GrammarTests
 {
     [Test]
-    public void BabaIsYou()
+    public void Definition_IsAttached_ToSubject()
     {
         new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
@@ -86,7 +86,7 @@ public class GrammarTests
     [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects()
     {
-        var sut = new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+        var sut = PhraseBuilder.BabaIsYou
             .Concat(new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() }.MoveToRight(5));
 
         sut.DefinitionOf(Baba).Should().Be(You);
@@ -104,10 +104,7 @@ public class GrammarTests
     [Test]
     public void AttachDefinition_ToSubject_InOtherHeight()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
-            .MoveDown(10)
-            .DefinitionOf(Baba)
-            .Should().Be(You);
+        PhraseBuilder.BabaIsYou.MoveDown(10).DefinitionOf(Baba).Should().Be(You);
     }
 
     [Test]
@@ -129,7 +126,7 @@ public class GrammarTests
     [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects_AtDifferentHeights()
     {
-        var sut = new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+        var sut = PhraseBuilder.BabaIsYou
             .Concat(new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() }.MoveDown(1));
 
         sut.DefinitionOf(Baba).Should().Be(You);
@@ -139,9 +136,7 @@ public class GrammarTests
     [Test]
     public void FindSubject_AttachedToDefinition()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
-            .WhatIs(You)
-            .Should().Be(Baba);
+        PhraseBuilder.BabaIsYou.WhatIs(You).Should().Be(Baba);
     }
 
     [Test]
@@ -180,8 +175,7 @@ public class GrammarTests
     [Test]
     public void Move_TowardsDirection_IfYou_AreDefined()
     {
-        World.CreateWith(new[] { Baba.AtOrigin() },
-                new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }.MoveToRight(1))
+        World.CreateWith(new[] { Baba.AtOrigin() }, PhraseBuilder.BabaIsYou.MoveToRight(1))
             .MoveTowards((0, 1))
             .WhereIs(Baba)
             .Should().NotBe((0, 0));
