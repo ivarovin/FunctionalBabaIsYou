@@ -53,10 +53,7 @@ public class GrammarTests
     [Test]
     public void Definition_CanBeAssigned_AtAnyPlace()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
-            .MoveToRight(10)
-            .DefinitionOf(Baba)
-            .Should().Be(You);
+        PhraseBuilder.BabaIsYou.MoveToRight(10).DefinitionOf(Baba).Should().Be(You);
     }
 
     [Test]
@@ -86,11 +83,8 @@ public class GrammarTests
     [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects()
     {
-        var sut = PhraseBuilder.BabaIsYou
-            .Concat(new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() }.MoveToRight(5));
-
-        sut.DefinitionOf(Baba).Should().Be(You);
-        sut.DefinitionOf(Rock).Should().Be(Push);
+        PhraseBuilder.BabaIsYou.Concat(RockIsPush.MoveToRight(5)).DefinitionOf(Baba).Should().Be(You);
+        PhraseBuilder.BabaIsYou.Concat(RockIsPush.MoveToRight(5)).DefinitionOf(Rock).Should().Be(Push);
     }
 
     [Test]
@@ -126,11 +120,8 @@ public class GrammarTests
     [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects_AtDifferentHeights()
     {
-        var sut = PhraseBuilder.BabaIsYou
-            .Concat(new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() }.MoveDown(1));
-
-        sut.DefinitionOf(Baba).Should().Be(You);
-        sut.DefinitionOf(Rock).Should().Be(Push);
+        PhraseBuilder.BabaIsYou.Concat(RockIsPush.MoveDown(1)).DefinitionOf(Baba).Should().Be(You);
+        PhraseBuilder.BabaIsYou.Concat(RockIsPush.MoveDown(1)).DefinitionOf(Rock).Should().Be(Push);
     }
 
     [Test]

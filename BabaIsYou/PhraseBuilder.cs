@@ -10,6 +10,9 @@ public static class PhraseBuilder
 
     public static IEnumerable<((int x, int y), string what)> BabaIsYou
         => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };
+    
+    public static IEnumerable<((int x, int y), string what)> RockIsPush
+        => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
 
     public static ((int x, int y), string what) At(this string what, int x, int y) => ((x, y), what);
     public static ((int x, int y), string what) AtOrigin(this string what) => what.At(0, 0);
