@@ -176,11 +176,26 @@ public class GrammarTests
             .WhereIs(Baba)
             .Should().Be((0, 0));
     }
+
+    [Test]
+    public void Move_TowardsDirection_IfYou_AreDefined()
+    {
+        World.CreateWith(new[] { Baba.AtOrigin() }, new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }.MoveToRight(1))
+            .MoveTowards((0, 1))
+            .WhereIs(Baba)
+            .Should().NotBe((0, 0));
+    }
 }
 
 public record World
 {
-    public static World CreateWith(((int x, int y), string what)[] valueTuples)
+    public static World CreateWith(((int x, int y), string what)[] actors)
+    {
+        return new();
+    }
+
+    public static World CreateWith(((int x, int y), string what)[] actors,
+        IEnumerable<((int x, int y), string what)> blocks)
     {
         return new();
     }
