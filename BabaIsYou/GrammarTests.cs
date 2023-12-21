@@ -167,6 +167,15 @@ public class GrammarTests
             .WhereIs(Baba)
             .Should().Be((0, 0));
     }
+
+    [Test]
+    public void Move_IsNotPossible_IfYou_AreNotDefined()
+    {
+        World.CreateWith(new[] { Baba.AtOrigin() })
+            .MoveTowards((1, 0))
+            .WhereIs(Baba)
+            .Should().Be((0, 0));
+    }
 }
 
 public record World
@@ -179,5 +188,10 @@ public record World
     public (int x, int y) WhereIs(string baba)
     {
         return (0, 0);
+    }
+
+    public World MoveTowards((int, int) valueTuple)
+    {
+        return new();
     }
 }
