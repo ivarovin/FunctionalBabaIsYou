@@ -151,12 +151,33 @@ public class GrammarTests
             .WhatIs(You)
             .Should().BeEmpty();
     }
-    
+
     [Test]
     public void Subject_CannotExist_IfThereIsNo_Definition()
     {
         new[] { Baba.AtOrigin(), ToBe.AtMiddle() }
             .WhatIs(You)
             .Should().BeEmpty();
+    }
+
+    [Test]
+    public void SpawnBaba_InWorld()
+    {
+        World.CreateWith(new[] { Baba.AtOrigin() })
+            .WhereIs(Baba)
+            .Should().Be((0, 0));
+    }
+}
+
+public record World
+{
+    public static World CreateWith(((int x, int y), string what)[] valueTuples)
+    {
+        return new();
+    }
+
+    public (int x, int y) WhereIs(string baba)
+    {
+        return (0, 0);
     }
 }
