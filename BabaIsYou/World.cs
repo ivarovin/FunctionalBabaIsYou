@@ -11,12 +11,12 @@ public record World
         this.actors = actors;
     }
 
-    public static World CreateWith(((int x, int y), string what)[] actors)
+    public static World CreateWith(IEnumerable<((int x, int y), string what)> actors)
     {
         return new(actors, Array.Empty<((int x, int y), string what)>());
     }
 
-    public static World CreateWith(((int x, int y), string what)[] actors,
+    public static World CreateWith(IEnumerable<((int x, int y), string what)> actors,
         IEnumerable<((int x, int y), string what)> blocks)
     {
         return new(actors, blocks);
@@ -27,20 +27,13 @@ public record World
         if (!actors.Any(IsYou))
             return (0, 0);
         
-        return actors.Where(IsYou).First().Item1;
+        return You().First().Item1;
     }
 
-    public World MoveTowards((int, int) direction)
-    {
-        var you = actors.Where(IsYou);
-        var otherThanYou = actors.Except(you);
-        var newActors = otherThanYou.Concat(you.Select(Move(direction)));
-
-        return new World(newActors, blocks);
-    }
-
+    public World MoveTowards((int, int) direction) 
+        => new(actors.Except(You()).Concat(You().Select(Move(direction))), blocks);
+    IEnumerable<((int x, int y), string what)> You() => actors.Where(IsYou);
     Func<((int x, int y) whereIs, string what), ((int x, int y) whereIs, string what)> Move((int x, int y) direction)
         => block => ((block.whereIs.x + direction.x, block.whereIs.y + direction.y), block.what);
-
     bool IsYou(((int x, int y), string whatIs) actor) => blocks.DefinitionOf(actor.whatIs).Equals(PhraseBuilder.You);
 }
