@@ -34,7 +34,7 @@ public record World
         return new World(actors.Except(You()).Concat(newActors), newBlocks);
     }
 
-    IEnumerable<(Coordinate, string what)> OverlappedBlocks((Coordinate, string what) actor) 
+    IEnumerable<(Coordinate, string what)> OverlappedBlocks((Coordinate, string what) actor)
         => blocks.Where(block => block.Item1 == actor.Item1);
 
     IEnumerable<(Coordinate, string what)> You() => actors.Where(IsYou);
@@ -45,5 +45,5 @@ public record World
     bool IsYou((Coordinate, string whatIs) actor) => blocks.DefinitionOf(actor.whatIs).Equals(PhraseBuilder.You);
 
     public IEnumerable<(Coordinate, string)> ElementsAt(Coordinate position)
-        => blocks.Where(x => x.Item1 == position).Concat(actors.Where(x => x.Item1 == position));
+        => blocks.At(position).Concat(actors.At(position));
 }
