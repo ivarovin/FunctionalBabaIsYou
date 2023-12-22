@@ -5,10 +5,10 @@ namespace FunctionalBabaIsYou;
 public static class Grammar
 {
     public static string WhatIs(this IEnumerable<((int x, int y) whereIs, string block)> blocks, string definition)
-        => new SubjectSearch(blocks, definition)
+        => new SubjectSearch(blocks.ToPlacedBlocks(), definition)
             .Subject.Match
             (
-                x => x.block,
+                x => x.whatDepicts,
                 () => string.Empty
             );
 
