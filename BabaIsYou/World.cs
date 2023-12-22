@@ -28,11 +28,14 @@ public record World
             throw new ArgumentException("Direction must be an unit vector");
 
         var newActors = You().Select(Move(direction));
-        var blocksToMove = newActors.SelectMany(x => blocks.Where(y => y.Item1 == x.Item1));
+        var blocksToMove = newActors.SelectMany(OverlappedBlocks);
         var newBlocks = blocks.Except(blocksToMove).Concat(blocksToMove.Select(Move(direction)));
 
         return new World(actors.Except(You()).Concat(newActors), newBlocks);
     }
+
+    IEnumerable<((int x, int y), string what)> OverlappedBlocks(((int x, int y) whereIs, string what) actor) 
+        => blocks.Where(y => y.Item1 == actor.Item1);
 
     IEnumerable<((int x, int y), string what)> You() => actors.Where(IsYou);
 
