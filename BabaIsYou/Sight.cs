@@ -4,8 +4,8 @@ namespace FunctionalBabaIsYou;
 
 public static class Sight
 {
-    public static IEnumerable<(Coordinate, string)> At(this IEnumerable<(Coordinate whereIs, string block)> blocks,
+    public static IEnumerable<PlacedBlock> At(this IEnumerable<PlacedBlock> blocks,
         Coordinate position) => blocks.Where(IsAt(position));
 
-    static Func<(Coordinate, string), bool> IsAt(Coordinate position) => x => x.Item1 == position;
+    static Func<PlacedBlock, bool> IsAt(Coordinate position) => x => x.whereIs == position;
 }

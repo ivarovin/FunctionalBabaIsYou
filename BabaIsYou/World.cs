@@ -2,25 +2,25 @@ namespace FunctionalBabaIsYou.Tests;
 
 public record World
 {
-    readonly IEnumerable<(Coordinate, string what)> blocks;
-    readonly IEnumerable<(Coordinate, string what)> actors;
+    readonly IEnumerable<PlacedBlock> blocks;
+    readonly IEnumerable<PlacedBlock> actors;
 
-    World(IEnumerable<(Coordinate, string what)> actors, IEnumerable<(Coordinate, string what)> blocks)
+    World(IEnumerable<PlacedBlock> actors, IEnumerable<PlacedBlock> blocks)
     {
-        if (actors.Any(x => blocks.Any(y => x.Item1 == y.Item1)))
+        if (actors.Any(x => blocks.Any(y => y.whereIs == x.whereIs)))
             throw new ArgumentException("Actors and blocks cannot be at the same place");
 
         this.blocks = blocks;
         this.actors = actors;
     }
 
-    public static World CreateWith(IEnumerable<(Coordinate, string what)> actors,
-        IEnumerable<(Coordinate, string what)> blocks)
+    public static World CreateWith(IEnumerable<PlacedBlock> actors,
+        IEnumerable<PlacedBlock> blocks)
     {
         return new(actors, blocks);
     }
 
-    public Coordinate WhereIs(string actor) => actors.First(x => x.what == actor).Item1;
+    public Coordinate WhereIs(string actor) => actors.First(x => x.whatDepicts == actor).whereIs;
 
     public World MoveTowards(Coordinate direction)
     {
@@ -34,16 +34,14 @@ public record World
         return new World(actors.Except(You()).Concat(newActors), newBlocks);
     }
 
-    IEnumerable<(Coordinate, string what)> OverlappedBlocks((Coordinate, string what) actor)
-        => blocks.Where(block => block.Item1 == actor.Item1);
+    IEnumerable<PlacedBlock> OverlappedBlocks(PlacedBlock actor)
+        => blocks.Where(block => block.whereIs == actor.whereIs);
 
-    IEnumerable<(Coordinate, string what)> You() => actors.Where(IsYou);
+    IEnumerable<PlacedBlock> You() => actors.Where(IsYou);
 
-    Func<(Coordinate whereIs, string what), (Coordinate whereIs, string what)> Move(Coordinate direction)
-        => block => ((block.whereIs.x + direction.x, block.whereIs.y + direction.y), block.what);
+    Func<PlacedBlock, PlacedBlock> Move(Coordinate direction)
+        => block => ((block.whereIs.x + direction.x, block.whereIs.y + direction.y), block.whatDepicts);
 
-    bool IsYou((Coordinate, string whatIs) actor) => blocks.DefinitionOf(actor.whatIs).Equals(PhraseBuilder.You);
-
-    public IEnumerable<(Coordinate, string)> ElementsAt(Coordinate position)
-        => blocks.At(position).Concat(actors.At(position));
+    bool IsYou(PlacedBlock actor) => blocks.DefinitionOf(actor.whatDepicts).Equals(PhraseBuilder.You);
+    public IEnumerable<PlacedBlock> ElementsAt(Coordinate position) => blocks.At(position).Concat(actors.At(position));
 }
