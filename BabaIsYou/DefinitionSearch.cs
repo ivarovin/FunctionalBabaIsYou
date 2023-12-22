@@ -12,13 +12,8 @@ public class DefinitionSearch
     Option<Coordinate> WhereIsDefinition => LinkingVerb.Map(ToTheRight);
     Option<PlacedBlock> LinkingVerb => blocks.Where(IsLinkingVerb).FirstOrNone(AtRightOfSubject);
     static bool IsLinkingVerb(PlacedBlock x) => x.whatDepicts == "is";
-
-    bool AtRightOfSubject(PlacedBlock block) =>
-        Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
-
-    static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what)
-        => block => block.X == what.X - 1 && block.Y == what.Y;
-
+    bool AtRightOfSubject(PlacedBlock block) => Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
+    static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what) => block => block.X == what.X - 1 && block.Y == what.Y;
     Option<PlacedBlock> Subject => blocks.FirstOrNone(x => x.whatDepicts == subject);
     static Coordinate ToTheRight(PlacedBlock x) => (x.X + 1, x.Y);
     Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);

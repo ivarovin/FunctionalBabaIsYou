@@ -9,31 +9,31 @@ public static class PhraseBuilder
     public static string Push => "Push";
     public static Coordinate Origin => (0, 0);
 
-    public static IEnumerable<((int x, int y), string what)> BabaIsYou
+    public static IEnumerable<PlacedBlock> BabaIsYou
         => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };
     
-    public static IEnumerable<((int x, int y), string what)> RockIsPush
+    public static IEnumerable<PlacedBlock> RockIsPush
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
 
-    public static ((int x, int y), string what) At(this string what, int x, int y) => ((x, y), what);
-    public static ((int x, int y), string what) AtOrigin(this string what) => what.At(0, 0);
-    public static ((int x, int y), string what) AtMiddle(this string what) => what.At(1, 0);
-    public static ((int x, int y), string what) AtRight(this string what) => what.At(2, 0);
+    public static PlacedBlock At(this string what, int x, int y) => ((x, y), what);
+    public static PlacedBlock AtOrigin(this string what) => what.At(0, 0);
+    public static PlacedBlock AtMiddle(this string what) => what.At(1, 0);
+    public static PlacedBlock AtRight(this string what) => what.At(2, 0);
 
-    public static IEnumerable<((int x, int y), string what)> MoveToRight(
-        this IEnumerable<((int x, int y), string what)> blocks, int howManyTimes = 1)
-        => blocks.Select(x => ((x.Item1.x + howManyTimes, x.Item1.y), x.Item2));
+    public static IEnumerable<PlacedBlock> MoveToRight(
+        this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
+        => blocks.Select(x => (PlacedBlock)((x.whereIs.x + howManyTimes, x.whereIs.y), x.whatDepicts));
 
-    public static IEnumerable<((int x, int y), string what)> MoveDown(
-        this IEnumerable<((int x, int y), string what)> blocks, int howManyTimes = 1)
-        => blocks.Select(x => ((x.Item1.x, x.Item1.y - howManyTimes), x.Item2));
+    public static IEnumerable<PlacedBlock> MoveDown(
+        this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
+        => blocks.Select(x => (PlacedBlock)((x.whereIs.x, x.whereIs.y - howManyTimes), x.whatDepicts));
 
-    public static ((int x, int y), string what) MoveDown(this ((int x, int y), string what) block, int howManyTimes)
-        => ((block.Item1.x, block.Item1.y - howManyTimes), block.Item2);
+    public static PlacedBlock MoveDown(this PlacedBlock block, int howManyTimes)
+        => ((block.whereIs.x, block.whereIs.y - howManyTimes), block.whatDepicts);
 
-    public static ((int x, int y), string what) MoveToRight(this ((int x, int y), string what) block, int howManyTimes)
-        => ((block.Item1.x + howManyTimes, block.Item1.y), block.Item2);
+    public static PlacedBlock MoveToRight(this PlacedBlock block, int howManyTimes)
+        => ((block.whereIs.x + howManyTimes, block.whereIs.y), block.whatDepicts);
 
-    public static ((int x, int y), string what) MoveToLeft(this ((int x, int y), string what) block, int howManyTimes)
-        => ((block.Item1.x - howManyTimes, block.Item1.y), block.Item2);
+    public static PlacedBlock MoveToLeft(this PlacedBlock block, int howManyTimes)
+        => ((block.whereIs.x - howManyTimes, block.whereIs.y), block.whatDepicts);
 }

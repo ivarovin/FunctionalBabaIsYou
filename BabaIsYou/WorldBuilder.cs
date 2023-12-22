@@ -7,9 +7,9 @@ public class WorldBuilder
 
     public World Build() => World.CreateWith(actors, blocks);
 
-    public WorldBuilder AndBlocks(IEnumerable<((int, int), string)> blocks)
+    public WorldBuilder AndBlocks(IEnumerable<PlacedBlock> blocks)
     {
-        this.blocks = blocks.ToCoordinates();
+        this.blocks = blocks.Deconstruct();
         return this;
     }
 
