@@ -25,7 +25,7 @@ public class WorldTests
     [Test]
     public void Move_TowardsDirection_IfYou_AreDefined()
     {
-        World.CreateWith(new[] { Baba.AtOrigin() }, PhraseBuilder.BabaIsYou.MoveToRight(1))
+        World.CreateWith(new[] { Baba.AtOrigin() }, BabaIsYou.MoveToRight(1))
             .MoveTowards((0, 1))
             .WhereIs(Baba)
             .Should().NotBe(Origin);
@@ -34,7 +34,7 @@ public class WorldTests
     [Test]
     public void OnlyYou_Moves()
     {
-        World.CreateWith(new[] { Baba.AtOrigin(), Rock.AtOrigin() }, PhraseBuilder.BabaIsYou.MoveToRight(1))
+        World.CreateWith(new[] { Baba.AtOrigin(), Rock.AtOrigin() }, BabaIsYou.MoveToRight(1))
             .MoveTowards((0, 1))
             .WhereIs(Rock)
             .Should().Be(Origin);
