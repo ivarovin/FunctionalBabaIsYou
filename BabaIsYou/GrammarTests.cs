@@ -145,4 +145,11 @@ public class GrammarTests
             .WhatIs(You)
             .Should().BeEmpty();
     }
+
+    [Test]
+    public void Find_DefinitionOf_PlacedBlock()
+    {
+        BabaIsYou.DefinitionOf(Baba.AtMiddle()).whereIs.Should().Be(Middle);
+        BabaIsYou.DefinitionOf(Baba.AtMiddle()).whatDepicts.Should().Be(You);
+    }
 }

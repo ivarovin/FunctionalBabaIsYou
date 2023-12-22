@@ -17,4 +17,12 @@ public static class Grammar
                 x => x.whatDepicts,
                 () => string.Empty
             );
+
+    public static PlacedBlock DefinitionOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
+        => new DefinitionSearch(blocks, subject.whatDepicts)
+            .Definition.Match
+            (
+                definition => (PlacedBlock)(subject.whereIs, definition.whatDepicts),
+                () => subject
+            );
 }
