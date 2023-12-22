@@ -40,4 +40,13 @@ public class WorldTests
             .WhereIs(Rock)
             .Should().Be(Origin);
     }
+
+    [Test]
+    public void PushBlock_AsYouMoves_TowardsIt()
+    {
+        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveDown()).Build()
+            .MoveTowards((0, -1))
+            .ElementsAt((0, -2))
+            .Should().Contain(Baba.At(0, -2));
+    }
 }

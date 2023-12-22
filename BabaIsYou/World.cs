@@ -31,8 +31,12 @@ public record World
     {
         if (Math.Abs(direction.x) > 1 || Math.Abs(direction.y) > 1)
             throw new ArgumentException("Direction must be an unit vector");
-        
-        return new World(actors.Except(You()).Concat(You().Select(Move(direction))), blocks);
+
+        var newActors = You().Select(Move(direction));
+        var blocksToMove = newActors.SelectMany(x => blocks.Where(y => y.Item1 == x.Item1));
+        var newBlocks = blocks.Except(blocksToMove).Concat(blocksToMove.Select(Move(direction)));
+
+        return new World(actors.Except(You()).Concat(newActors), newBlocks);
     }
 
     IEnumerable<((int x, int y), string what)> You() => actors.Where(IsYou);
@@ -41,4 +45,7 @@ public record World
         => block => ((block.whereIs.x + direction.x, block.whereIs.y + direction.y), block.what);
 
     bool IsYou(((int x, int y), string whatIs) actor) => blocks.DefinitionOf(actor.whatIs).Equals(PhraseBuilder.You);
+
+    public IEnumerable<((int, int), string)> ElementsAt((int, int) position)
+        => blocks.Where(x => x.Item1 == position).Concat(actors.Where(x => x.Item1 == position));
 }
