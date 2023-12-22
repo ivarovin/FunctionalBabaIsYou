@@ -30,4 +30,13 @@ public class WorldTests
             .WhereIs(Baba)
             .Should().NotBe(Origin);
     }
+
+    [Test]
+    public void OnlyYou_Moves()
+    {
+        World.CreateWith(new[] { Baba.AtOrigin(), Rock.AtOrigin() }, PhraseBuilder.BabaIsYou.MoveToRight(1))
+            .MoveTowards((0, 1))
+            .WhereIs(Rock)
+            .Should().Be(Origin);
+    }
 }
