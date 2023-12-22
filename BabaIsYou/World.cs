@@ -7,6 +7,9 @@ public record World
 
     World(IEnumerable<((int x, int y), string what)> actors, IEnumerable<((int x, int y), string what)> blocks)
     {
+        if(actors.Any(x => blocks.Any(y => x.Item1 == y.Item1)))
+            throw new ArgumentException("Actors and blocks cannot be at the same place");
+        
         this.blocks = blocks;
         this.actors = actors;
     }
