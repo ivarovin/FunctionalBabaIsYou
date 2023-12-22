@@ -120,8 +120,8 @@ public class GrammarTests
     [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects_AtDifferentHeights()
     {
-        BabaIsYou.Concat(RockIsPush.MoveDown(1)).DefinitionOf(Baba).Should().Be(You);
-        BabaIsYou.Concat(RockIsPush.MoveDown(1)).DefinitionOf(Rock).Should().Be(Push);
+        BabaIsYou.Concat(RockIsPush.MoveDown()).DefinitionOf(Baba).Should().Be(You);
+        BabaIsYou.Concat(RockIsPush.MoveDown()).DefinitionOf(Rock).Should().Be(Push);
     }
 
     [Test]

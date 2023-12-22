@@ -21,11 +21,11 @@ public static class PhraseBuilder
     public static ((int x, int y), string what) AtRight(this string what) => what.At(2, 0);
 
     public static IEnumerable<((int x, int y), string what)> MoveToRight(
-        this IEnumerable<((int x, int y), string what)> blocks, int howManyTimes)
+        this IEnumerable<((int x, int y), string what)> blocks, int howManyTimes = 1)
         => blocks.Select(x => ((x.Item1.x + howManyTimes, x.Item1.y), x.Item2));
 
     public static IEnumerable<((int x, int y), string what)> MoveDown(
-        this IEnumerable<((int x, int y), string what)> blocks, int howManyTimes)
+        this IEnumerable<((int x, int y), string what)> blocks, int howManyTimes = 1)
         => blocks.Select(x => ((x.Item1.x, x.Item1.y - howManyTimes), x.Item2));
 
     public static ((int x, int y), string what) MoveDown(this ((int x, int y), string what) block, int howManyTimes)

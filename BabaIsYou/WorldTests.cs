@@ -26,7 +26,7 @@ public class WorldTests
     [Test]
     public void Move_TowardsDirection_IfYou_AreDefined()
     {
-        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight(1)).Build()
+        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
             .MoveTowards((0, 1))
             .WhereIs(Baba)
             .Should().NotBe(Origin);
@@ -35,7 +35,7 @@ public class WorldTests
     [Test]
     public void OnlyYou_Moves()
     {
-        IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight(1)).Build()
+        IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
             .MoveTowards((0, 1))
             .WhereIs(Rock)
             .Should().Be(Origin);
