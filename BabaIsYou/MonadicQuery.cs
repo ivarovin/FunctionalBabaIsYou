@@ -1,6 +1,6 @@
 using LanguageExt;
 
-namespace BabaIsYou;
+namespace FunctionalBabaIsYou;
 
 public static class MonadicQuery
 {

@@ -1,4 +1,4 @@
-namespace BabaIsYou;
+namespace FunctionalBabaIsYou;
 
 public static class Grammar
 {

@@ -1,7 +1,7 @@
 using FluentAssertions;
-using static BabaIsYou.Tests.PhraseBuilder;
+using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 
-namespace BabaIsYou.Tests;
+namespace FunctionalBabaIsYou.Tests;
 
 public class WorldTests
 {

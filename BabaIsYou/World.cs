@@ -1,4 +1,4 @@
-namespace BabaIsYou.Tests;
+namespace FunctionalBabaIsYou.Tests;
 
 public record World
 {
