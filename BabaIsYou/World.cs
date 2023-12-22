@@ -1,3 +1,5 @@
+using static FunctionalBabaIsYou.Sight;
+
 namespace FunctionalBabaIsYou.Tests;
 
 public record World
@@ -34,9 +36,7 @@ public record World
         return new World(actors.Except(You()).Concat(newActors), newBlocks);
     }
 
-    IEnumerable<PlacedBlock> OverlappedBlocks(PlacedBlock actor)
-        => blocks.Where(block => block.whereIs == actor.whereIs);
-
+    IEnumerable<PlacedBlock> OverlappedBlocks(PlacedBlock actor) => blocks.Where(IsAt(actor));
     IEnumerable<PlacedBlock> You() => actors.Where(IsYou);
 
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction)
