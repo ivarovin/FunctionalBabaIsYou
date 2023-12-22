@@ -14,11 +14,6 @@ public record World
         this.actors = actors;
     }
 
-    public static World CreateWith(IEnumerable<((int x, int y), string what)> actors)
-    {
-        return new(actors, Array.Empty<((int x, int y), string what)>());
-    }
-
     public static World CreateWith(IEnumerable<((int x, int y), string what)> actors,
         IEnumerable<((int x, int y), string what)> blocks)
     {
