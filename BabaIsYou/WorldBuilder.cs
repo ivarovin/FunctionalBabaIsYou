@@ -2,16 +2,16 @@ namespace FunctionalBabaIsYou.Tests;
 
 public class WorldBuilder
 {
-    IEnumerable<((int, int), string)> actors = Array.Empty<((int, int), string)>();
-    IEnumerable<((int, int), string)> blocks = Array.Empty<((int, int), string)>();
-    
+    IEnumerable<(Coordinate, string)> actors = Array.Empty<(Coordinate, string)>();
+    IEnumerable<(Coordinate, string)> blocks = Array.Empty<(Coordinate, string)>();
+
     public World Build() => World.CreateWith(actors, blocks);
-    
+
     public WorldBuilder AndBlocks(IEnumerable<((int, int), string)> blocks)
     {
-        this.blocks = blocks;
+        this.blocks = blocks.ToCoordinates();
         return this;
     }
-    
-    public static WorldBuilder IntroduceToWorld(params ((int, int), string)[] actors) => new() { actors = actors };
+
+    public static WorldBuilder IntroduceToWorld(params (Coordinate, string)[] actors) => new() { actors = actors };
 }
