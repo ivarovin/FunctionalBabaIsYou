@@ -11,6 +11,8 @@ public record World
     {
         if (actors.Any(x => blocks.Any(y => y.whereIs == x.whereIs)))
             throw new ArgumentException("Actors and blocks cannot be at the same place");
+        if (blocks.Select(x => x.whereIs).Distinct().Count() != blocks.Count())
+            throw new ArgumentException("Blocks cannot be overlapped");
 
         this.blocks = blocks;
         this.actors = actors;
@@ -23,19 +25,18 @@ public record World
         if (Math.Abs(direction.x) > 1 || Math.Abs(direction.y) > 1)
             throw new ArgumentException("Direction must be an unit vector");
 
-        var newActors = You().Select(Move(direction));
-        var blocksToMove = newActors.SelectMany(OverlappedBlocks);
-        var newBlocks = blocks.Except(blocksToMove).Concat(blocksToMove.Select(Move(direction)));
-
-        return new World(actors.Except(You()).Concat(newActors), newBlocks);
+        return new World(MoveActors(direction), MoveBlocks(direction));
     }
 
-    IEnumerable<PlacedBlock> OverlappedBlocks(PlacedBlock actor) => blocks.Where(IsAt(actor));
+    IEnumerable<PlacedBlock> MoveBlocks(Coordinate direction) 
+        => blocks.Except(OverlappedAfter(direction)).Concat(OverlappedAfter(direction).Select(Move(direction)));
+
+    IEnumerable<PlacedBlock> OverlappedAfter(Coordinate movingTo) => MovedYou(movingTo).SelectMany(OverlappedBlocks);
+    IEnumerable<PlacedBlock> MoveActors(Coordinate to) => actors.Except(You()).Concat(MovedYou(to));
+    IEnumerable<PlacedBlock> MovedYou(Coordinate towards) => You().Select(Move(towards));
+    IEnumerable<PlacedBlock> OverlappedBlocks(PlacedBlock block) => blocks.Where(IsAt(block));
     IEnumerable<PlacedBlock> You() => actors.Where(IsYou);
-
-    Func<PlacedBlock, PlacedBlock> Move(Coordinate direction)
-        => block => (block.whereIs + direction, block.whatDepicts);
-
+    Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
     bool IsYou(PlacedBlock actor) => blocks.DefinitionOf(actor.whatDepicts).Equals(PhraseBuilder.You);
     public IEnumerable<PlacedBlock> ElementsAt(Coordinate position) => blocks.At(position).Concat(actors.At(position));
 }
