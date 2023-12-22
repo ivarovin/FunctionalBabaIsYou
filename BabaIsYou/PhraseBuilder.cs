@@ -13,6 +13,9 @@ public static class PhraseBuilder
     public static IEnumerable<PlacedBlock> BabaIsYou
         => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };
     
+    public static IEnumerable<PlacedBlock> BabaIsRock
+        => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), Rock.AtRight() };
+    
     public static IEnumerable<PlacedBlock> RockIsPush
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
 
@@ -29,7 +32,7 @@ public static class PhraseBuilder
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
         => blocks.Select(x => (PlacedBlock)((x.whereIs.x, x.whereIs.y - howManyTimes), x.whatDepicts));
 
-    public static PlacedBlock MoveDown(this PlacedBlock block, int howManyTimes)
+    public static PlacedBlock MoveDown(this PlacedBlock block, int howManyTimes = 1)
         => ((block.whereIs.x, block.whereIs.y - howManyTimes), block.whatDepicts);
 
     public static PlacedBlock MoveToRight(this PlacedBlock block, int howManyTimes)

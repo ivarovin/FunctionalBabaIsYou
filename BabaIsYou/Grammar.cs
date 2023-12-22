@@ -25,4 +25,7 @@ public static class Grammar
                 definition => (PlacedBlock)(subject.whereIs, definition.whatDepicts),
                 () => subject
             );
+    
+    public static IEnumerable<PlacedBlock> DefinitionOf(this IEnumerable<PlacedBlock> blocks, IEnumerable<PlacedBlock> subjects)
+        => subjects.Select(blocks.DefinitionOf);
 }

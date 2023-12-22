@@ -65,4 +65,13 @@ public class WorldTests
             .ElementsAt(Origin)
             .Should().HaveCount(1);
     }
+    
+    [Test]
+    public void Get_RedefinedElement()
+    {
+        IntroduceToWorld(Baba.AtOrigin())
+            .AndBlocks(BabaIsRock.MoveDown()).Build()
+            .ElementsAt(Origin)
+            .Should().Contain(Rock.AtOrigin());
+    }
 }
