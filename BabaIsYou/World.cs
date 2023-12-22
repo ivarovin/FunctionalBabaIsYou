@@ -27,8 +27,13 @@ public record World
 
     public (int x, int y) WhereIs(string actor) => actors.First(x => x.what == actor).Item1;
 
-    public World MoveTowards((int, int) direction)
-        => new(actors.Except(You()).Concat(You().Select(Move(direction))), blocks);
+    public World MoveTowards((int x, int y) direction)
+    {
+        if (Math.Abs(direction.x) > 1 || Math.Abs(direction.y) > 1)
+            throw new ArgumentException("Direction must be an unit vector");
+        
+        return new World(actors.Except(You()).Concat(You().Select(Move(direction))), blocks);
+    }
 
     IEnumerable<((int x, int y), string what)> You() => actors.Where(IsYou);
 

@@ -9,7 +9,7 @@ public class WorldTests
     [Test]
     public void SpawnBaba_InWorld()
     {
-        World.CreateWith(new[] { Baba.AtOrigin() })
+        IntroduceToWorld(Baba.AtOrigin()).Build()
             .WhereIs(Baba)
             .Should().Be(Origin);
     }
