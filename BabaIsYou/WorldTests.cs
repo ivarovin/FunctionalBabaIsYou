@@ -47,6 +47,14 @@ public class WorldTests
         IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveDown()).Build()
             .MoveTowards((0, -1))
             .ElementsAt((0, -2))
-            .Should().Contain(Baba.At(0, -2));
+            .Should().HaveCount(1).And.Contain(Baba.At(0, -2));
+    }
+
+    [Test]
+    public void Actors_CanBe_Overlapped()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).Build()
+            .ElementsAt(Origin)
+            .Should().HaveCount(2);
     }
 }
