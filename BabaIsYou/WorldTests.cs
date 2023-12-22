@@ -1,5 +1,6 @@
 using FluentAssertions;
 using static FunctionalBabaIsYou.Tests.PhraseBuilder;
+using static FunctionalBabaIsYou.Tests.WorldBuilder;
 
 namespace FunctionalBabaIsYou.Tests;
 
@@ -16,7 +17,7 @@ public class WorldTests
     [Test]
     public void Move_IsNotPossible_IfYou_AreNotDefined()
     {
-        World.CreateWith(new[] { Baba.AtOrigin() })
+        IntroduceToWorld(Baba.AtOrigin()).Build()
             .MoveTowards((1, 0))
             .WhereIs(Baba)
             .Should().Be(Origin);
@@ -25,7 +26,7 @@ public class WorldTests
     [Test]
     public void Move_TowardsDirection_IfYou_AreDefined()
     {
-        World.CreateWith(new[] { Baba.AtOrigin() }, BabaIsYou.MoveToRight(1))
+        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight(1)).Build()
             .MoveTowards((0, 1))
             .WhereIs(Baba)
             .Should().NotBe(Origin);
@@ -34,7 +35,7 @@ public class WorldTests
     [Test]
     public void OnlyYou_Moves()
     {
-        World.CreateWith(new[] { Baba.AtOrigin(), Rock.AtOrigin() }, BabaIsYou.MoveToRight(1))
+        IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight(1)).Build()
             .MoveTowards((0, 1))
             .WhereIs(Rock)
             .Should().Be(Origin);
