@@ -7,19 +7,13 @@ public record World
     readonly IEnumerable<PlacedBlock> blocks;
     readonly IEnumerable<PlacedBlock> actors;
 
-    World(IEnumerable<PlacedBlock> actors, IEnumerable<PlacedBlock> blocks)
+    public World(IEnumerable<PlacedBlock> actors, IEnumerable<PlacedBlock> blocks)
     {
         if (actors.Any(x => blocks.Any(y => y.whereIs == x.whereIs)))
             throw new ArgumentException("Actors and blocks cannot be at the same place");
 
         this.blocks = blocks;
         this.actors = actors;
-    }
-
-    public static World CreateWith(IEnumerable<PlacedBlock> actors,
-        IEnumerable<PlacedBlock> blocks)
-    {
-        return new(actors, blocks);
     }
 
     public Coordinate WhereIs(string actor) => actors.First(x => x.whatDepicts == actor).whereIs;
@@ -40,7 +34,7 @@ public record World
     IEnumerable<PlacedBlock> You() => actors.Where(IsYou);
 
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction)
-        => block => ((block.whereIs.x + direction.x, block.whereIs.y + direction.y), block.whatDepicts);
+        => block => (block.whereIs + direction, block.whatDepicts);
 
     bool IsYou(PlacedBlock actor) => blocks.DefinitionOf(actor.whatDepicts).Equals(PhraseBuilder.You);
     public IEnumerable<PlacedBlock> ElementsAt(Coordinate position) => blocks.At(position).Concat(actors.At(position));
