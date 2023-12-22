@@ -13,18 +13,13 @@ public static class Grammar
             );
 
     public static string DefinitionOf(this IEnumerable<((int x, int y) whereIs, string block)> blocks, string subject)
-        => new DefinitionSearch(blocks, subject)
+        => new DefinitionSearch(blocks.ToPlacedBlocks(), subject)
             .Definition.Match
             (
-                x => x.block,
+                x => x.whatDepicts,
                 () => string.Empty
             );
     
     public static string DefinitionOf(this IEnumerable<(Coordinate whereIs, string block)> blocks, string subject)
-        => new DefinitionSearch(blocks.ToTuples(), subject)
-            .Definition.Match
-            (
-                x => x.block,
-                () => string.Empty
-            );
+        => blocks.ToTuples().DefinitionOf(subject);
 }
