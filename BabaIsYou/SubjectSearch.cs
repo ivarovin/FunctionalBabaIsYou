@@ -17,10 +17,10 @@ public class SubjectSearch
         Definition.Map(AtRightOf(block)).Match(result => result, None: () => false);
 
     static Func<PlacedBlock, bool> AtRightOf(PlacedBlock what)
-        => block => block.whereIs.x == what.whereIs.x + 1 && block.whereIs.y == what.whereIs.y;
+        => block => block.X == what.X + 1 && block.Y == what.Y;
     
     Option<PlacedBlock> Definition => blocks.FirstOrNone(x => x.whatDepicts == definition);
-    static Coordinate ToTheLeft(PlacedBlock x) => (x.whereIs.x - 1, x.whereIs.y);
+    static Coordinate ToTheLeft(PlacedBlock x) => (x.X - 1, x.Y);
     Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
 
     public SubjectSearch(IEnumerable<PlacedBlock> blocks, string definition)
