@@ -10,8 +10,8 @@ public class WorldTests
     public void SpawnBaba_InWorld()
     {
         IntroduceToWorld(Baba.AtOrigin()).Build()
-            .WhereIs(Baba)
-            .Should().Be(Origin);
+            .ElementsAt(Origin)
+            .Should().HaveCount(1);
     }
 
     [Test]
@@ -19,8 +19,8 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin()).Build()
             .MoveTowards((1, 0))
-            .WhereIs(Baba)
-            .Should().Be(Origin);
+            .ElementsAt(Origin)
+            .Should().HaveCount(1);
     }
 
     [Test]
@@ -28,8 +28,8 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
             .MoveTowards((0, 1))
-            .WhereIs(Baba)
-            .Should().NotBe(Origin);
+            .ElementsAt(Origin)
+            .Should().HaveCount(0);
     }
 
     [Test]
@@ -37,8 +37,9 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
             .MoveTowards((0, 1))
-            .WhereIs(Rock)
-            .Should().Be(Origin);
+            .ElementsAt(Origin)
+            .Should().Contain(Rock.AtOrigin())
+            .And.NotContain(Baba.AtOrigin());
     }
 
     [Test]

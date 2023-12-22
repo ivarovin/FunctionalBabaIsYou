@@ -18,8 +18,6 @@ public record World
         this.actors = actors;
     }
 
-    public Coordinate WhereIs(string actor) => actors.First(x => x.whatDepicts == actor).whereIs;
-
     public World MoveTowards(Coordinate direction)
     {
         if (Math.Abs(direction.x) > 1 || Math.Abs(direction.y) > 1)
