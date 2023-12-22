@@ -7,6 +7,7 @@ public static class PhraseBuilder
     public static string Baba => "Baba";
     public static string Rock => "Rock";
     public static string Push => "Push";
+    public static (int x, int y) Origin => (0, 0);
 
     public static IEnumerable<((int x, int y), string what)> BabaIsYou
         => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };

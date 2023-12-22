@@ -10,7 +10,7 @@ public class WorldTests
     {
         World.CreateWith(new[] { Baba.AtOrigin() })
             .WhereIs(Baba)
-            .Should().Be((0, 0));
+            .Should().Be(Origin);
     }
 
     [Test]
@@ -19,7 +19,7 @@ public class WorldTests
         World.CreateWith(new[] { Baba.AtOrigin() })
             .MoveTowards((1, 0))
             .WhereIs(Baba)
-            .Should().Be((0, 0));
+            .Should().Be(Origin);
     }
 
     [Test]
@@ -28,6 +28,6 @@ public class WorldTests
         World.CreateWith(new[] { Baba.AtOrigin() }, PhraseBuilder.BabaIsYou.MoveToRight(1))
             .MoveTowards((0, 1))
             .WhereIs(Baba)
-            .Should().NotBe((0, 0));
+            .Should().NotBe(Origin);
     }
 }
