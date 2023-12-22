@@ -12,6 +12,12 @@ public class WorldBuilder
         this.blocks = blocks;
         return this;
     }
+    
+    public WorldBuilder AndBlocks(params PlacedBlock[] blocks)
+    {
+        this.blocks = blocks;
+        return this;
+    }
 
     public static WorldBuilder IntroduceToWorld(params PlacedBlock[] actors) => new() { actors = actors };
     public static WorldBuilder EmptyWorldWithBlocks(params PlacedBlock[] blocks) => new() { blocks = blocks };
