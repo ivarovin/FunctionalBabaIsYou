@@ -14,4 +14,5 @@ public class WorldBuilder
     }
 
     public static WorldBuilder IntroduceToWorld(params (Coordinate, string)[] actors) => new() { actors = actors };
+    public static WorldBuilder EmptyWorldWithBlocks(params (Coordinate, string)[] blocks) => new() { blocks = blocks };
 }

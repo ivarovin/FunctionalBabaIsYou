@@ -57,4 +57,12 @@ public class WorldTests
             .ElementsAt(Origin)
             .Should().HaveCount(2);
     }
+
+    [Test]
+    public void Block_CanBeSpotted_AtCoordinate()
+    {
+        EmptyWorldWithBlocks(Baba.AtOrigin()).Build()
+            .ElementsAt(Origin)
+            .Should().HaveCount(1);
+    }
 }
