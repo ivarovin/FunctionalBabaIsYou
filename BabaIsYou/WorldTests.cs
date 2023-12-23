@@ -93,4 +93,11 @@ public class WorldTests
             .AndBlocks(FlagIsWin.MoveUp()).Build()
             .Won.Should().BeTrue();
     }
+
+    [Test]
+    public void WorldIsOver_WhenThereIsNoYou()
+    {
+        IntroduceToWorld(Baba.AtOrigin()).Build().IsOver.Should().BeTrue();
+        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveDown()).Build().IsOver.Should().BeFalse();
+    }
 }

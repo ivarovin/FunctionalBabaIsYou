@@ -19,6 +19,8 @@ public record World
     }
 
     public bool Won => You().Any(IsAtAny(Wins()));
+    public bool IsOver => !You().Any();
+
     IEnumerable<PlacedBlock> Wins() => actors.Where(IsWin);
 
     public World MoveTowards(Coordinate direction)
