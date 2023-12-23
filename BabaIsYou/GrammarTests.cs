@@ -94,7 +94,7 @@ public class GrammarTests
     [Test]
     public void AttachDefinition_ToSubject_InOtherHeight()
     {
-        BabaIsYou.MoveDown(10).DefinitionOf(Baba).Should().Be(You);
+        BabaIsYou.Down(10).DefinitionOf(Baba).Should().Be(You);
     }
 
     [Test]
@@ -116,8 +116,8 @@ public class GrammarTests
     [Test]
     public void Attach_SeveralDefinitions_ToDifferentSubjects_AtDifferentHeights()
     {
-        BabaIsYou.Concat(RockIsPush.MoveDown()).DefinitionOf(Baba).Should().Be(You);
-        BabaIsYou.Concat(RockIsPush.MoveDown()).DefinitionOf(Rock).Should().Be(Push);
+        BabaIsYou.Concat(RockIsPush.Down()).DefinitionOf(Baba).Should().Be(You);
+        BabaIsYou.Concat(RockIsPush.Down()).DefinitionOf(Rock).Should().Be(Push);
     }
 
     [Test]

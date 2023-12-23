@@ -33,11 +33,11 @@ public static class PhraseBuilder
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
         => blocks.Select(x => (PlacedBlock)((x.whereIs.x + howManyTimes, x.whereIs.y), x.whatDepicts));
 
-    public static IEnumerable<PlacedBlock> MoveDown(
+    public static IEnumerable<PlacedBlock> Down(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
         => blocks.Select(x => (PlacedBlock)((x.whereIs.x, x.whereIs.y - howManyTimes), x.whatDepicts));
     
-    public static IEnumerable<PlacedBlock> MoveUp(
+    public static IEnumerable<PlacedBlock> Up(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
         => blocks.Select(x => (PlacedBlock)((x.whereIs.x, x.whereIs.y + howManyTimes), x.whatDepicts));
 

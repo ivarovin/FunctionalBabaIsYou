@@ -46,7 +46,7 @@ public class WorldTests
     [Test]
     public void PushBlock_AsYouMoves_TowardsIt()
     {
-        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveDown()).Build()
+        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.Down()).Build()
             .MoveTowards(Down)
             .ElementsAt((0, -2))
             .Should().HaveCount(1).And.Contain(Baba.At(0, -2));
@@ -72,7 +72,7 @@ public class WorldTests
     public void Get_RedefinedElement()
     {
         IntroduceToWorld(Baba.AtOrigin())
-            .AndBlocks(BabaIsRock.MoveDown()).Build()
+            .AndBlocks(BabaIsRock.Down()).Build()
             .ElementsAt(Origin)
             .Should().Contain(Rock.AtOrigin());
     }
@@ -81,7 +81,7 @@ public class WorldTests
     public void Win_OnlyIfYou_AreInSamePlace_ThatWin()
     {
         IntroduceToWorld(Baba.AtOrigin(), Flag.AtOrigin())
-            .AndBlocks(BabaIsYou.MoveDown()).Build()
+            .AndBlocks(BabaIsYou.Down()).Build()
             .Won.Should().BeFalse();
     }
 
@@ -89,8 +89,8 @@ public class WorldTests
     public void Win_WhenAnyActor_ReachesWin()
     {
         IntroduceToWorld(Baba.AtOrigin(), Flag.AtOrigin())
-            .AndBlocks(BabaIsYou.MoveDown())
-            .AndBlocks(FlagIsWin.MoveUp()).Build()
+            .AndBlocks(BabaIsYou.Down())
+            .AndBlocks(FlagIsWin.Up()).Build()
             .Won.Should().BeTrue();
     }
 
@@ -98,15 +98,15 @@ public class WorldTests
     public void WorldIsOver_WhenThereIsNoYou()
     {
         IntroduceToWorld(Baba.AtOrigin()).Build().IsOver.Should().BeTrue();
-        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveDown()).Build().IsOver.Should().BeFalse();
+        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.Down()).Build().IsOver.Should().BeFalse();
     }
 
     [Test]
     public void WorldIsOver_AfterWin()
     {
         IntroduceToWorld(Baba.AtOrigin(), Flag.AtOrigin())
-            .AndBlocks(BabaIsYou.MoveDown())
-            .AndBlocks(FlagIsWin.MoveUp()).Build()
+            .AndBlocks(BabaIsYou.Down())
+            .AndBlocks(FlagIsWin.Up()).Build()
             .IsOver.Should().BeTrue();
     }
 }
