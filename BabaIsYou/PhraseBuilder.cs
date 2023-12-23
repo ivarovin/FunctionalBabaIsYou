@@ -1,3 +1,5 @@
+using static FunctionalBabaIsYou.Tests.Direction;
+
 namespace FunctionalBabaIsYou.Tests;
 
 public static class PhraseBuilder
@@ -5,6 +7,7 @@ public static class PhraseBuilder
     public static string You => "You"; //TODO: Convertir todo esto en placed blocks
     public static string Win => "Win";
     public static string ToBe => "is";
+    public static string And => "and";
     public static string Baba => "Baba";
     public static string Flag => "Flag";
     public static string Rock => "Rock";
@@ -25,6 +28,7 @@ public static class PhraseBuilder
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
 
     public static PlacedBlock At(this string what, int x, int y) => ((x, y), what);
+    public static PlacedBlock At(this string what, Coordinate where) => (where, what);
     public static PlacedBlock AtOrigin(this string what) => what.At(0, 0);
     public static PlacedBlock AtMiddle(this string what) => what.At(1, 0);
     public static PlacedBlock AtRight(this string what) => what.At(2, 0);
@@ -49,4 +53,7 @@ public static class PhraseBuilder
 
     public static PlacedBlock MoveToLeft(this PlacedBlock block, int howManyTimes)
         => ((block.whereIs.x - howManyTimes, block.whereIs.y), block.whatDepicts);
+    
+    public static IEnumerable<PlacedBlock> AndRock(this IEnumerable<PlacedBlock> blocks)
+        => blocks.Append(And.At(blocks.Last().whereIs + Right)).Append(Rock.At(blocks.Last().whereIs + Right + Right));
 }

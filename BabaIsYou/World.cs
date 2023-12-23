@@ -47,5 +47,5 @@ public record World
     bool IsWin(PlacedBlock actor) => blocks.DefinitionOf(actor).Means(PhraseBuilder.Win);
 
     public IEnumerable<PlacedBlock> ElementsAt(Coordinate position)
-        => blocks.At(position).Concat(blocks.DefinitionOf(actors.At(position)));
+        => blocks.WhichAreAt(position).Concat(blocks.DefinitionOf(actors.WhichAreAt(position)));
 }
