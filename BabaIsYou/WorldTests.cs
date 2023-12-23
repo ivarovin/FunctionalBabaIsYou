@@ -1,4 +1,5 @@
 using FluentAssertions;
+using static FunctionalBabaIsYou.Tests.Direction;
 using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 using static FunctionalBabaIsYou.Tests.WorldBuilder;
 
@@ -27,7 +28,7 @@ public class WorldTests
     public void Move_TowardsDirection_IfYou_AreDefined()
     {
         IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
-            .MoveTowards((0, 1))
+            .MoveTowards(Up)
             .ElementsAt(Origin)
             .Should().HaveCount(0);
     }
@@ -36,7 +37,7 @@ public class WorldTests
     public void OnlyYou_Moves()
     {
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
-            .MoveTowards((0, 1))
+            .MoveTowards(Up)
             .ElementsAt(Origin)
             .Should().Contain(Rock.AtOrigin())
             .And.NotContain(Baba.AtOrigin());
@@ -46,7 +47,7 @@ public class WorldTests
     public void PushBlock_AsYouMoves_TowardsIt()
     {
         IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveDown()).Build()
-            .MoveTowards((0, -1))
+            .MoveTowards(Down)
             .ElementsAt((0, -2))
             .Should().HaveCount(1).And.Contain(Baba.At(0, -2));
     }
