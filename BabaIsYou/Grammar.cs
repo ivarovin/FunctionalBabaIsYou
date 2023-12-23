@@ -15,7 +15,7 @@ public static class Grammar
             .Definition.Match
             (
                 x => x.whatDepicts,
-                () => string.Empty
+                () => subject
             );
 
     public static PlacedBlock DefinitionOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)

@@ -31,7 +31,7 @@ public class GrammarTests
     {
         new[] { Baba.AtOrigin(), You.AtMiddle() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().Be(Baba);
     }
 
     [Test]
@@ -39,7 +39,7 @@ public class GrammarTests
     {
         new[] { ToBe.AtOrigin(), Baba.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().Be(Baba);
     }
 
     [Test]
@@ -47,7 +47,7 @@ public class GrammarTests
     {
         new[] { You.AtOrigin(), ToBe.AtMiddle(), Baba.AtRight() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().Be(Baba);
     }
 
     [Test]
@@ -61,7 +61,7 @@ public class GrammarTests
     {
         new[] { ToBe.AtMiddle(), You.AtRight().MoveToRight(1) }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().Be(Baba);
     }
 
     [Test]
@@ -69,7 +69,7 @@ public class GrammarTests
     {
         new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveToRight(1) }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().Be(Baba);
     }
 
     [Test]
@@ -77,7 +77,7 @@ public class GrammarTests
     {
         new[] { Baba.AtOrigin().MoveToLeft(1), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().Be(Baba);
     }
 
     [Test]
@@ -92,7 +92,7 @@ public class GrammarTests
     {
         new[] { Baba.AtOrigin(), ToBe.AtMiddle() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().Be(Baba);
     }
 
     [Test]
@@ -104,17 +104,17 @@ public class GrammarTests
     [Test]
     public void AllBlocks_MustBeAtSameHeight_ToDefineSubject()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle().MoveDown(1), You.AtRight() }
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle().MoveDown(), You.AtRight() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().NotBe(You);
 
-        new[] { Baba.AtOrigin().MoveDown(1), ToBe.AtMiddle(), You.AtRight() }
+        new[] { Baba.AtOrigin().MoveDown(), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().NotBe(You);
 
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveDown(1) }
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveDown() }
             .DefinitionOf(Baba)
-            .Should().BeEmpty();
+            .Should().NotBe(You);
     }
 
     [Test]
@@ -144,6 +144,14 @@ public class GrammarTests
         new[] { Baba.AtOrigin(), ToBe.AtMiddle() }
             .WhatIs(You)
             .Should().BeEmpty();
+    }
+    
+    [Test]
+    public void You_DefinesYourself_IfThereIsNoOtherDefinition()
+    {
+        new[] { Rock.AtOrigin(), ToBe.AtMiddle() }
+            .DefinitionOf(Rock)
+            .Should().Be(Rock);
     }
 
     [Test]
