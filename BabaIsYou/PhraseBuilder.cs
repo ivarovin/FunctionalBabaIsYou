@@ -2,7 +2,7 @@ namespace FunctionalBabaIsYou.Tests;
 
 public static class PhraseBuilder
 {
-    public static string You => "You";
+    public static string You => "You"; //TODO: Convertir todo esto en placed blocks
     public static string Win => "Win";
     public static string ToBe => "is";
     public static string Baba => "Baba";

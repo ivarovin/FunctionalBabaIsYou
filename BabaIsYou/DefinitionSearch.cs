@@ -15,6 +15,8 @@ public class DefinitionSearch
     bool AtRightOfSubject(PlacedBlock block) => Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
     static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what) => block => block.X == what.X - 1 && block.Y == what.Y;
     Option<PlacedBlock> Subject => blocks.FirstOrNone(x => x.whatDepicts == subject);
+    public IEnumerable<PlacedBlock> AllDefinitions => Definition;
+
     static Coordinate ToTheRight(PlacedBlock x) => (x.X + 1, x.Y);
     Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
 

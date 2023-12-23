@@ -135,3 +135,12 @@ public class DefinitionSearchTests
         BabaIsYou.DefinitionOf(Baba.AtMiddle()).whatDepicts.Should().Be(You);
     }
 }
+
+public class MultipleDefinitionsTests
+{
+    [Test]
+    public void Find_AllDefinitions()
+    {
+        BabaIsYou.AllDefinitionsOf(Baba.AtOrigin()).Should().HaveCount(1).And.Contain(You);
+    }
+}
