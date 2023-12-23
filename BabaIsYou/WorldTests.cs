@@ -82,6 +82,15 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin(), Flag.AtOrigin())
             .AndBlocks(BabaIsYou.MoveDown()).Build()
-            .IsWin.Should().BeFalse();
+            .Won.Should().BeFalse();
+    }
+
+    [Test]
+    public void Win_WhenAnyActor_ReachesWin()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Flag.AtOrigin())
+            .AndBlocks(BabaIsYou.MoveDown())
+            .AndBlocks(FlagIsWin.MoveUp()).Build()
+            .Won.Should().BeTrue();
     }
 }
