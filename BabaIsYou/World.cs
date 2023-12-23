@@ -19,7 +19,7 @@ public record World
     }
 
     public bool Won => You().Any(IsAtAny(Wins()));
-    public bool IsOver => !You().Any();
+    public bool IsOver => !You().Any() || Won;
 
     IEnumerable<PlacedBlock> Wins() => actors.Where(IsWin);
 

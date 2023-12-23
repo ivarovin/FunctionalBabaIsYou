@@ -100,4 +100,13 @@ public class WorldTests
         IntroduceToWorld(Baba.AtOrigin()).Build().IsOver.Should().BeTrue();
         IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveDown()).Build().IsOver.Should().BeFalse();
     }
+
+    [Test]
+    public void WorldIsOver_AfterWin()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Flag.AtOrigin())
+            .AndBlocks(BabaIsYou.MoveDown())
+            .AndBlocks(FlagIsWin.MoveUp()).Build()
+            .IsOver.Should().BeTrue();
+    }
 }
