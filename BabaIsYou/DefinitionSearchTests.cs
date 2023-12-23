@@ -1,7 +1,7 @@
 using FluentAssertions;
 using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 
-namespace FunctionalBabaIsYou.Tests;
+namespace FunctionalBabaIsYou.Tests.Grammar;
 
 //NUEVO OBJETIVO
 //1. Se acaba el mundo cuando no hay más tús
@@ -12,7 +12,7 @@ namespace FunctionalBabaIsYou.Tests;
 //2. Debemos poder empujar objetos definidos como PUSH
 //3. Debemos morir cuando nos solapamos con un objeto DEFEAT
 
-public class GrammarTests
+public class DefinitionSearchTests
 {
     [Test]
     public void Definition_IsAttached_ToSubject()
@@ -120,28 +120,6 @@ public class GrammarTests
         BabaIsYou.Concat(RockIsPush.Down()).DefinitionOf(Rock).Should().Be(Push);
     }
 
-    [Test]
-    public void FindSubject_AttachedToDefinition()
-    {
-        BabaIsYou.WhatIs(You).Should().Be(Baba);
-    }
-
-    [Test]
-    public void Subject_CannotExist_IfThereIsNo_LinkingVerb()
-    {
-        new[] { Baba.AtOrigin(), You.AtRight() }
-            .WhatIs(You)
-            .Should().BeEmpty();
-    }
-
-    [Test]
-    public void Subject_CannotExist_IfThereIsNo_Definition()
-    {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle() }
-            .WhatIs(You)
-            .Should().BeEmpty();
-    }
-    
     [Test]
     public void You_DefinesYourself_IfThereIsNoOtherDefinition()
     {
