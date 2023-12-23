@@ -95,6 +95,15 @@ public class WorldTests
     }
 
     [Test]
+    public void Win_IsNotPossible_IfDidNotReachFlag()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Flag.AtMiddle())
+            .AndBlocks(BabaIsYou.Down())
+            .AndBlocks(FlagIsWin.Up()).Build()
+            .Won.Should().BeFalse();
+    }
+    
+    [Test]
     public void WorldIsOver_WhenThereIsNoYou()
     {
         IntroduceToWorld(Baba.AtOrigin()).Build().IsOver.Should().BeTrue();
