@@ -14,6 +14,8 @@ public readonly struct PlacedBlock
         this.whereIs = whereIs;
         this.whatDepicts = whatDepicts;
     }
+    
+    public bool Means(string something) => whatDepicts == something;
 
     public static implicit operator (Coordinate whereIs, string whatDepicts)(PlacedBlock placedBlock) =>
         (placedBlock.whereIs, placedBlock.whatDepicts);

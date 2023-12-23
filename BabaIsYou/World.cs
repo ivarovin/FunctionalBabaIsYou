@@ -43,8 +43,8 @@ public record World
     IEnumerable<PlacedBlock> OverlappedBlocks(PlacedBlock block) => blocks.Where(IsAt(block));
     IEnumerable<PlacedBlock> You() => actors.Where(IsYou);
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
-    bool IsYou(PlacedBlock actor) => blocks.DefinitionOf(actor.whatDepicts).Equals(PhraseBuilder.You);
-    bool IsWin(PlacedBlock actor) => blocks.DefinitionOf(actor.whatDepicts).Equals(PhraseBuilder.Win);
+    bool IsYou(PlacedBlock actor) => blocks.DefinitionOf(actor).Means(PhraseBuilder.You);
+    bool IsWin(PlacedBlock actor) => blocks.DefinitionOf(actor).Means(PhraseBuilder.Win);
 
     public IEnumerable<PlacedBlock> ElementsAt(Coordinate position)
         => blocks.At(position).Concat(blocks.DefinitionOf(actors.At(position)));
