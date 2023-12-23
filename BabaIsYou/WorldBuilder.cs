@@ -9,7 +9,7 @@ public class WorldBuilder
 
     public WorldBuilder AndBlocks(IEnumerable<PlacedBlock> blocks)
     {
-        this.blocks = blocks;
+        this.blocks = this.blocks.Concat(blocks);
         return this;
     }
     

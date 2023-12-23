@@ -18,6 +18,8 @@ public record World
         this.actors = actors;
     }
 
+    public bool IsWin { get; set; }
+
     public World MoveTowards(Coordinate direction)
     {
         if (Math.Abs(direction.x) > 1 || Math.Abs(direction.y) > 1)

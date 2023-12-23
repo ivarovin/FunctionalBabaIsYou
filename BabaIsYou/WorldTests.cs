@@ -67,7 +67,7 @@ public class WorldTests
             .ElementsAt(Origin)
             .Should().HaveCount(1);
     }
-    
+
     [Test]
     public void Get_RedefinedElement()
     {
@@ -75,5 +75,13 @@ public class WorldTests
             .AndBlocks(BabaIsRock.MoveDown()).Build()
             .ElementsAt(Origin)
             .Should().Contain(Rock.AtOrigin());
+    }
+
+    [Test]
+    public void Win_OnlyIfYou_AreInSamePlace_ThatWin()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Flag.AtOrigin())
+            .AndBlocks(BabaIsYou.MoveDown()).Build()
+            .IsWin.Should().BeFalse();
     }
 }
