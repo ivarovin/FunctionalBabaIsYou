@@ -14,6 +14,7 @@ public static class PhraseBuilder
     public static string Push => "Push";
     public static Coordinate Origin => (0, 0);
     public static Coordinate Middle => (1, 0);
+    public static Coordinate Right => (2, 0);
 
     public static IEnumerable<PlacedBlock> BabaIsYou
         => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };
