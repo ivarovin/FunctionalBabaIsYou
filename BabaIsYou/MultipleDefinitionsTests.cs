@@ -22,4 +22,12 @@ public class MultipleDefinitionsTests
     {
         BabaIsYou.AppendConjunction().AllDefinitionsOf(Baba.AtOrigin()).Should().HaveCount(1);
     }
+    
+    [Test]
+    public void Chain_Three_Definitions()
+    {
+        BabaIsYou.AndRock().AndPush()
+            .AllDefinitionsOf(Baba.AtOrigin())
+            .Should().HaveCount(3).And.Contain(You, Rock, Push);
+    }
 }

@@ -56,8 +56,13 @@ public static class PhraseBuilder
         => ((block.whereIs.x - howManyTimes, block.whereIs.y), block.whatDepicts);
     
     public static IEnumerable<PlacedBlock> AndRock(this IEnumerable<PlacedBlock> blocks)
-        => blocks.AppendConjunction().Append(Rock.At(blocks.Last().whereIs + Direction.Right * 2));
+        => blocks.AppendConjunction().AppendDefinition(Rock);
     
+    public static IEnumerable<PlacedBlock> AndPush(this IEnumerable<PlacedBlock> blocks)
+        => blocks.AppendConjunction().AppendDefinition(Push);
+    
+    public static IEnumerable<PlacedBlock> AppendDefinition(this IEnumerable<PlacedBlock> blocks, string definition)
+        => blocks.Append(definition.At(blocks.Last().whereIs + Direction.Right));
     public static IEnumerable<PlacedBlock> AppendConjunction(this IEnumerable<PlacedBlock> blocks)
         => blocks.Append(And.At(blocks.Last().whereIs + Direction.Right));
 }
