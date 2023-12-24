@@ -4,13 +4,12 @@ using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 namespace FunctionalBabaIsYou.Tests.Grammar;
 
 //NUEVO OBJETIVO
-//1. Se acaba el mundo cuando no hay más tús
-//2. Empujar actores definidos como PUSH
+//1. Empujar actores definidos como PUSH
 
 //PARA ALCANZARLO
-//1. Un sujeto puede tener más de una definición
-//2. Debemos poder empujar objetos definidos como PUSH
-//3. Debemos morir cuando nos solapamos con un objeto DEFEAT
+//1. Debemos poder empujar objetos definidos como PUSH
+//2. Debemos morir cuando nos solapamos con un objeto DEFEAT
+//3. Empujar múltiples bloques hasta topar con uno inamovible
 
 public class DefinitionSearchTests
 {
