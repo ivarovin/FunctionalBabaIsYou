@@ -3,7 +3,7 @@ using static FunctionalBabaIsYou.Tests.Direction;
 using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 using static FunctionalBabaIsYou.Tests.WorldBuilder;
 
-namespace FunctionalBabaIsYou.Tests;
+namespace FunctionalBabaIsYou.Tests.Gameplay;
 
 public class WorldTests
 {
@@ -41,15 +41,6 @@ public class WorldTests
             .ElementsAt(Origin)
             .Should().Contain(Rock.AtOrigin())
             .And.NotContain(Baba.AtOrigin());
-    }
-
-    [Test]
-    public void PushBlock_AsYouMoves_TowardsIt()
-    {
-        IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.Down()).Build()
-            .MoveTowards(Down)
-            .ElementsAt((0, -2))
-            .Should().HaveCount(1).And.Contain(Baba.At(0, -2));
     }
 
     [Test]
@@ -102,7 +93,7 @@ public class WorldTests
             .AndBlocks(FlagIsWin.Up()).Build()
             .Won.Should().BeFalse();
     }
-    
+
     [Test]
     public void WorldIsOver_WhenThereIsNoYou()
     {
