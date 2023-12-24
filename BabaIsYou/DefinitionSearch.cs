@@ -1,7 +1,6 @@
 using FunctionalBabaIsYou.Tests;
 using LanguageExt;
 using LanguageExt.UnsafeValueAccess;
-using static FunctionalBabaIsYou.Tests.Direction;
 using static LanguageExt.Option<FunctionalBabaIsYou.PlacedBlock>;
 
 namespace FunctionalBabaIsYou;
@@ -33,16 +32,17 @@ public class DefinitionSearch
     }
 
     Option<PlacedBlock> NextDefinitionFrom(PlacedBlock block)
-        => Block(ToTheRight(block)).Where(IsConjunction)
-            .Map(ToTheRight).Map(Block)
+        => ConjunctionAfter(block).Map(BlockAfter)
             .Match
             (
-                Some: x => x,
+                Some: definition => definition,
                 None: () => None
             );
 
+    Option<PlacedBlock> ConjunctionAfter(PlacedBlock block) => BlockAfter(block).Where(IsConjunction);
     static Coordinate ToTheRight(PlacedBlock x) => (x.X + 1, x.Y);
     Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
+    Option<PlacedBlock> BlockAfter(PlacedBlock from) => Block(ToTheRight(from));
 
     public DefinitionSearch(IEnumerable<PlacedBlock> blocks, string subject)
     {
