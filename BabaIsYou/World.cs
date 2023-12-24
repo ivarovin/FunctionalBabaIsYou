@@ -22,15 +22,7 @@ public record World
     public bool IsOver => !You().Any() || Won;
 
     IEnumerable<PlacedBlock> Wins() => actors.Where(IsWin);
-
-    public World MoveTowards(Coordinate direction)
-    {
-        if (Math.Abs(direction.x) > 1 || Math.Abs(direction.y) > 1)
-            throw new ArgumentException("Direction must be an unit vector");
-
-        return new World(MoveActors(direction), MoveBlocks(direction));
-    }
-
+    public World MoveTowards(Direction direction) => new(MoveActors(direction), MoveBlocks(direction));
     IEnumerable<PlacedBlock> MoveBlocks(Coordinate direction)
         => blocks.Except(OverlappedBlocksAfter(direction))
             .Concat(OverlappedBlocksAfter(direction).Select(Move(direction)));

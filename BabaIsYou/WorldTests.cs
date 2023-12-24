@@ -19,7 +19,7 @@ public class WorldTests
     public void Move_IsNotPossible_IfYou_AreNotDefined()
     {
         IntroduceToWorld(Baba.AtOrigin()).Build()
-            .MoveTowards((1, 0))
+            .MoveTowards(Left)
             .ElementsAt(Origin)
             .Should().HaveCount(1);
     }

@@ -7,6 +7,9 @@ public readonly struct Direction
 
     Direction(int x, int y)
     {
+        if (Math.Abs(x) > 1 || Math.Abs(y) > 1)
+            throw new ArgumentException("Direction must be an unit vector");
+        
         this.x = x;
         this.y = y;
     }
