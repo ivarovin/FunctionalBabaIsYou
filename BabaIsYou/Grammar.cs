@@ -27,8 +27,7 @@ public static class Grammar
             );
     
     public static IEnumerable<string> AllDefinitionsOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
-        => new DefinitionSearch(blocks, subject.whatDepicts)
-            .AllDefinitions
+        => new DefinitionSearch(blocks, subject.whatDepicts).AllDefinitions()
             .Select(x => x.whatDepicts);
     
     public static IEnumerable<PlacedBlock> DefinitionOf(this IEnumerable<PlacedBlock> blocks, IEnumerable<PlacedBlock> subjects)

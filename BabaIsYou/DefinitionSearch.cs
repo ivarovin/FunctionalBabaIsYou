@@ -18,19 +18,16 @@ public class DefinitionSearch
     bool AtRightOfSubject(PlacedBlock block) => Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
     static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what) => block => block.X == what.X - 1 && block.Y == what.Y;
     Option<PlacedBlock> Subject => blocks.FirstOrNone(x => x.whatDepicts == subject);
-    public IEnumerable<PlacedBlock> AllDefinitions => All();
-
-    IEnumerable<PlacedBlock> All()
+    public IEnumerable<PlacedBlock> AllDefinitions()
     {
-        var definition = Definition;
-
-        while (definition.IsSome)
+        var result = Definition;
+        while (result.IsSome)
         {
-            yield return definition.Value();
-            definition = NextDefinitionFrom(definition.Value());
+            yield return result.Value();
+            result = result.Bind(NextDefinitionFrom);
         }
     }
-
+    
     Option<PlacedBlock> NextDefinitionFrom(PlacedBlock block)
         => ConjunctionAfter(block).Map(BlockAfter)
             .Match
