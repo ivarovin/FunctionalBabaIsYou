@@ -18,4 +18,5 @@ public readonly struct Direction
 
     public static implicit operator Coordinate(Direction direction) => (direction.x, direction.y);
     public static implicit operator Direction(Coordinate coordinate) => new(coordinate.x, coordinate.y);
+    public static Coordinate operator *(Direction a, int howMuch) => new(a.x * howMuch, a.y * howMuch);
 }

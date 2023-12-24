@@ -1,4 +1,5 @@
 using FluentAssertions;
+using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 
 namespace FunctionalBabaIsYou.Tests.Grammar;
 
@@ -7,15 +8,15 @@ public class PhraseBuilderTests
     [Test]
     public void AppendSecondDefinition()
     {
-        PhraseBuilder.BabaIsYou.AndRock().Should().BeEquivalentTo
+        BabaIsYou.AndRock().Should().BeEquivalentTo
         (
             new[]
             {
-                PhraseBuilder.Baba.At(PhraseBuilder.Origin),
-                PhraseBuilder.ToBe.At(PhraseBuilder.Middle),
-                PhraseBuilder.You.At(PhraseBuilder.Right),
-                PhraseBuilder.And.At(PhraseBuilder.Right * 2),
-                PhraseBuilder.Rock.At(PhraseBuilder.Right * 3)
+                Baba.At(Origin),
+                ToBe.At(Middle),
+                You.At(Right),
+                And.At((3,0)),
+                Rock.At((4,0))
             }
         );
     }
