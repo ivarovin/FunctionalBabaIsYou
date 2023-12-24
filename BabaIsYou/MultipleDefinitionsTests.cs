@@ -16,4 +16,10 @@ public class MultipleDefinitionsTests
     {
         BabaIsYou.AndRock().AllDefinitionsOf(Baba.AtOrigin()).Should().HaveCount(2);
     }
+
+    [Test]
+    public void SecondDefinition_CannotBeApplied_IfConjunction_IsAlone()
+    {
+        BabaIsYou.AppendConjunction().AllDefinitionsOf(Baba.AtOrigin()).Should().HaveCount(1);
+    }
 }
