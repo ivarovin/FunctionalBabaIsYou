@@ -6,7 +6,7 @@ namespace FunctionalBabaIsYou.Tests.Grammar;
 public class MultipleDefinitionsTests
 {
     [Test]
-    public void Find_AllDefinitions()
+    public void Find_OneDefinition()
     {
         BabaIsYou.AllDefinitionsOf(Baba.AtOrigin()).Should().HaveCount(1).And.Contain(You);
     }

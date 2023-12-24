@@ -24,7 +24,7 @@ public class DefinitionSearch
     IEnumerable<PlacedBlock> All()
     {
         var definition = Definition;
-        
+
         while (definition.IsSome)
         {
             yield return definition.Value();
@@ -33,16 +33,13 @@ public class DefinitionSearch
     }
 
     Option<PlacedBlock> NextDefinitionFrom(PlacedBlock block)
-    {
-        if (Block(ToTheRight(block)).Map(IsConjunction) == false)
-            return None;
-
-        return Block(ToTheRight(block) + Right).Match
-        (
-            Some: x => x,
-            None: () => None
-        );
-    }
+        => Block(ToTheRight(block)).Where(IsConjunction)
+            .Map(ToTheRight).Map(Block)
+            .Match
+            (
+                Some: x => x,
+                None: () => None
+            );
 
     static Coordinate ToTheRight(PlacedBlock x) => (x.X + 1, x.Y);
     Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
