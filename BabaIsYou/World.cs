@@ -18,10 +18,10 @@ public record World
         this.actors = actors;
     }
 
-    public bool Won => You().Any(IsAtAny(Wins()));
+    public bool Won => You().Any(IsAtAny(Wins));
+    IEnumerable<PlacedBlock> Wins => actors.Where(IsWin);
     public bool IsOver => !You().Any() || Won;
-
-    IEnumerable<PlacedBlock> Wins() => actors.Where(IsWin);
+    
     public World MoveTowards(Direction direction) => new(MoveActors(direction), MoveBlocks(direction));
     IEnumerable<PlacedBlock> MoveBlocks(Coordinate direction)
         => blocks.Except(OverlappedBlocksAfter(direction))
