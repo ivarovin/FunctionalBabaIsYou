@@ -8,7 +8,7 @@ namespace FunctionalBabaIsYou;
 public class DefinitionSearch
 {
     readonly IEnumerable<PlacedBlock> blocks;
-    readonly string subject;
+    readonly PlacedBlock subject;
 
     public Option<PlacedBlock> Definition => WhereIsDefinition.Bind(Block);
     Option<Coordinate> WhereIsDefinition => LinkingVerb.Map(ToTheRight);
@@ -17,7 +17,8 @@ public class DefinitionSearch
     static bool IsConjunction(PlacedBlock x) => x.whatDepicts == "and";
     bool AtRightOfSubject(PlacedBlock block) => Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
     static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what) => block => block.X == what.X - 1 && block.Y == what.Y;
-    Option<PlacedBlock> Subject => blocks.FirstOrNone(x => x.whatDepicts == subject);
+    Option<PlacedBlock> Subject => blocks.FirstOrNone(x => x.Means(subject));
+
     public IEnumerable<PlacedBlock> AllDefinitions()
     {
         var result = Definition;
@@ -27,7 +28,7 @@ public class DefinitionSearch
             result = result.Bind(NextDefinitionFrom);
         }
     }
-    
+
     Option<PlacedBlock> NextDefinitionFrom(PlacedBlock block)
         => ConjunctionAfter(block).Map(BlockAfter)
             .Match
@@ -41,7 +42,7 @@ public class DefinitionSearch
     Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
     Option<PlacedBlock> BlockAfter(PlacedBlock from) => Block(ToTheRight(from));
 
-    public DefinitionSearch(IEnumerable<PlacedBlock> blocks, string subject)
+    public DefinitionSearch(IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
     {
         this.blocks = blocks;
         this.subject = subject;

@@ -16,6 +16,7 @@ public readonly struct PlacedBlock
     }
     
     public bool Means(string something) => whatDepicts == something;
+    public bool Means(PlacedBlock something) => whatDepicts == something.whatDepicts;
 
     public static implicit operator (Coordinate whereIs, string whatDepicts)(PlacedBlock placedBlock) =>
         (placedBlock.whereIs, placedBlock.whatDepicts);
