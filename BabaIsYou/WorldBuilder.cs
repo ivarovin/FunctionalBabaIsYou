@@ -5,7 +5,7 @@ public class WorldBuilder
     IEnumerable<PlacedBlock> actors = Array.Empty<PlacedBlock>();
     IEnumerable<PlacedBlock> blocks = Array.Empty<PlacedBlock>();
 
-    public World Build() => new(actors, blocks);
+    public World Build() => new(actors.Concat(blocks));
 
     public WorldBuilder AndBlocks(IEnumerable<PlacedBlock> blocks)
     {
