@@ -7,6 +7,10 @@ public record World
     readonly IEnumerable<PlacedBlock> blocks;
     readonly IEnumerable<PlacedBlock> actors;
 
+    public bool IsOver => !You().Any() || Won;
+    public bool Won => You().Any(IsAtAny(Wins));
+    IEnumerable<PlacedBlock> Wins => actors.Where(IsWin);
+    
     public World(IEnumerable<PlacedBlock> actors, IEnumerable<PlacedBlock> blocks)
     {
         if (actors.Any(x => blocks.Any(y => y.whereIs == x.whereIs)))
@@ -18,10 +22,6 @@ public record World
         this.actors = actors;
     }
 
-    public bool Won => You().Any(IsAtAny(Wins));
-    IEnumerable<PlacedBlock> Wins => actors.Where(IsWin);
-    public bool IsOver => !You().Any() || Won;
-    
     public World MoveTowards(Direction direction) => new(MoveActors(direction), MoveBlocks(direction));
     IEnumerable<PlacedBlock> MoveBlocks(Coordinate direction)
         => blocks.Except(OverlappedBlocksAfter(direction))
