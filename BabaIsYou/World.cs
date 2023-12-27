@@ -30,6 +30,7 @@ public record World
     bool IsWin(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Win);
     bool IsDefeat(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Defeat);
     IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => YouAt(to).Where(IsAtDefeat);
-    bool IsAtDefeat(PlacedBlock you) => ElementsAt(you.whereIs).Any(IsDefeat);
+    bool IsAtDefeat(PlacedBlock you) => ElementsAt(you).Any(IsDefeat);
+    IEnumerable<PlacedBlock> ElementsAt(PlacedBlock what) => ElementsAt(what.whereIs);
     public IEnumerable<PlacedBlock> ElementsAt(Coordinate position) => all.DefinitionOf(all.At(position));
 }
