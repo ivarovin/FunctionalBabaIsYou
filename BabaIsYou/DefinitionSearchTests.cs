@@ -131,4 +131,10 @@ public class DefinitionSearchTests
         BabaIsYou.DefinitionOf(Baba.AtMiddle()).whereIs.Should().Be(Middle);
         BabaIsYou.DefinitionOf(Baba.AtMiddle()).whatDepicts.Should().Be(You);
     }
+
+    [Test]
+    public void Block_UsedAsSubject_DoesNotHave_Definition()
+    {
+        BabaIsYou.DefinitionOf(Baba.AtOrigin()).whatDepicts.Should().Be(Baba);
+    }
 }
