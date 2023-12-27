@@ -76,7 +76,7 @@ public class DefinitionSearchTests
     }
 
     [Test]
-    public void Attach_SeveralDefinitions_ToDifferentSubjects()
+    public void Attach_SeveralDefinitions_ToDifferentSubjects_InSameWorld()
     {
         BabaIsYou.Concat(RockIsPush.MoveToRight(5)).DefinitionOf(Baba).Should().Be(You);
         BabaIsYou.Concat(RockIsPush.MoveToRight(5)).DefinitionOf(Rock).Should().Be(Push);
@@ -85,9 +85,7 @@ public class DefinitionSearchTests
     [Test]
     public void Definition_CannotExist_WithoutDefinition_AfterLinkingVerb()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle() }
-            .DefinitionOf(Baba)
-            .Should().Be(Baba);
+        new[] { Baba.AtOrigin(), ToBe.AtMiddle() }.DefinitionOf(Baba).Should().Be(Baba);
     }
 
     [Test]

@@ -109,4 +109,14 @@ public class WorldTests
             .AndBlocks(FlagIsWin.Up()).Build()
             .IsOver.Should().BeTrue();
     }
+
+    [Test]
+    public void Die_WhenTouch_DefeatBlock()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin())
+            .AndBlocks(BabaIsYou.Down())
+            .AndBlocks(RockIsDefeat.Up()).Build()
+            .MoveTowards(None)
+            .ElementsAt(Origin).Should().HaveCount(1);
+    }
 }

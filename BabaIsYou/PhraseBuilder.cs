@@ -12,6 +12,7 @@ public static class PhraseBuilder
     public static string Flag => "Flag";
     public static string Rock => "Rock";
     public static string Push => "Push";
+    public static string Defeat => "Defeat";
     public static Coordinate Origin => (0, 0);
     public static Coordinate Middle => (1, 0);
     public static Coordinate Right => (2, 0);
@@ -27,6 +28,9 @@ public static class PhraseBuilder
 
     public static IEnumerable<PlacedBlock> RockIsPush
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
+    
+    public static IEnumerable<PlacedBlock> RockIsDefeat
+        => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Defeat.AtRight() };
 
     public static PlacedBlock At(this string what, int x, int y) => ((x, y), what);
     public static PlacedBlock At(this string what, Coordinate where) => (where, what);
