@@ -16,12 +16,13 @@ public record World
             .Except(You())
             .Concat(YouAt(to))
             .Except(DefeatedAt(to))
-            .Except(OverlappedAfter(to))
-            .Concat(OverlappedAfter(to).Select(Move(to)));
+            .Except(PushableAt(to))
+            .Concat(PushableAt(to).Select(Move(to)));
 
-    IEnumerable<PlacedBlock> OverlappedAfter(Coordinate movingTo)
-        => YouAt(movingTo).SelectMany(OverlappedWith).Except(You());
+    IEnumerable<PlacedBlock> PushableAt(Coordinate movingTo)
+        => YouAt(movingTo).SelectMany(OverlappedWith).Except(You()).Where(IsPushable);
 
+    bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouAt(Coordinate towards) => You().Select(Move(towards));
     IEnumerable<PlacedBlock> OverlappedWith(PlacedBlock block) => all.Where(x => IsAt(block)(x));
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
