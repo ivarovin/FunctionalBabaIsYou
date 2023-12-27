@@ -22,7 +22,8 @@ public class WorldPhysicsTests
     public void GoThroughBlock_IfIsNotPushable()
     {
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle())
-            .AndBlocks(BabaIsYou.Up()).Build()
+            .AndBlocks(BabaIsYou.Up())
+            .Build()
             .MoveTowards(Direction.Right)
             .ElementsAt(Middle).Should().HaveCount(2);
     }

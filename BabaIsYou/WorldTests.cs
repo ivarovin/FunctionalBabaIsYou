@@ -121,7 +121,6 @@ public class WorldTests
     }
 
     [Test]
-    [Ignore("Broken with the unification of blocks and actors, needs the implementation of push to work again")]
     public void Die_WhenTouch_DefeatBlock_AfterMoving()
     {
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle())
