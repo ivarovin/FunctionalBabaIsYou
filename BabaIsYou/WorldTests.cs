@@ -119,4 +119,14 @@ public class WorldTests
             .MoveTowards(None)
             .ElementsAt(Origin).Should().HaveCount(1);
     }
+
+    [Test]
+    public void Die_WhenTouch_DefeatBlock_AfterMoving()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle())
+            .AndBlocks(BabaIsYou.Down())
+            .AndBlocks(RockIsDefeat.Up()).Build()
+            .MoveTowards(Direction.Right)
+            .ElementsAt(Middle).Should().HaveCount(1);
+    }
 }

@@ -28,17 +28,17 @@ public record World
             .Concat(OverlappedBlocksAfter(direction).Select(Move(direction)));
 
     IEnumerable<PlacedBlock> OverlappedBlocksAfter(Coordinate movingTo)
-        => MovedYou(movingTo).SelectMany(OverlappedBlocks);
+        => YouAt(movingTo).SelectMany(OverlappedBlocks);
 
-    IEnumerable<PlacedBlock> MoveActors(Coordinate to) => actors.Except(You()).Concat(MovedYou(to)).Except(Defeated());
-    IEnumerable<PlacedBlock> MovedYou(Coordinate towards) => You().Select(Move(towards));
+    IEnumerable<PlacedBlock> MoveActors(Coordinate to) => actors.Except(You()).Concat(YouAt(to)).Except(DefeatedAt(to));
+    IEnumerable<PlacedBlock> YouAt(Coordinate towards) => You().Select(Move(towards));
     IEnumerable<PlacedBlock> OverlappedBlocks(PlacedBlock block) => blocks.Where(IsAt(block));
     IEnumerable<PlacedBlock> You() => actors.Where(IsYou);
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
     bool IsYou(PlacedBlock actor) => blocks.DefinitionOf(actor).Means(PhraseBuilder.You);
     bool IsWin(PlacedBlock actor) => blocks.DefinitionOf(actor).Means(PhraseBuilder.Win);
     bool IsDefeat(PlacedBlock actor) => blocks.DefinitionOf(actor).Means(PhraseBuilder.Defeat);
-    IEnumerable<PlacedBlock> Defeated() => You().Where(IsAtDefeat);
+    IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => YouAt(to).Where(IsAtDefeat);
     bool IsAtDefeat(PlacedBlock you) => ElementsAt(you.whereIs).Any(IsDefeat);
 
     public IEnumerable<PlacedBlock> ElementsAt(Coordinate position)
