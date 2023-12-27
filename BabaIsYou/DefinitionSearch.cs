@@ -17,7 +17,8 @@ public class DefinitionSearch
     static bool IsConjunction(PlacedBlock x) => x.whatDepicts == "and";
     bool AtRightOfSubject(PlacedBlock block) => Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
     static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what) => block => block.X == what.X - 1 && block.Y == what.Y;
-    Option<PlacedBlock> Subject => blocks.FirstOrNone(x => x.Means(subject));
+    Option<PlacedBlock> Subject => blocks.FirstOrNone(IsSubject);
+    bool IsSubject(PlacedBlock who) => who.Means(subject) && !who.Equals(subject);
 
     public IEnumerable<PlacedBlock> AllDefinitions()
     {

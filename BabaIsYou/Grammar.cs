@@ -13,7 +13,7 @@ public static class Grammar
             );
 
     public static string DefinitionOf(this IEnumerable<PlacedBlock> blocks, string subject)
-        => new DefinitionSearch(blocks, subject.AtOrigin())
+        => new DefinitionSearch(blocks, subject.AtRight())
             .Definition.Match
             (
                 x => x.whatDepicts,

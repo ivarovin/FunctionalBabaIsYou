@@ -37,6 +37,7 @@ public static class PhraseBuilder
     public static PlacedBlock AtOrigin(this string what) => what.At(0, 0);
     public static PlacedBlock AtMiddle(this string what) => what.At(1, 0);
     public static PlacedBlock AtRight(this string what) => what.At(2, 0);
+    public static PlacedBlock AtSomewhere(this string what) => what.At(434, 123123);
 
     public static IEnumerable<PlacedBlock> MoveToRight(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
