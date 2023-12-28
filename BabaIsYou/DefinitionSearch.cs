@@ -15,9 +15,9 @@ public class DefinitionSearch
     Option<PlacedBlock> LinkingVerb => blocks.Where(IsLinkingVerb).FirstOrNone(AtRightOfSubject);
     static bool IsLinkingVerb(PlacedBlock x) => x.whatDepicts == "is";
     static bool IsConjunction(PlacedBlock x) => x.whatDepicts == "and";
-    bool AtRightOfSubject(PlacedBlock block) => Subject.Map(AtLeftOf(block)).Match(result => result, None: () => false);
+    bool AtRightOfSubject(PlacedBlock block) => Subject.Any(AtLeftOf(block));
     static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what) => block => block.X == what.X - 1 && block.Y == what.Y;
-    Option<PlacedBlock> Subject => blocks.FirstOrNone(IsSubject);
+    IEnumerable<PlacedBlock> Subject => blocks.Where(IsSubject);
     bool IsSubject(PlacedBlock who) => who.Means(subject) && !who.Equals(subject);
 
     public IEnumerable<PlacedBlock> AllDefinitions()

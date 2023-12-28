@@ -137,4 +137,12 @@ public class DefinitionSearchTests
     {
         BabaIsYou.DefinitionOf(Baba.AtOrigin()).whatDepicts.Should().Be(Baba);
     }
+
+    [Test]
+    public void IdentifySubject_WithinAllBlocks()
+    {
+        new[] { Rock.AtOrigin(), Rock.AtMiddle() }.Concat(RockIsPush.Up())
+            .AllDefinitionsOf(Rock.AtOrigin())
+            .Should().Contain(Push);
+    }
 }
