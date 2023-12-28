@@ -16,11 +16,25 @@ public record World
             .Except(You())
             .Concat(YouAt(position))
             .Except(DefeatedAt(position))
-            .Except(PushableAt(position))
-            .Concat(PushableAt(position).Select(Move(position)));
+            .Except(PushableByYou(position))
+            .Concat(PushableByYou(position).Select(Move(position)));
 
-    IEnumerable<PlacedBlock> PushableAt(Coordinate movingTo)
-        => YouAt(movingTo).SelectMany(OverlappedWith).Except(You()).Where(IsPushable);
+    IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo)
+    {
+        foreach (var you in YouAt(movingTo))
+        {
+            var temporalPosition = you.whereIs;
+            var placedBlocks = all.Where(IsAt(temporalPosition));
+            while (placedBlocks.Any() && placedBlocks.All(IsPushable))
+            {
+                foreach (var result in placedBlocks.Except(You()))
+                    yield return result;
+                
+                temporalPosition += movingTo;
+                placedBlocks = all.Where(IsAt(temporalPosition));
+            }
+        }
+    }
 
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouAt(Coordinate towards) => You().Select(Move(towards));

@@ -38,7 +38,7 @@ public class WorldPhysicsTests
             .MoveTowards(Direction.Right);
 
         sut.ElementsAt((1, 0)).Should().HaveCount(1).And.Contain(Baba.At(1, 0));
-        sut.ElementsAt((2, 0)).Should().HaveCount(1).And.Contain(Rock.At(2, 0));
-        sut.ElementsAt((3, 0)).Should().HaveCount(1).And.Contain(Rock.At(3, 0));
+        sut.ElementsAt((2, 0)).Should().HaveCount(1).And.Contain(Push.At(2, 0));
+        sut.ElementsAt((3, 0)).Should().HaveCount(1).And.Contain(Push.At(3, 0));
     }
 }
