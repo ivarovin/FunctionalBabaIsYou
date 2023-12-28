@@ -1,10 +1,8 @@
-using static FunctionalBabaIsYou.Tests.Direction;
-
 namespace FunctionalBabaIsYou.Tests;
 
 public static class PhraseBuilder
 {
-    public static string You => "You"; //TODO: Convertir todo esto en placed blocks
+    public static string You => "You";
     public static string Win => "Win";
     public static string ToBe => "is";
     public static string And => "and";

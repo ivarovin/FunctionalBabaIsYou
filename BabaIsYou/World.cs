@@ -20,25 +20,28 @@ public record World
             .Concat(PushableByYou(position).Select(Move(position)));
 
     IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo)
+        => YouAt(movingTo).SelectMany(you => InFront(movingTo, you));
+
+    IEnumerable<PlacedBlock> InFront(Coordinate movingTo, PlacedBlock you)
     {
-        foreach (var you in YouAt(movingTo))
+        var temporalPosition = you.whereIs;
+        while (ExistsPushableAt(temporalPosition))
         {
-            var temporalPosition = you.whereIs;
-            var placedBlocks = all.Where(IsAt(temporalPosition));
-            while (placedBlocks.Any() && placedBlocks.All(IsPushable))
-            {
-                foreach (var result in placedBlocks.Except(You()))
-                    yield return result;
-                
-                temporalPosition += movingTo;
-                placedBlocks = all.Where(IsAt(temporalPosition));
-            }
+            foreach (var placedBlock in OtherThanYouAt(temporalPosition))
+                yield return placedBlock;
+
+            temporalPosition += movingTo;
         }
     }
 
+    bool ExistsPushableAt(Coordinate temporalPosition) =>
+        OtherThanYouAt(temporalPosition).Any() && OtherThanYouAt(temporalPosition).All(IsPushable);
+
+    IEnumerable<PlacedBlock> OtherThanYouAt(Coordinate temporalPosition) =>
+        all.Where(IsAt(temporalPosition)).Except(You());
+
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouAt(Coordinate towards) => You().Select(Move(towards));
-    IEnumerable<PlacedBlock> OverlappedWith(PlacedBlock block) => all.Where(x => IsAt(block)(x));
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
     bool IsYou(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.You);
