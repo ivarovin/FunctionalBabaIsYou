@@ -41,4 +41,18 @@ public class WorldPhysicsTests
         sut.ElementsAt((2, 0)).Should().HaveCount(1).And.Contain(Push.At(2, 0));
         sut.ElementsAt((3, 0)).Should().HaveCount(1).And.Contain(Push.At(3, 0));
     }
+
+    [Test]
+    public void Push_TwoBlocks_Upwards()
+    {
+        var sut = IntroduceToWorld(Baba.AtOrigin(), Rock.At(0, 1), Rock.At(0, 2))
+            .AndBlocks(BabaIsYou.MoveToRight())
+            .AndBlocks(RockIsPush.Down())
+            .Build()
+            .MoveTowards(Up);
+
+        sut.ElementsAt((0, 1)).Should().HaveCount(1).And.Contain(Baba.At(0, 1));
+        sut.ElementsAt((0, 2)).Should().HaveCount(1).And.Contain(Push.At(0, 2));
+        sut.ElementsAt((0, 3)).Should().HaveCount(1).And.Contain(Push.At(0, 3));
+    }
 }
