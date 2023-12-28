@@ -11,13 +11,13 @@ public record World
     public World(IEnumerable<PlacedBlock> all) => this.all = all;
     public World MoveTowards(Direction direction) => new(MoveAll(direction));
 
-    IEnumerable<PlacedBlock> MoveAll(Coordinate to)
+    IEnumerable<PlacedBlock> MoveAll(Coordinate position)
         => all
             .Except(You())
-            .Concat(YouAt(to))
-            .Except(DefeatedAt(to))
-            .Except(PushableAt(to))
-            .Concat(PushableAt(to).Select(Move(to)));
+            .Concat(YouAt(position))
+            .Except(DefeatedAt(position))
+            .Except(PushableAt(position))
+            .Concat(PushableAt(position).Select(Move(position)));
 
     IEnumerable<PlacedBlock> PushableAt(Coordinate movingTo)
         => YouAt(movingTo).SelectMany(OverlappedWith).Except(You()).Where(IsPushable);
