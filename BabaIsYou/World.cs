@@ -20,15 +20,15 @@ public record World
             .Except(PushableByYou(direction))
             .Concat(PushableByYou(direction).Select(Move(direction)));
 
-    IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => You().SelectMany(you => InFront(movingTo, you));
+    IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => You().SelectMany(InFront(movingTo));
 
-    IEnumerable<PlacedBlock> InFront(Coordinate movingTo, PlacedBlock you)
-        => PushableAhead(you, movingTo).SelectMany(OtherThanYouAt);
+    Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate movingTo)
+        => block => PushableAhead(block, movingTo).SelectMany(OtherThanYou);
 
     bool IsPushable(Coordinate temporalPosition) =>
-        OtherThanYouAt(temporalPosition).Any() && OtherThanYouAt(temporalPosition).All(IsPushable);
+        OtherThanYou(temporalPosition).Any() && OtherThanYou(temporalPosition).All(IsPushable);
 
-    IEnumerable<PlacedBlock> OtherThanYouAt(Coordinate where) => all.Where(IsAt(where)).Where(IsNotYou);
+    IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.Where(IsAt(where)).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(Move(towards));
 
@@ -42,11 +42,11 @@ public record World
 
     IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards)
     {
-        var result = new List<Coordinate>{from.whereIs + towards};
-        
-        while (IsPushable(result.Last() + towards)) 
+        var result = new List<Coordinate> { from.whereIs + towards };
+
+        while (IsPushable(result.Last() + towards))
             result.Add(result.Last() + towards);
-        
+
         return result.Where(IsPushable);
     }
 
