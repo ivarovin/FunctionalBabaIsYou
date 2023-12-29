@@ -20,19 +20,10 @@ public record World
             .Concat(PushableByYou(direction).Select(Move(direction)));
 
     IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo)
-        => YouTowards(movingTo).SelectMany(you => InFront(movingTo, you));
+        => You().SelectMany(you => InFront(movingTo, you));
 
-    IEnumerable<PlacedBlock> InFront(Coordinate movingTo, PlacedBlock you)
-    {
-        var temporalPosition = you.whereIs;
-        while (ExistsPushableAt(temporalPosition))
-        {
-            foreach (var placedBlock in OtherThanYouAt(temporalPosition))
-                yield return placedBlock;
-
-            temporalPosition += movingTo;
-        }
-    }
+    IEnumerable<PlacedBlock> InFront(Coordinate movingTo, PlacedBlock you) 
+        => PushableBlocksAhead(you, movingTo).SelectMany(OtherThanYouAt);
 
     bool ExistsPushableAt(Coordinate temporalPosition) =>
         OtherThanYouAt(temporalPosition).Any() && OtherThanYouAt(temporalPosition).All(IsPushable);
@@ -44,17 +35,25 @@ public record World
     IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(Move(towards));
 
     bool CanMove(PlacedBlock block, Coordinate towards)
+        => !ElementsAt(LastElementAhead(block, towards)).Any(x => x.Means(PhraseBuilder.Stop));
+
+    Coordinate LastElementAhead(PlacedBlock from, Coordinate towards)
+        => PushableBlocksAhead(from, towards).Any()
+            ? PushableBlocksAhead(from, towards).Last() + towards
+            : from.whereIs + towards;
+
+    IEnumerable<Coordinate> PushableBlocksAhead(PlacedBlock from, Coordinate towards)
     {
-        var temporalPosition = block.whereIs + towards;
-        while (ExistsPushableAt(temporalPosition))
+        var temporal = from.whereIs;
+        var result = new List<Coordinate>();
+
+        while (ExistsPushableAt(temporal + towards))
         {
-            if (ElementsAt(temporalPosition).Any(x => x.Means(PhraseBuilder.Stop)))
-                return false;
-            
-            temporalPosition += towards;
+            result.Add(temporal + towards);
+            temporal += towards;
         }
-        
-        return !ElementsAt(temporalPosition).Any(x => x.Means(PhraseBuilder.Stop));
+
+        return result;
     }
 
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
