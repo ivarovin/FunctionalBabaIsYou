@@ -7,6 +7,7 @@ public static class PhraseBuilder
     public static string ToBe => "is";
     public static string And => "and";
     public static string Baba => "Baba";
+    public static string Wall => "Wall";
     public static string Flag => "Flag";
     public static string Rock => "Rock";
     public static string Push => "Push";
@@ -28,8 +29,8 @@ public static class PhraseBuilder
     public static IEnumerable<PlacedBlock> RockIsPush
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
     
-    public static IEnumerable<PlacedBlock> RockIsStop
-        => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Stop.AtRight() };
+    public static IEnumerable<PlacedBlock> WallIsStop
+        => new[] { Wall.AtOrigin(), ToBe.AtMiddle(), Stop.AtRight() };
 
     public static IEnumerable<PlacedBlock> RockIsDefeat
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Defeat.AtRight() };

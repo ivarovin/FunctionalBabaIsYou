@@ -59,9 +59,9 @@ public class WorldPhysicsTests
     [Test]
     public void CannotMove_TowardsStopBlock()
     {
-        IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle())
+        IntroduceToWorld(Baba.AtOrigin(), Wall.AtMiddle())
             .AndBlocks(BabaIsYou.Up())
-            .AndBlocks(RockIsStop.Down())
+            .AndBlocks(WallIsStop.Down())
             .Build()
             .MoveTowards(Direction.Right)
             .ElementsAt(Origin).Should().HaveCount(1);
