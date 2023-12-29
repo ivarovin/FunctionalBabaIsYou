@@ -66,4 +66,16 @@ public class WorldPhysicsTests
             .MoveTowards(Direction.Right)
             .ElementsAt(Origin).Should().HaveCount(1);
     }
+
+    [Test]
+    public void CannotPush_ThroughStopBlock()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle(), Wall.AtRight())
+            .AndBlocks(BabaIsYou.Up())
+            .AndBlocks(WallIsStop.Down())
+            .AndBlocks(RockIsPush.Up().Up())
+            .Build()
+            .MoveTowards(Direction.Right)
+            .ElementsAt(Origin).Should().HaveCount(1);
+    }
 }

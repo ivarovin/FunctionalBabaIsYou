@@ -43,16 +43,27 @@ public record World
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(Move(towards));
 
-    bool CanMove(PlacedBlock block, Coordinate towards) 
-        => !ElementsAt(block.whereIs + towards).Any(x => x.Means(PhraseBuilder.Stop));
+    bool CanMove(PlacedBlock block, Coordinate towards)
+    {
+        var temporalPosition = block.whereIs + towards;
+        while (ExistsPushableAt(temporalPosition))
+        {
+            if (ElementsAt(temporalPosition).Any(x => x.Means(PhraseBuilder.Stop)))
+                return false;
+            
+            temporalPosition += towards;
+        }
+        
+        return !ElementsAt(temporalPosition).Any(x => x.Means(PhraseBuilder.Stop));
+    }
 
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
 
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction)
         => from => CanMove(from, from.whereIs + direction) ? (from.whereIs + direction, from.whatDepicts) : from;
 
-    bool IsYou(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.You);
     bool IsNotYou(PlacedBlock actor) => !IsYou(actor);
+    bool IsYou(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.You);
     bool IsWin(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Win);
     bool IsDefeat(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Defeat);
     IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => YouTowards(to).Where(IsAtDefeat);
