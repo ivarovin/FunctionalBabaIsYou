@@ -11,7 +11,7 @@ public class WorldTests
     public void SpawnBaba_InWorld()
     {
         IntroduceToWorld(Baba.AtOrigin()).Build()
-            .ElementsAt(Origin)
+            .BlocksAt(Origin)
             .Should().HaveCount(1);
     }
 
@@ -20,7 +20,7 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin()).Build()
             .MoveTowards(Left)
-            .ElementsAt(Origin)
+            .BlocksAt(Origin)
             .Should().HaveCount(1);
     }
 
@@ -29,7 +29,7 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
             .MoveTowards(Up)
-            .ElementsAt(Origin)
+            .BlocksAt(Origin)
             .Should().HaveCount(0);
     }
 
@@ -38,7 +38,7 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
             .MoveTowards(Up)
-            .ElementsAt(Origin)
+            .BlocksAt(Origin)
             .Should().Contain(Rock.AtOrigin())
             .And.NotContain(Baba.AtOrigin());
     }
@@ -47,7 +47,7 @@ public class WorldTests
     public void Actors_CanBe_Overlapped()
     {
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).Build()
-            .ElementsAt(Origin)
+            .BlocksAt(Origin)
             .Should().HaveCount(2);
     }
 
@@ -55,7 +55,7 @@ public class WorldTests
     public void Block_CanBeSpotted_AtCoordinate()
     {
         EmptyWorldWithBlocks(Baba.AtOrigin()).Build()
-            .ElementsAt(Origin)
+            .BlocksAt(Origin)
             .Should().HaveCount(1);
     }
 
@@ -64,7 +64,7 @@ public class WorldTests
     {
         IntroduceToWorld(Baba.AtOrigin())
             .AndBlocks(BabaIsRock.Down()).Build()
-            .ElementsAt(Origin)
+            .BlocksAt(Origin)
             .Should().Contain(Rock.AtOrigin());
     }
 
@@ -117,7 +117,7 @@ public class WorldTests
             .AndBlocks(BabaIsYou.Down())
             .AndBlocks(RockIsDefeat.Up()).Build()
             .MoveTowards(None)
-            .ElementsAt(Origin).Should().HaveCount(1);
+            .BlocksAt(Origin).Should().HaveCount(1);
     }
 
     [Test]
@@ -127,6 +127,6 @@ public class WorldTests
             .AndBlocks(BabaIsYou.Down())
             .AndBlocks(RockIsDefeat.Up()).Build()
             .MoveTowards(Direction.Right)
-            .ElementsAt(Middle).Should().HaveCount(1);
+            .BlocksAt(Middle).Should().HaveCount(1);
     }
 }

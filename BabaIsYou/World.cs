@@ -25,15 +25,13 @@ public record World
     Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate movingTo)
         => block => PushableAhead(block, movingTo).SelectMany(OtherThanYou);
 
-    bool IsPushable(Coordinate temporalPosition) =>
-        OtherThanYou(temporalPosition).Any() && OtherThanYou(temporalPosition).All(IsPushable);
-
-    IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.Where(IsAt(where)).Where(IsNotYou);
+    bool IsPushable(Coordinate at) => OtherThanYou(at).Any() && OtherThanYou(at).All(IsPushable);
+    IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.At(where).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(Move(towards));
 
     bool CanMove(PlacedBlock block, Coordinate towards)
-        => !ElementsAt(LastElementAhead(block, towards)).Any(x => x.Means(PhraseBuilder.Stop));
+        => !BlocksAt(LastElementAhead(block, towards)).Any(x => x.Means(PhraseBuilder.Stop));
 
     Coordinate LastElementAhead(PlacedBlock from, Coordinate towards)
         => PushableAhead(from, towards).Any()
@@ -60,7 +58,7 @@ public record World
     bool IsWin(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Win);
     bool IsDefeat(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Defeat);
     IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => YouTowards(to).Where(IsAtDefeat);
-    bool IsAtDefeat(PlacedBlock you) => ElementsAt(you).Any(IsDefeat);
-    IEnumerable<PlacedBlock> ElementsAt(PlacedBlock what) => ElementsAt(what.whereIs);
-    public IEnumerable<PlacedBlock> ElementsAt(Coordinate position) => all.DefinitionOf(all.At(position));
+    bool IsAtDefeat(PlacedBlock you) => BlocksAt(you).Any(IsDefeat);
+    IEnumerable<PlacedBlock> BlocksAt(PlacedBlock what) => BlocksAt(what.whereIs);
+    public IEnumerable<PlacedBlock> BlocksAt(Coordinate position) => all.DefinitionOf(all.At(position));
 }
