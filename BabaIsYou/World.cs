@@ -1,3 +1,4 @@
+using static System.ArraySegment<FunctionalBabaIsYou.Tests.Coordinate>;
 using static FunctionalBabaIsYou.Sight;
 
 namespace FunctionalBabaIsYou.Tests;
@@ -19,18 +20,15 @@ public record World
             .Except(PushableByYou(direction))
             .Concat(PushableByYou(direction).Select(Move(direction)));
 
-    IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo)
-        => You().SelectMany(you => InFront(movingTo, you));
+    IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => You().SelectMany(you => InFront(movingTo, you));
 
-    IEnumerable<PlacedBlock> InFront(Coordinate movingTo, PlacedBlock you) 
-        => PushableBlocksAhead(you, movingTo).SelectMany(OtherThanYouAt);
+    IEnumerable<PlacedBlock> InFront(Coordinate movingTo, PlacedBlock you)
+        => PushableAhead(you, movingTo).SelectMany(OtherThanYouAt);
 
-    bool ExistsPushableAt(Coordinate temporalPosition) =>
+    bool IsPushable(Coordinate temporalPosition) =>
         OtherThanYouAt(temporalPosition).Any() && OtherThanYouAt(temporalPosition).All(IsPushable);
 
-    IEnumerable<PlacedBlock> OtherThanYouAt(Coordinate temporalPosition) =>
-        all.Where(IsAt(temporalPosition)).Where(IsNotYou);
-
+    IEnumerable<PlacedBlock> OtherThanYouAt(Coordinate where) => all.Where(IsAt(where)).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(Move(towards));
 
@@ -38,22 +36,18 @@ public record World
         => !ElementsAt(LastElementAhead(block, towards)).Any(x => x.Means(PhraseBuilder.Stop));
 
     Coordinate LastElementAhead(PlacedBlock from, Coordinate towards)
-        => PushableBlocksAhead(from, towards).Any()
-            ? PushableBlocksAhead(from, towards).Last() + towards
+        => PushableAhead(from, towards).Any()
+            ? PushableAhead(from, towards).Last() + towards
             : from.whereIs + towards;
 
-    IEnumerable<Coordinate> PushableBlocksAhead(PlacedBlock from, Coordinate towards)
+    IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards)
     {
-        var temporal = from.whereIs;
-        var result = new List<Coordinate>();
-
-        while (ExistsPushableAt(temporal + towards))
-        {
-            result.Add(temporal + towards);
-            temporal += towards;
-        }
-
-        return result;
+        var result = new List<Coordinate>{from.whereIs + towards};
+        
+        while (IsPushable(result.Last() + towards)) 
+            result.Add(result.Last() + towards);
+        
+        return result.Where(IsPushable);
     }
 
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
