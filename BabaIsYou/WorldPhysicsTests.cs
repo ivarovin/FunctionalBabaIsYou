@@ -55,4 +55,15 @@ public class WorldPhysicsTests
         sut.ElementsAt((0, 2)).Should().HaveCount(1).And.Contain(Push.At(0, 2));
         sut.ElementsAt((0, 3)).Should().HaveCount(1).And.Contain(Push.At(0, 3));
     }
+
+    [Test]
+    public void CannotMove_TowardsStopBlock()
+    {
+        IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle())
+            .AndBlocks(BabaIsYou.Up())
+            .AndBlocks(RockIsStop.Down())
+            .Build()
+            .MoveTowards(Direction.Right)
+            .ElementsAt(Origin).Should().HaveCount(1);
+    }
 }

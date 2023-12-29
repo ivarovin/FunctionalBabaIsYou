@@ -11,16 +11,16 @@ public record World
     public World(IEnumerable<PlacedBlock> all) => this.all = all;
     public World MoveTowards(Direction direction) => new(MoveAll(direction));
 
-    IEnumerable<PlacedBlock> MoveAll(Coordinate position)
+    IEnumerable<PlacedBlock> MoveAll(Coordinate direction)
         => all
             .Except(You())
-            .Concat(YouAt(position))
-            .Except(DefeatedAt(position))
-            .Except(PushableByYou(position))
-            .Concat(PushableByYou(position).Select(Move(position)));
+            .Concat(YouTowards(direction))
+            .Except(DefeatedAt(direction))
+            .Except(PushableByYou(direction))
+            .Concat(PushableByYou(direction).Select(Move(direction)));
 
     IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo)
-        => YouAt(movingTo).SelectMany(you => InFront(movingTo, you));
+        => YouTowards(movingTo).SelectMany(you => InFront(movingTo, you));
 
     IEnumerable<PlacedBlock> InFront(Coordinate movingTo, PlacedBlock you)
     {
@@ -38,16 +38,24 @@ public record World
         OtherThanYouAt(temporalPosition).Any() && OtherThanYouAt(temporalPosition).All(IsPushable);
 
     IEnumerable<PlacedBlock> OtherThanYouAt(Coordinate temporalPosition) =>
-        all.Where(IsAt(temporalPosition)).Except(You());
+        all.Where(IsAt(temporalPosition)).Where(IsNotYou);
 
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
-    IEnumerable<PlacedBlock> YouAt(Coordinate towards) => You().Select(Move(towards));
+    IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(Move(towards));
+
+    bool CanMove(PlacedBlock block, Coordinate towards) 
+        => !ElementsAt(block.whereIs + towards).Any(x => x.Means(PhraseBuilder.Stop));
+
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
-    Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
+
+    Func<PlacedBlock, PlacedBlock> Move(Coordinate direction)
+        => from => CanMove(from, from.whereIs + direction) ? (from.whereIs + direction, from.whatDepicts) : from;
+
     bool IsYou(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.You);
+    bool IsNotYou(PlacedBlock actor) => !IsYou(actor);
     bool IsWin(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Win);
     bool IsDefeat(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Defeat);
-    IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => YouAt(to).Where(IsAtDefeat);
+    IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => YouTowards(to).Where(IsAtDefeat);
     bool IsAtDefeat(PlacedBlock you) => ElementsAt(you).Any(IsDefeat);
     IEnumerable<PlacedBlock> ElementsAt(PlacedBlock what) => ElementsAt(what.whereIs);
     public IEnumerable<PlacedBlock> ElementsAt(Coordinate position) => all.DefinitionOf(all.At(position));

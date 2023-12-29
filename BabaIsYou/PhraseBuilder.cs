@@ -10,6 +10,7 @@ public static class PhraseBuilder
     public static string Flag => "Flag";
     public static string Rock => "Rock";
     public static string Push => "Push";
+    public static string Stop => "Stop";
     public static string Defeat => "Defeat";
     public static Coordinate Origin => (0, 0);
     public static Coordinate Middle => (1, 0);
@@ -27,6 +28,9 @@ public static class PhraseBuilder
     public static IEnumerable<PlacedBlock> RockIsPush
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
     
+    public static IEnumerable<PlacedBlock> RockIsStop
+        => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Stop.AtRight() };
+
     public static IEnumerable<PlacedBlock> RockIsDefeat
         => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Defeat.AtRight() };
 
