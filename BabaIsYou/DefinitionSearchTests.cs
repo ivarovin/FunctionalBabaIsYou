@@ -3,13 +3,11 @@ using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 
 namespace FunctionalBabaIsYou.Tests.Grammar;
 
-//NUEVO OBJETIVO
-//1. Empujar actores definidos como PUSH
-
-//PARA ALCANZARLO
-//1. Debemos poder empujar objetos definidos como PUSH
-//2. Debemos morir cuando nos solapamos con un objeto DEFEAT
-//3. Empujar múltiples bloques hasta topar con uno inamovible
+//Objetivo final
+//1. Eliminar bucles y condicionales por mapeos y bindeos
+//2. Extraer noción de sujeto
+//3. Eliminar dependencia que hay entre código de producción y tests
+//4. Asociar varias definiciones a un bloque
 
 public class DefinitionSearchTests
 {
