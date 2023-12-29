@@ -1,4 +1,3 @@
-using static System.ArraySegment<FunctionalBabaIsYou.Tests.Coordinate>;
 using static FunctionalBabaIsYou.Sight;
 
 namespace FunctionalBabaIsYou.Tests;
@@ -10,15 +9,15 @@ public record World
     public bool Won => You().Any(IsAtAny(Wins));
     IEnumerable<PlacedBlock> Wins => all.Where(IsWin);
     public World(IEnumerable<PlacedBlock> all) => this.all = all;
-    public World MoveTowards(Direction direction) => new(MoveAll(direction));
 
-    IEnumerable<PlacedBlock> MoveAll(Coordinate direction)
-        => all
-            .Except(You())
+    public World MoveTowards(Direction direction) => new
+    (
+        all.Except(You())
             .Concat(YouTowards(direction))
             .Except(DefeatedAt(direction))
             .Except(PushableByYou(direction))
-            .Concat(PushableByYou(direction).Select(Move(direction)));
+            .Concat(PushableByYou(direction).Select(Move(direction)))
+    );
 
     IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => You().SelectMany(InFront(movingTo));
 
