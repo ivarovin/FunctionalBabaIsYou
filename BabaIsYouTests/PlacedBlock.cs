@@ -4,13 +4,14 @@ namespace FunctionalBabaIsYou;
 
 public readonly struct PlacedBlock
 {
-    public const string SubjectSuffix = "Subject";
+    const string SubjectSuffix = "Subject";
+    
     public readonly Coordinate whereIs;
     public readonly string whatDepicts;
     public int Y => whereIs.y;
     public int X => whereIs.x;
 
-    public PlacedBlock(Coordinate whereIs, string whatDepicts)
+    PlacedBlock(Coordinate whereIs, string whatDepicts)
     {
         this.whereIs = whereIs;
         this.whatDepicts = whatDepicts;
