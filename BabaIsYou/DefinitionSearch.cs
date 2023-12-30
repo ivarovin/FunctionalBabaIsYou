@@ -1,4 +1,3 @@
-using FunctionalBabaIsYou.Tests;
 using LanguageExt;
 using static FunctionalBabaIsYou.Vocabulary;
 using static LanguageExt.Option<FunctionalBabaIsYou.PlacedBlock>;

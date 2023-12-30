@@ -1,5 +1,5 @@
 using FluentAssertions;
-using static FunctionalBabaIsYou.Tests.Direction;
+using static FunctionalBabaIsYou.Direction;
 using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 using static FunctionalBabaIsYou.Tests.WorldBuilder;
 

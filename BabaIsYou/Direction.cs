@@ -1,4 +1,4 @@
-namespace FunctionalBabaIsYou.Tests;
+namespace FunctionalBabaIsYou;
 
 public readonly struct Direction
 {

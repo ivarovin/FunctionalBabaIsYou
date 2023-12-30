@@ -1,7 +1,7 @@
 using static FunctionalBabaIsYou.Sight;
 using static FunctionalBabaIsYou.Vocabulary;
 
-namespace FunctionalBabaIsYou.Tests;
+namespace FunctionalBabaIsYou;
 
 public record World
 {

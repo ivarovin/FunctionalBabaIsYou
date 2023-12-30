@@ -1,5 +1,3 @@
-using FunctionalBabaIsYou.Tests;
-
 namespace FunctionalBabaIsYou;
 
 public static class Sight
