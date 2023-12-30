@@ -2,11 +2,11 @@ namespace FunctionalBabaIsYou;
 
 internal static class Grammar
 {
-    public static string DefinitionOf(this IEnumerable<PlacedBlock> blocks, string subject)
+    public static string FirstDefinitionOf(this IEnumerable<PlacedBlock> blocks, string subject)
         => new DefinitionSearch(blocks, ((2, 0), subject))
             .Definition.FirstSome().Match
             (
-                x => x.whatDepicts,
+                x => x.allThatDepicts.First(),
                 () => subject
             );
 
