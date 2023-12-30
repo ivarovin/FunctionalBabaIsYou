@@ -8,8 +8,8 @@ public readonly struct PlacedBlock
     
     public readonly Coordinate whereIs;
     public readonly string whatDepicts;
-    public int Y => whereIs.y;
-    public int X => whereIs.x;
+    public int Y => whereIs.Y;
+    public int X => whereIs.X;
 
     PlacedBlock(Coordinate whereIs, string whatDepicts)
     {

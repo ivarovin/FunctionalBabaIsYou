@@ -20,5 +20,5 @@ public static class Sight
     public static Func<PlacedBlock, bool> IsAhead(Movement move) => IsAhead(move.Who, move.Direction);
 
     static Coordinate DistanceBetween(PlacedBlock from, PlacedBlock to)
-        => (Math.Abs((to.whereIs - from.whereIs).x), Math.Abs((to.whereIs - from.whereIs).y));
+        => (Math.Abs((to.whereIs - from.whereIs).X), Math.Abs((to.whereIs - from.whereIs).Y));
 }

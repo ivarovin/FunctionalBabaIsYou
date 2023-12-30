@@ -46,24 +46,24 @@ public static class PhraseBuilder
 
     public static IEnumerable<PlacedBlock> MoveToRight(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
-        => blocks.Select(x => (PlacedBlock)((x.whereIs.x + howManyTimes, x.whereIs.y), x.whatDepicts));
+        => blocks.Select(x => (PlacedBlock)((x.whereIs.X + howManyTimes, x.whereIs.Y), x.whatDepicts));
 
     public static IEnumerable<PlacedBlock> Down(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
-        => blocks.Select(x => (PlacedBlock)((x.whereIs.x, x.whereIs.y - howManyTimes), x.whatDepicts));
+        => blocks.Select(x => (PlacedBlock)((x.whereIs.X, x.whereIs.Y - howManyTimes), x.whatDepicts));
     
     public static IEnumerable<PlacedBlock> Up(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
-        => blocks.Select(x => (PlacedBlock)((x.whereIs.x, x.whereIs.y + howManyTimes), x.whatDepicts));
+        => blocks.Select(x => (PlacedBlock)((x.whereIs.X, x.whereIs.Y + howManyTimes), x.whatDepicts));
 
     public static PlacedBlock MoveDown(this PlacedBlock block, int howManyTimes = 1)
-        => ((block.whereIs.x, block.whereIs.y - howManyTimes), block.whatDepicts);
+        => ((block.whereIs.X, block.whereIs.Y - howManyTimes), block.whatDepicts);
 
     public static PlacedBlock MoveToRight(this PlacedBlock block, int howManyTimes)
-        => ((block.whereIs.x + howManyTimes, block.whereIs.y), block.whatDepicts);
+        => ((block.whereIs.X + howManyTimes, block.whereIs.Y), block.whatDepicts);
 
     public static PlacedBlock MoveToLeft(this PlacedBlock block, int howManyTimes)
-        => ((block.whereIs.x - howManyTimes, block.whereIs.y), block.whatDepicts);
+        => ((block.whereIs.X - howManyTimes, block.whereIs.Y), block.whatDepicts);
     
     public static IEnumerable<PlacedBlock> AndRock(this IEnumerable<PlacedBlock> blocks)
         => blocks.AppendConjunction().AppendDefinition(Rock);
