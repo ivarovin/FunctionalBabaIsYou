@@ -8,6 +8,8 @@ public class DefinitionSearch
 {
     readonly IEnumerable<PlacedBlock> blocks;
     readonly PlacedBlock subject;
+    
+    public IEnumerable<PlacedBlock> AllDefinitions => JoinWithNextDefinition(Definition);
     public Option<PlacedBlock> Definition => WhereIsDefinition.Bind(Block);
     Option<Coordinate> WhereIsDefinition => LinkingVerb.Map(ToTheRight);
     Option<PlacedBlock> LinkingVerb => blocks.Where(IsLinkingVerb).FirstOrNone(AtRightOfSubject);
@@ -22,14 +24,12 @@ public class DefinitionSearch
     bool AtRightOfSubject(PlacedBlock what) => Subject.Any(subject => subject.X == what.X - 1 && subject.Y == what.Y);
     IEnumerable<PlacedBlock> Subject => blocks.Where(IsSubject);
     bool IsSubject(PlacedBlock who) => who.Means(subject) && !who.Equals(subject);
-    public IEnumerable<PlacedBlock> AllDefinitions() => DefinitionsAfter(Definition).Append(Definition);
 
-    IEnumerable<PlacedBlock> DefinitionsAfter(Option<PlacedBlock> from)
-        => from.Map(NextDefinition).Match
-        (
-            Some: definition => DefinitionsAfter(definition).Append(definition),
-            None: () => None
-        );
+    IEnumerable<PlacedBlock> JoinWithNextDefinition(Option<PlacedBlock> definition)
+        => DefinitionAfter(definition).Append(definition);
+
+    IEnumerable<PlacedBlock> DefinitionAfter(Option<PlacedBlock> definition)
+        => definition.Map(NextDefinition).Match(Some: JoinWithNextDefinition, None: () => None);
 
     Option<PlacedBlock> NextDefinition(PlacedBlock from) => ConjunctionAfter(from).Map(BlockAfter).IfNone(None);
     Option<PlacedBlock> ConjunctionAfter(PlacedBlock block) => BlockAfter(block).Where(IsConjunction);
