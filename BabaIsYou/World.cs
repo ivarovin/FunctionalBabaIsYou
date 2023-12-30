@@ -27,7 +27,7 @@ public record World
     PlacedBlock TryMove(Movement move) => CanMove(move) ? move.Commit() : move.Who;
     bool CanMove(Movement move) => !IsStop(AfterLastPushable(move));
     bool IsStop(Coordinate at) => BlocksAt(at).Any(block => block.Means(Stop));
-    public IEnumerable<PlacedBlock> BlocksAt(Coordinate where) => all.DefinitionOf(all.At(where));
+    public IEnumerable<PlacedBlock> BlocksAt(Coordinate where) => all.At(where).Select(all.DefinitionOf);
     Coordinate AfterLastPushable(Movement move) => PushableAhead(move).LastOr(move.Who.whereIs) + move.Direction;
     IEnumerable<Coordinate> PushableAhead(Movement move) => all.Where(IsAhead(move)).Where(IsPushable).Map(Position);
     Coordinate Position(PlacedBlock block) => block.whereIs;
