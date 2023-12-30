@@ -1,4 +1,3 @@
-using LanguageExt;
 using static FunctionalBabaIsYou.Sight;
 
 namespace FunctionalBabaIsYou.Tests;
@@ -33,9 +32,7 @@ public record World
     static bool IsStop(PlacedBlock who) => who.Means(PhraseBuilder.Stop);
 
     Coordinate LastElementAhead(PlacedBlock from, Coordinate towards)
-        => PushableAhead(from, towards).Any()
-            ? PushableAhead(from, towards).Last() + towards
-            : from.whereIs + towards;
+        => PushableAhead(from, towards).LastOr(from.whereIs) + towards;
 
     IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards)
         => all.Where(IsAhead(from, towards)).Where(IsPushable).Map(Position);

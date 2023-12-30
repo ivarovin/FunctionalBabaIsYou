@@ -15,8 +15,8 @@ public static class Sight
     public static Func<PlacedBlock, bool> IsAt(PlacedBlock block) => IsAt(block.whereIs);
 
     public static Func<PlacedBlock, bool> IsAhead(PlacedBlock from, Direction towards)
-        => to => (to.whereIs - Distance(from, to) * towards).Equals(from.whereIs);
+        => to => (to.whereIs - DistanceBetween(from, to) * towards).Equals(from.whereIs);
 
-    static Coordinate Distance(PlacedBlock from, PlacedBlock to)
+    static Coordinate DistanceBetween(PlacedBlock from, PlacedBlock to)
         => (Math.Abs((to.whereIs - from.whereIs).x), Math.Abs((to.whereIs - from.whereIs).y));
 }
