@@ -4,7 +4,7 @@ using static LanguageExt.Option<FunctionalBabaIsYou.PlacedBlock>;
 
 namespace FunctionalBabaIsYou;
 
-public class DefinitionSearch
+internal class DefinitionSearch
 {
     readonly IEnumerable<PlacedBlock> blocks;
     readonly PlacedBlock subject;

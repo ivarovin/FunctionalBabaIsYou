@@ -1,6 +1,6 @@
 namespace FunctionalBabaIsYou;
 
-public static class Sight
+internal static class Sight
 {
     public static IEnumerable<PlacedBlock> At(this IEnumerable<PlacedBlock> all, Coordinate where)
         => all.Where(IsAt(where));

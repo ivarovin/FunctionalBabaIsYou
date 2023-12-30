@@ -1,6 +1,6 @@
 namespace FunctionalBabaIsYou;
 
-public readonly struct Movement
+internal readonly struct Movement
 {
     public readonly PlacedBlock Who;
     public readonly Coordinate Direction;

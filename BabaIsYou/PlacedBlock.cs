@@ -24,7 +24,7 @@ public readonly struct PlacedBlock
 
     public bool Means(string something) => allThatDepicts.Any(block => block.Contains(something));
     public bool Means(PlacedBlock other) => other.allThatDepicts.All(Means);
-    public Movement Moving(Direction towards) => new(this, towards);
+    internal Movement Moving(Direction towards) => new(this, towards);
     public PlacedBlock AsSubject() => (whereIs, whatDepicts + SubjectSuffix);
 
     public static implicit operator (Coordinate whereIs, string whatDepicts)(PlacedBlock placedBlock) =>

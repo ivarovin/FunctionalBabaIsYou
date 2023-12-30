@@ -1,6 +1,6 @@
 namespace FunctionalBabaIsYou;
 
-public static class Grammar
+internal static class Grammar
 {
     public static string DefinitionOf(this IEnumerable<PlacedBlock> blocks, string subject)
         => new DefinitionSearch(blocks, ((2, 0), subject))
