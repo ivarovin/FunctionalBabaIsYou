@@ -14,7 +14,7 @@ public class MultipleDefinitionsTests
     [Test]
     public void Subject_CanHave_MultipleDefinitions()
     {
-        BabaIsYou.AndRock().AllDefinitionsOf(Baba.AtSomewhere()).Should().HaveCount(2);
+        BabaIsYou.AndRock().DefinitionOf(Baba.AtSomewhere()).allThatDepicts.Should().HaveCount(2);
     }
 
     [Test]

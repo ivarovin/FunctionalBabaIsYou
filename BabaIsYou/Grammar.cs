@@ -11,12 +11,14 @@ public static class Grammar
             );
 
     public static PlacedBlock DefinitionOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
-        => new DefinitionSearch(blocks, subject)
+    {
+        return new DefinitionSearch(blocks, subject)
             .Definition.Match
             (
-                definition => (PlacedBlock)(subject.whereIs, definition.whatDepicts),
+                _ => (subject.whereIs, new DefinitionSearch(blocks, subject).AllDefinitions.Select(x => x.whatDepicts)),
                 () => subject
             );
+    }
 
     public static IEnumerable<string> AllDefinitionsOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
         => new DefinitionSearch(blocks, subject).AllDefinitions.Select(x => x.whatDepicts);
