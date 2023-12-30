@@ -1,3 +1,4 @@
+using LanguageExt;
 using static FunctionalBabaIsYou.Sight;
 
 namespace FunctionalBabaIsYou.Tests;
@@ -13,7 +14,7 @@ public record World
     public World MoveTowards(Direction direction) => new
     (
         all.Except(You())
-            .Concat(YouTowards(direction))
+            .Concat(MoveYou(direction))
             .Except(DefeatedAt(direction))
             .Except(PushableByYou(direction))
             .Concat(PushableByYou(direction).Select(Move(direction)))
@@ -26,11 +27,8 @@ public record World
 
     IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.At(where).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
-    IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(MoveUntilStop(towards));
-
-    Func<PlacedBlock, PlacedBlock> MoveUntilStop(Coordinate towards)
-        => who => CanMove(who, towards) ? Move(towards)(who) : who;
-
+    IEnumerable<PlacedBlock> MoveYou(Coordinate towards) => You().Select(who => TryMove(who, towards));
+    PlacedBlock TryMove(PlacedBlock who, Coordinate towards) => CanMove(who, towards) ? Move(towards)(who) : who;
     bool CanMove(PlacedBlock block, Coordinate towards) => !BlocksAt(LastElementAhead(block, towards)).Any(IsStop);
     static bool IsStop(PlacedBlock who) => who.Means(PhraseBuilder.Stop);
 
@@ -39,7 +37,7 @@ public record World
             ? PushableAhead(from, towards).Last() + towards
             : from.whereIs + towards;
 
-    IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards) 
+    IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards)
         => all.Where(IsAhead(from, towards)).Where(IsPushable).Map(Position);
 
     Coordinate Position(PlacedBlock block) => block.whereIs;
@@ -53,7 +51,7 @@ public record World
     bool IsYou(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.You);
     bool IsWin(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Win);
     bool IsDefeat(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Defeat);
-    IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => YouTowards(to).Where(IsAtDefeat);
+    IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => MoveYou(to).Where(IsAtDefeat);
     bool IsAtDefeat(PlacedBlock you) => BlocksAt(you).Any(IsDefeat);
     IEnumerable<PlacedBlock> BlocksAt(PlacedBlock what) => BlocksAt(what.whereIs);
     public IEnumerable<PlacedBlock> BlocksAt(Coordinate position) => all.DefinitionOf(all.At(position));
