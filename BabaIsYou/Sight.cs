@@ -8,10 +8,15 @@ public static class Sight
         Coordinate position) => blocks.Where(IsAt(position));
 
     public static Func<PlacedBlock, bool> IsAt(Coordinate position) => x => x.whereIs == position;
-    public static Func<PlacedBlock, bool> IsAtAny(IEnumerable<PlacedBlock> positions) 
+
+    public static Func<PlacedBlock, bool> IsAtAny(IEnumerable<PlacedBlock> positions)
         => block => positions.Any(IsAt(block));
+
     public static Func<PlacedBlock, bool> IsAt(PlacedBlock block) => IsAt(block.whereIs);
-    
+
     public static Func<PlacedBlock, bool> IsAhead(PlacedBlock from, Direction towards)
-        => to => (to.whereIs - (to.whereIs - from.whereIs) * towards).Equals(from.whereIs);
+        => to => (to.whereIs - Distance(from, to) * towards).Equals(from.whereIs);
+
+    static Coordinate Distance(PlacedBlock from, PlacedBlock to)
+        => (Math.Abs((to.whereIs - from.whereIs).x), Math.Abs((to.whereIs - from.whereIs).y));
 }
