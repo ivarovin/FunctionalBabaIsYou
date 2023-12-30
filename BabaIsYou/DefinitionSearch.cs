@@ -21,7 +21,7 @@ public class DefinitionSearch
     static bool IsLinkingVerb(PlacedBlock block) => block.Means(Vocabulary.LinkingVerb);
     bool AtRightOfSubject(PlacedBlock what) => Subject.Any(subject => subject.X == what.X - 1 && subject.Y == what.Y);
     IEnumerable<PlacedBlock> Subject => blocks.Where(IsSubject);
-    bool IsSubject(PlacedBlock who) => who.whatDepicts.Contains(subject.whatDepicts) && !who.Equals(subject);
+    bool IsSubject(PlacedBlock who) => who.Means(subject) && !who.Equals(subject);
     public IEnumerable<PlacedBlock> AllDefinitions() => DefinitionsAfter(Definition).Append(Definition);
 
     IEnumerable<PlacedBlock> DefinitionsAfter(Option<PlacedBlock> from)
