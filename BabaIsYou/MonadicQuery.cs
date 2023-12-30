@@ -9,4 +9,8 @@ public static class MonadicQuery
     
     public static T LastOr<T>(this IEnumerable<T> elements, T alternative) 
         => elements.Any() ? elements.Last() : alternative;
+
+    public static IEnumerable<T> Replace<T>(this IEnumerable<T> original, IEnumerable<T> toReplace,
+        IEnumerable<T> replacement)
+        => original.Except(toReplace).Concat(replacement);
 }

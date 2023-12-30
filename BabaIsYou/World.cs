@@ -14,16 +14,16 @@ public record World
 
     public World Move(Direction towards) => new
     (
-        all.Except(AllOfYou())
-            .Concat(MoveYou(towards))
+        all.Replace(AllOfYou(), MovedYou(towards))
             .Except(DefeatedAt(towards))
-            .Except(PushableByYou(towards))
-            .Concat(PushableByYou(towards).Select(block => block.Moving(towards).Commit()))
+            .Replace(ToBePushed(towards), Push(towards))
     );
 
+    IEnumerable<PlacedBlock> Push(Direction towards) => ToBePushed(towards).Select(Step(towards));
+    Func<PlacedBlock, PlacedBlock> Step(Direction towards) => block => block.Moving(towards).Commit();
     IEnumerable<PlacedBlock> AllOfYou() => all.Where(IsYou);
     bool IsYou(PlacedBlock who) => all.DefinitionOf(who).Means(You);
-    IEnumerable<PlacedBlock> MoveYou(Coordinate towards) => AllOfYou().Select(who => TryMove(who.Moving(towards)));
+    IEnumerable<PlacedBlock> MovedYou(Coordinate towards) => AllOfYou().Select(who => TryMove(who.Moving(towards)));
     PlacedBlock TryMove(Movement move) => CanMove(move) ? move.Commit() : move.Who;
     bool CanMove(Movement move) => !IsStop(AfterLastPushable(move));
     bool IsStop(Coordinate at) => BlocksAt(at).Any(block => block.Means(Stop));
@@ -31,10 +31,10 @@ public record World
     Coordinate AfterLastPushable(Movement move) => PushableAhead(move).LastOr(move.Who.whereIs) + move.Direction;
     IEnumerable<Coordinate> PushableAhead(Movement move) => all.Where(IsAhead(move)).Where(IsPushable).Map(Position);
     Coordinate Position(PlacedBlock block) => block.whereIs;
-    bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(Push);
-    IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => MoveYou(to).Where(IsDefeat);
+    bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(Vocabulary.Push);
+    IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => MovedYou(to).Where(IsDefeat);
     bool IsDefeat(PlacedBlock you) => BlocksAt(you.whereIs).Any(block => block.Means(Defeat));
-    IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => AllOfYou().SelectMany(PushableInFront(movingTo));
+    IEnumerable<PlacedBlock> ToBePushed(Coordinate movingTo) => AllOfYou().SelectMany(PushableInFront(movingTo));
 
     Func<PlacedBlock, IEnumerable<PlacedBlock>> PushableInFront(Coordinate towards)
         => block => PushableAhead(block.Moving(towards)).SelectMany(OtherThanYou);
