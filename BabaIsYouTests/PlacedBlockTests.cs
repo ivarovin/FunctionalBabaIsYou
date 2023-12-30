@@ -18,4 +18,10 @@ public class PlacedBlockTests
         PlacedBlock.CreateDepicting(You, Rock).Means(PlacedBlock.CreateDepicting(You)).Should().BeTrue();
         PlacedBlock.CreateDepicting(You, Rock).Means(PlacedBlock.CreateDepicting(You, Win)).Should().BeFalse();
     }
+
+    [Test]
+    public void Keep_AllDefinitions_AfterMoving()
+    {
+        PlacedBlock.CreateDepicting(You, Rock).Moving(Direction.Down).Commit().allThatDepicts.Should().HaveCount(2);
+    }
 }
