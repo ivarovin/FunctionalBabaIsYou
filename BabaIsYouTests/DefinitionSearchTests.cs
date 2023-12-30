@@ -4,10 +4,7 @@ using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 namespace FunctionalBabaIsYou.Tests.Grammar;
 
 //Objetivo final
-//1. Eliminar bucles y condicionales por mapeos y bindeos
-//2. Extraer noción de sujeto
-//3. Eliminar dependencia que hay entre código de producción y tests
-//4. Asociar varias definiciones a un bloque
+//1. Formar una frase de arriba a abajo
 
 public class DefinitionSearchTests
 {
