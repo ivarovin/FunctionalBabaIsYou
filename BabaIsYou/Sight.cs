@@ -11,4 +11,7 @@ public static class Sight
     public static Func<PlacedBlock, bool> IsAtAny(IEnumerable<PlacedBlock> positions) 
         => block => positions.Any(IsAt(block));
     public static Func<PlacedBlock, bool> IsAt(PlacedBlock block) => IsAt(block.whereIs);
+    
+    public static Func<PlacedBlock, bool> IsAhead(PlacedBlock from, Direction towards)
+        => to => (to.whereIs - (to.whereIs - from.whereIs) * towards).Equals(from.whereIs);
 }

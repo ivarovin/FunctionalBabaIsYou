@@ -41,10 +41,6 @@ public record World
         => all.Where(IsAhead(from, towards)).Where(IsPushable).Map(Position);
 
     Coordinate Position(PlacedBlock block) => block.whereIs;
-
-    Func<PlacedBlock, bool> IsAhead(PlacedBlock from, Direction towards)
-        => to => (to.whereIs - (to.whereIs - from.whereIs) * towards).Equals(from.whereIs);
-
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
     bool IsNotYou(PlacedBlock actor) => !IsYou(actor);
