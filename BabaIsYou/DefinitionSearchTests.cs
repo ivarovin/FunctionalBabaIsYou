@@ -14,7 +14,7 @@ public class DefinitionSearchTests
     [Test]
     public void Definition_IsAttached_ToSubject()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
+        new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().Be(You);
     }
@@ -22,7 +22,7 @@ public class DefinitionSearchTests
     [Test]
     public void Definition_CannotExist_WithoutLinkingVerb()
     {
-        new[] { Baba.AtOrigin(), You.AtMiddle() }
+        new[] { BabaSubject.AtOrigin(), You.AtMiddle() }
             .DefinitionOf(Baba)
             .Should().Be(Baba);
     }
@@ -30,7 +30,7 @@ public class DefinitionSearchTests
     [Test]
     public void LinkingVerb_ShouldBe_BetweenSubjectAndDefinition()
     {
-        new[] { ToBe.AtOrigin(), Baba.AtMiddle(), You.AtRight() }
+        new[] { ToBe.AtOrigin(), BabaSubject.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().Be(Baba);
     }
@@ -38,7 +38,7 @@ public class DefinitionSearchTests
     [Test]
     public void Definition_CannotExist_BeforeSubject()
     {
-        new[] { You.AtOrigin(), ToBe.AtMiddle(), Baba.AtRight() }
+        new[] { You.AtOrigin(), ToBe.AtMiddle(), BabaSubject.AtRight() }
             .DefinitionOf(Baba)
             .Should().Be(Baba);
     }
@@ -60,7 +60,7 @@ public class DefinitionSearchTests
     [Test]
     public void Definition_CannotExist_IfSeparated_FromLinkingVerb()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveToRight(1) }
+        new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveToRight(1) }
             .DefinitionOf(Baba)
             .Should().Be(Baba);
     }
@@ -68,7 +68,7 @@ public class DefinitionSearchTests
     [Test]
     public void Definition_CannotExist_IfSubject_IsSeparated()
     {
-        new[] { Baba.AtOrigin().MoveToLeft(1), ToBe.AtMiddle(), You.AtRight() }
+        new[] { BabaSubject.AtOrigin().MoveToLeft(1), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().Be(Baba);
     }
@@ -83,7 +83,7 @@ public class DefinitionSearchTests
     [Test]
     public void Definition_CannotExist_WithoutDefinition_AfterLinkingVerb()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle() }.DefinitionOf(Baba).Should().Be(Baba);
+        new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle() }.DefinitionOf(Baba).Should().Be(Baba);
     }
 
     [Test]
@@ -95,15 +95,15 @@ public class DefinitionSearchTests
     [Test]
     public void AllBlocks_MustBeAtSameHeight_ToDefineSubject()
     {
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle().MoveDown(), You.AtRight() }
+        new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle().MoveDown(), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().NotBe(You);
 
-        new[] { Baba.AtOrigin().MoveDown(), ToBe.AtMiddle(), You.AtRight() }
+        new[] { BabaSubject.AtOrigin().MoveDown(), ToBe.AtMiddle(), You.AtRight() }
             .DefinitionOf(Baba)
             .Should().NotBe(You);
 
-        new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveDown() }
+        new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle(), You.AtRight().MoveDown() }
             .DefinitionOf(Baba)
             .Should().NotBe(You);
     }
@@ -118,7 +118,7 @@ public class DefinitionSearchTests
     [Test]
     public void You_DefinesYourself_IfThereIsNoOtherDefinition()
     {
-        new[] { Rock.AtOrigin(), ToBe.AtMiddle() }
+        new[] { RockSubject.AtOrigin(), ToBe.AtMiddle() }
             .DefinitionOf(Rock)
             .Should().Be(Rock);
     }
@@ -133,7 +133,7 @@ public class DefinitionSearchTests
     [Test]
     public void Block_UsedAsSubject_DoesNotHave_Definition()
     {
-        BabaIsYou.DefinitionOf(Baba.AtOrigin()).whatDepicts.Should().Be(Baba);
+        BabaIsYou.DefinitionOf(BabaSubject.AtOrigin()).whatDepicts.Should().Be(BabaSubject);
     }
 
     [Test]

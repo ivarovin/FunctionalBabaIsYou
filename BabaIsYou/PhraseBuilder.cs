@@ -7,9 +7,13 @@ public static class PhraseBuilder
     public static string ToBe => "is";
     public static string And => "and";
     public static string Baba => "Baba";
+    public static string BabaSubject => "BabaSubject";
     public static string Wall => "Wall";
+    public static string WallSubject => "WallSubject";
     public static string Flag => "Flag";
+    public static string FlagSubject => "FlagSubject";
     public static string Rock => "Rock";
+    public static string RockSubject => "RockSubject";
     public static string Push => "Push";
     public static string Stop => "Stop";
     public static string Defeat => "Defeat";
@@ -18,22 +22,22 @@ public static class PhraseBuilder
     public static Coordinate Right => (2, 0);
 
     public static IEnumerable<PlacedBlock> BabaIsYou
-        => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };
+        => new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };
 
     public static IEnumerable<PlacedBlock> FlagIsWin
-        => new[] { Flag.AtOrigin(), ToBe.AtMiddle(), Win.AtRight() };
+        => new[] { FlagSubject.AtOrigin(), ToBe.AtMiddle(), Win.AtRight() };
 
     public static IEnumerable<PlacedBlock> BabaIsRock
-        => new[] { Baba.AtOrigin(), ToBe.AtMiddle(), Rock.AtRight() };
+        => new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle(), Rock.AtRight() };
 
     public static IEnumerable<PlacedBlock> RockIsPush
-        => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
+        => new[] { RockSubject.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
     
     public static IEnumerable<PlacedBlock> WallIsStop
-        => new[] { Wall.AtOrigin(), ToBe.AtMiddle(), Stop.AtRight() };
+        => new[] { WallSubject.AtOrigin(), ToBe.AtMiddle(), Stop.AtRight() };
 
     public static IEnumerable<PlacedBlock> RockIsDefeat
-        => new[] { Rock.AtOrigin(), ToBe.AtMiddle(), Defeat.AtRight() };
+        => new[] { RockSubject.AtOrigin(), ToBe.AtMiddle(), Defeat.AtRight() };
 
     public static PlacedBlock At(this string what, int x, int y) => ((x, y), what);
     public static PlacedBlock At(this string what, Coordinate where) => (where, what);

@@ -12,7 +12,7 @@ public class PhraseBuilderTests
         (
             new[]
             {
-                Baba.At(Origin),
+                BabaSubject.At(Origin),
                 ToBe.At(Middle),
                 You.At(Right),
                 And.At((3,0)),

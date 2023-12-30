@@ -4,6 +4,7 @@ namespace FunctionalBabaIsYou;
 
 public readonly struct PlacedBlock
 {
+    public const string SubjectSuffix = "Subject";
     public readonly Coordinate whereIs;
     public readonly string whatDepicts;
     public int Y => whereIs.y;
@@ -16,13 +17,12 @@ public readonly struct PlacedBlock
     }
     
     public bool Means(string something) => whatDepicts == something;
-    public bool Means(PlacedBlock something) => whatDepicts == something.whatDepicts;
+    public Movement Moving(Direction towards) => new(this, towards);
+    public PlacedBlock AsSubject() => (whereIs, whatDepicts + SubjectSuffix);
 
     public static implicit operator (Coordinate whereIs, string whatDepicts)(PlacedBlock placedBlock) =>
         (placedBlock.whereIs, placedBlock.whatDepicts);
 
     public static implicit operator PlacedBlock((Coordinate whereIs, string whatDepicts) block) =>
         new(block.whereIs, block.whatDepicts);
-
-    public Movement Moving(Direction towards) => new(this, towards);
 }
