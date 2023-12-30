@@ -24,7 +24,6 @@ public record World
     Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate movingTo)
         => block => PushableAhead(block, movingTo).SelectMany(OtherThanYou);
 
-    bool IsPushable(Coordinate at) => OtherThanYou(at).Any() && OtherThanYou(at).All(IsPushable);
     IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.At(where).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(MoveUntilStop(towards));
