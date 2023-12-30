@@ -35,7 +35,7 @@ internal class DefinitionSearch
 
     Option<PlacedBlock> NextDefinition(PlacedBlock from) => ConjunctionAfter(from).Map(BlockAfter).IfNone(None);
     Option<PlacedBlock> ConjunctionAfter(PlacedBlock block) => BlockAfter(block).Where(IsConjunction);
-    Option<PlacedBlock> BlockAfter(PlacedBlock from) => Block(ToTheRight(from));
+    Option<PlacedBlock> BlockAfter(PlacedBlock from) => Block(ToTheRight(from)).Match(Some, () => Block(Down(from)));
     static bool IsConjunction(PlacedBlock block) => block.Means(Conjunction);
     static Coordinate ToTheRight(PlacedBlock block) => (block.X + 1, block.Y);
     static Coordinate Down(PlacedBlock block) => (block.X, block.Y - 1);

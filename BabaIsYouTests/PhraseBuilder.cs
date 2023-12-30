@@ -30,7 +30,7 @@ public static class PhraseBuilder
 
     public static IEnumerable<PlacedBlock> RockIsPush
         => new[] { Rock.AtOrigin().AsSubject(), ToBe.AtMiddle(), Push.AtRight() };
-    
+
     public static IEnumerable<PlacedBlock> WallIsStop
         => new[] { Wall.AtOrigin().AsSubject(), ToBe.AtMiddle(), Stop.AtRight() };
 
@@ -51,7 +51,7 @@ public static class PhraseBuilder
     public static IEnumerable<PlacedBlock> Down(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
         => blocks.Select(x => (PlacedBlock)((x.whereIs.X, x.whereIs.Y - howManyTimes), x.whatDepicts));
-    
+
     public static IEnumerable<PlacedBlock> Up(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
         => blocks.Select(x => (PlacedBlock)((x.whereIs.X, x.whereIs.Y + howManyTimes), x.whatDepicts));
@@ -64,15 +64,19 @@ public static class PhraseBuilder
 
     public static PlacedBlock MoveToLeft(this PlacedBlock block, int howManyTimes)
         => ((block.whereIs.X - howManyTimes, block.whereIs.Y), block.whatDepicts);
-    
+
     public static IEnumerable<PlacedBlock> AndRock(this IEnumerable<PlacedBlock> blocks)
         => blocks.AppendConjunction().AppendDefinition(Rock);
-    
+
     public static IEnumerable<PlacedBlock> AndPush(this IEnumerable<PlacedBlock> blocks)
         => blocks.AppendConjunction().AppendDefinition(Push);
-    
+
     public static IEnumerable<PlacedBlock> AppendDefinition(this IEnumerable<PlacedBlock> blocks, string definition)
         => blocks.Append(definition.At(blocks.Last().whereIs + Direction.Right));
+
     public static IEnumerable<PlacedBlock> AppendConjunction(this IEnumerable<PlacedBlock> blocks)
         => blocks.Append(And.At(blocks.Last().whereIs + Direction.Right));
+    
+    public static IEnumerable<PlacedBlock> Vertically(this IEnumerable<PlacedBlock> blocks)
+        => blocks.Select(block => (PlacedBlock)((block.whereIs.Y, -block.whereIs.X), block.whatDepicts));
 }

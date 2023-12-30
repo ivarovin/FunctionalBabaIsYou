@@ -18,6 +18,12 @@ public class MultipleDefinitionsTests
     }
     
     [Test]
+    public void Subject_CanHave_MultipleDefinitions_Vertically()
+    {
+        BabaIsYou.AndRock().Vertically().AllDefinitionsOf(Baba.AtSomewhere()).Should().HaveCount(2);
+    }
+    
+    [Test]
     public void SecondDefinition_CannotBeApplied_IfConjunction_IsAlone()
     {
         BabaIsYou.AppendConjunction().AllDefinitionsOf(Baba.AtSomewhere()).Should().HaveCount(1);
