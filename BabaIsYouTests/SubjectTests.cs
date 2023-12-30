@@ -8,7 +8,7 @@ public class SubjectTests
     [Test]
     public void Subject_CanMean_MultipleThings()
     {
-        BabaIsYou.AndRock().DefinitionOf(Baba.AtSomewhere()).Means(You).Should().BeTrue();
-        BabaIsYou.AndRock().DefinitionOf(Baba.AtSomewhere()).Means(Rock).Should().BeTrue();
+        PlacedBlock.CreateDepicting(You, Rock).Means(You).Should().BeTrue();
+        PlacedBlock.CreateDepicting(You, Rock).Means(Rock).Should().BeTrue();
     }
 }

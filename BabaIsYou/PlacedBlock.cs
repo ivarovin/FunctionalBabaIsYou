@@ -15,7 +15,7 @@ public readonly struct PlacedBlock
         this.whereIs = whereIs;
         this.allThatDepicts = new[] { whatDepicts };
     }
-    
+
     PlacedBlock(Coordinate whereIs, IEnumerable<string> allThatDepicts)
     {
         this.whereIs = whereIs;
@@ -32,11 +32,13 @@ public readonly struct PlacedBlock
 
     public static implicit operator PlacedBlock((Coordinate whereIs, string whatDepicts) block) =>
         new(block.whereIs, block.whatDepicts);
-    
+
     public static implicit operator PlacedBlock((Coordinate whereIs, IEnumerable<string> allThatDepicts) block) =>
         new(block.whereIs, block.allThatDepicts);
 
     public override bool Equals(object? other)
         => other is PlacedBlock block && whereIs.Equals(block.whereIs) &&
            allThatDepicts.SequenceEqual(block.allThatDepicts);
+
+    public static PlacedBlock CreateDepicting(params string[] whatDepicts) => ((0, 0), whatDepicts);
 }
