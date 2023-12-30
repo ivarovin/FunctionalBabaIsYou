@@ -1,4 +1,3 @@
-using System.Reflection.PortableExecutable;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using static FunctionalBabaIsYou.Sight;
