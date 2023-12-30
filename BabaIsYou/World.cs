@@ -29,8 +29,8 @@ public record World
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> YouTowards(Coordinate towards) => You().Select(MoveUntilStop(towards));
 
-    Func<PlacedBlock, PlacedBlock> MoveUntilStop(Coordinate towards) =>
-        block => CanMove(block, towards) ? Move(towards)(block) : block;
+    Func<PlacedBlock, PlacedBlock> MoveUntilStop(Coordinate towards)
+        => who => CanMove(who, towards) ? Move(towards)(who) : who;
 
     bool CanMove(PlacedBlock block, Coordinate towards) => !BlocksAt(LastElementAhead(block, towards)).Any(IsStop);
     static bool IsStop(PlacedBlock who) => who.Means(PhraseBuilder.Stop);
@@ -40,15 +40,13 @@ public record World
             ? PushableAhead(from, towards).Last() + towards
             : from.whereIs + towards;
 
-    IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards)
-    {
-        var result = new List<Coordinate> { from.whereIs + towards };
+    IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards) 
+        => all.Where(IsAhead(from, towards)).Where(IsPushable).Map(Position);
 
-        while (IsPushable(result.Last() + towards))
-            result.Add(result.Last() + towards);
+    Coordinate Position(PlacedBlock block) => block.whereIs;
 
-        return result.Where(IsPushable);
-    }
+    Func<PlacedBlock, bool> IsAhead(PlacedBlock from, Direction towards)
+        => to => (to.whereIs - (to.whereIs - from.whereIs) * towards).Equals(from.whereIs);
 
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
     Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
