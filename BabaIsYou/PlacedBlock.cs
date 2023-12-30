@@ -22,8 +22,8 @@ public readonly struct PlacedBlock
         this.allThatDepicts = allThatDepicts;
     }
 
-    public bool Means(string something) => allThatDepicts.Contains(something);
-    public bool Means(PlacedBlock other) => whatDepicts.Contains(other.whatDepicts);
+    public bool Means(string something) => allThatDepicts.Any(block => block.Contains(something));
+    public bool Means(PlacedBlock other) => other.allThatDepicts.All(Means);
     public Movement Moving(Direction towards) => new(this, towards);
     public PlacedBlock AsSubject() => (whereIs, whatDepicts + SubjectSuffix);
 
