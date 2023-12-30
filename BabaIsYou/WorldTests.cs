@@ -19,7 +19,7 @@ public class WorldTests
     public void Move_IsNotPossible_IfYou_AreNotDefined()
     {
         IntroduceToWorld(Baba.AtOrigin()).Build()
-            .MoveTowards(Left)
+            .Move(Left)
             .BlocksAt(Origin)
             .Should().HaveCount(1);
     }
@@ -28,7 +28,7 @@ public class WorldTests
     public void Move_TowardsDirection_IfYou_AreDefined()
     {
         IntroduceToWorld(Baba.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
-            .MoveTowards(Up)
+            .Move(Up)
             .BlocksAt(Origin)
             .Should().HaveCount(0);
     }
@@ -37,7 +37,7 @@ public class WorldTests
     public void OnlyYou_Moves()
     {
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin()).AndBlocks(BabaIsYou.MoveToRight()).Build()
-            .MoveTowards(Up)
+            .Move(Up)
             .BlocksAt(Origin)
             .Should().Contain(Rock.AtOrigin())
             .And.NotContain(Baba.AtOrigin());
@@ -116,7 +116,7 @@ public class WorldTests
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtOrigin())
             .AndBlocks(BabaIsYou.Down())
             .AndBlocks(RockIsDefeat.Up()).Build()
-            .MoveTowards(None)
+            .Move(None)
             .BlocksAt(Origin).Should().HaveCount(1);
     }
 
@@ -126,7 +126,7 @@ public class WorldTests
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle())
             .AndBlocks(BabaIsYou.Down())
             .AndBlocks(RockIsDefeat.Up()).Build()
-            .MoveTowards(Direction.Right)
+            .Move(Direction.Right)
             .BlocksAt(Middle).Should().HaveCount(1);
     }
 }

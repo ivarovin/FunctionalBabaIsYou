@@ -10,21 +10,18 @@ public record World
     IEnumerable<PlacedBlock> Wins => all.Where(IsWin);
     public World(IEnumerable<PlacedBlock> all) => this.all = all;
 
-    public World MoveTowards(Direction direction) => new
+    public World Move(Direction towards) => new
     (
         all.Except(You())
-            .Concat(MoveYou(direction))
-            .Except(DefeatedAt(direction))
-            .Except(PushableByYou(direction))
-            .Concat(PushableByYou(direction).Select(x => x.Moving(direction).Commit()))
+            .Concat(MoveYou(towards))
+            .Except(DefeatedAt(towards))
+            .Except(PushableByYou(towards))
+            .Concat(PushableByYou(towards).Select(block => block.Moving(towards).Commit()))
     );
 
     IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => You().SelectMany(InFront(movingTo));
-
-    Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate towards)
-        => block => PushableAhead(block.Moving(towards)).SelectMany(OtherThanYou);
-
-    IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.At(where).Where(IsNotYou);
+    Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate towards) => block => PushableAhead(block.Moving(towards)).SelectMany(OtherThanYou);
+    IEnumerable<PlacedBlock> OtherThanYou(Coordinate position) => all.At(position).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> MoveYou(Coordinate towards) => You().Select(who => TryMove(who.Moving(towards)));
     PlacedBlock TryMove(Movement move) => CanMove(move) ? move.Commit() : move.Who;

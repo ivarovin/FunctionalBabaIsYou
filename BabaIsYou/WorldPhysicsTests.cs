@@ -14,7 +14,7 @@ public class WorldPhysicsTests
             .AndBlocks(BabaIsYou.Down())
             .AndBlocks(RockIsPush.Up())
             .Build()
-            .MoveTowards(Direction.Right)
+            .Move(Direction.Right)
             .BlocksAt(Middle).Should().HaveCount(1).And.Contain(Baba.AtMiddle());
     }
 
@@ -24,7 +24,7 @@ public class WorldPhysicsTests
         IntroduceToWorld(Baba.AtOrigin(), Rock.AtMiddle())
             .AndBlocks(BabaIsYou.Up())
             .Build()
-            .MoveTowards(Direction.Right)
+            .Move(Direction.Right)
             .BlocksAt(Middle).Should().HaveCount(2);
     }
 
@@ -35,7 +35,7 @@ public class WorldPhysicsTests
             .AndBlocks(BabaIsYou.Up())
             .AndBlocks(RockIsPush.Down())
             .Build()
-            .MoveTowards(Direction.Right);
+            .Move(Direction.Right);
 
         sut.BlocksAt((1, 0)).Should().HaveCount(1).And.Contain(Baba.At(1, 0));
         sut.BlocksAt((2, 0)).Should().HaveCount(1).And.Contain(Push.At(2, 0));
@@ -49,7 +49,7 @@ public class WorldPhysicsTests
             .AndBlocks(BabaIsYou.MoveToRight())
             .AndBlocks(RockIsPush.Down())
             .Build()
-            .MoveTowards(Up);
+            .Move(Up);
 
         sut.BlocksAt((0, 1)).Should().HaveCount(1).And.Contain(Baba.At(0, 1));
         sut.BlocksAt((0, 2)).Should().HaveCount(1).And.Contain(Push.At(0, 2));
@@ -63,7 +63,7 @@ public class WorldPhysicsTests
             .AndBlocks(BabaIsYou.Up())
             .AndBlocks(WallIsStop.Down())
             .Build()
-            .MoveTowards(Direction.Right)
+            .Move(Direction.Right)
             .BlocksAt(Origin).Should().HaveCount(1);
     }
 
@@ -75,7 +75,7 @@ public class WorldPhysicsTests
             .AndBlocks(WallIsStop.Down())
             .AndBlocks(RockIsPush.Up().Up())
             .Build()
-            .MoveTowards(Direction.Right)
+            .Move(Direction.Right)
             .BlocksAt(Origin).Should().HaveCount(1);
     }
 }
