@@ -22,20 +22,20 @@ public record World
     IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => You().SelectMany(InFront(movingTo));
 
     Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate movingTo)
-        => block => PushableAhead(block, movingTo).SelectMany(OtherThanYou);
+        => block => PushableAhead(new(block, movingTo)).SelectMany(OtherThanYou);
 
     IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.At(where).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
     IEnumerable<PlacedBlock> MoveYou(Coordinate towards) => You().Select(who => TryMove(who, towards));
     PlacedBlock TryMove(PlacedBlock who, Coordinate towards) => CanMove(who, towards) ? Move(towards)(who) : who;
-    bool CanMove(PlacedBlock block, Coordinate towards) => !BlocksAt(LastElementAhead(block, towards)).Any(IsStop);
+    bool CanMove(PlacedBlock block, Coordinate towards) => !BlocksAt(AfterLastPushable(block, towards)).Any(IsStop);
     static bool IsStop(PlacedBlock who) => who.Means(PhraseBuilder.Stop);
 
-    Coordinate LastElementAhead(PlacedBlock from, Coordinate towards)
-        => PushableAhead(from, towards).LastOr(from.whereIs) + towards;
+    Coordinate AfterLastPushable(PlacedBlock from, Coordinate towards) =>
+        PushableAhead(new(from, towards)).LastOr(from.whereIs) + towards;
 
-    IEnumerable<Coordinate> PushableAhead(PlacedBlock from, Coordinate towards)
-        => all.Where(IsAhead(from, towards)).Where(IsPushable).Map(Position);
+    IEnumerable<Coordinate> PushableAhead(Movement move) =>
+        all.Where(IsAhead(move)).Where(IsPushable).Map(Position);
 
     Coordinate Position(PlacedBlock block) => block.whereIs;
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);

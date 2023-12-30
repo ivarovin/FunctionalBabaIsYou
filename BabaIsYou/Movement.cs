@@ -1,0 +1,13 @@
+namespace FunctionalBabaIsYou.Tests;
+
+public readonly struct Movement
+{
+    public readonly PlacedBlock Who;
+    public readonly Coordinate Direction;
+
+    public Movement(PlacedBlock who, Coordinate direction)
+    {
+        this.Who = who;
+        this.Direction = direction;
+    }
+}
