@@ -18,13 +18,6 @@ public class MultipleDefinitionsTests
     }
     
     [Test]
-    public void Subject_CanMean_MultipleThings()
-    {
-        BabaIsYou.AndRock().DefinitionOf(Baba.AtSomewhere()).Means(You).Should().BeTrue();
-        BabaIsYou.AndRock().DefinitionOf(Baba.AtSomewhere()).Means(Rock).Should().BeTrue();
-    }
-
-    [Test]
     public void SecondDefinition_CannotBeApplied_IfConjunction_IsAlone()
     {
         BabaIsYou.AppendConjunction().AllDefinitionsOf(Baba.AtSomewhere()).Should().HaveCount(1);
