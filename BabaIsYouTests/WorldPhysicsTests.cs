@@ -46,7 +46,7 @@ public class WorldPhysicsTests
     public void Push_TwoBlocks_Upwards()
     {
         var sut = IntroduceToWorld(Baba.AtOrigin(), Rock.At(0, 1), Rock.At(0, 2))
-            .AndBlocks(BabaIsYou.MoveToRight())
+            .AndBlocks(BabaIsYou.MoveToRight(4))
             .AndBlocks(RockIsPush.Down())
             .Build()
             .Move(Up);

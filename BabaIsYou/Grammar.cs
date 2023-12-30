@@ -4,7 +4,7 @@ internal static class Grammar
 {
     public static string DefinitionOf(this IEnumerable<PlacedBlock> blocks, string subject)
         => new DefinitionSearch(blocks, ((2, 0), subject))
-            .Definition.Match
+            .Definition.FirstSome().Match
             (
                 x => x.whatDepicts,
                 () => subject
@@ -12,7 +12,7 @@ internal static class Grammar
 
     public static PlacedBlock DefinitionOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
         => new DefinitionSearch(blocks, subject)
-            .Definition.Match
+            .Definition.FirstSome().Match
             (
                 _ => (subject.whereIs, new DefinitionSearch(blocks, subject).AllDefinitions.Select(x => x.whatDepicts)),
                 () => subject

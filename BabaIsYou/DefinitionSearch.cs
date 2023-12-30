@@ -8,11 +8,11 @@ internal class DefinitionSearch
 {
     readonly IEnumerable<PlacedBlock> blocks;
     readonly PlacedBlock subject;
-    
-    public IEnumerable<PlacedBlock> AllDefinitions => JoinWithNextDefinition(Definition);
-    public Option<PlacedBlock> Definition => WhereIsDefinition.Bind(Block);
-    Option<Coordinate> WhereIsDefinition => LinkingVerb.Map(ToTheRight);
-    Option<PlacedBlock> LinkingVerb => blocks.Where(IsLinkingVerb).FirstOrNone(AtRightOfSubject);
+
+    public IEnumerable<PlacedBlock> AllDefinitions => Definition.SelectMany(JoinWithNextDefinition);
+    public IEnumerable<Option<PlacedBlock>> Definition => WhereIsDefinition.Map(Block);
+    IEnumerable<Coordinate> WhereIsDefinition => LinkingVerb.Map(ToTheRight).Append(LinkingVerb.Map(Down));
+    Option<PlacedBlock> LinkingVerb => blocks.Where(IsLinkingVerb).FirstOrNone(LinkedToSubject);
 
     public DefinitionSearch(IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
     {
@@ -21,7 +21,9 @@ internal class DefinitionSearch
     }
 
     static bool IsLinkingVerb(PlacedBlock block) => block.Means(Vocabulary.LinkingVerb);
-    bool AtRightOfSubject(PlacedBlock what) => Subject.Any(subject => subject.X == what.X - 1 && subject.Y == what.Y);
+    bool LinkedToSubject(PlacedBlock what) => Subject.Any(AtLeft(what)) || Subject.Any(Over(what));
+    Func<PlacedBlock, bool> AtLeft(PlacedBlock ofWhat) => block => block.X == ofWhat.X - 1 && block.Y == ofWhat.Y;
+    Func<PlacedBlock, bool> Over(PlacedBlock ofWhat) => block => block.X == ofWhat.X && block.Y == ofWhat.Y + 1;
     IEnumerable<PlacedBlock> Subject => blocks.Where(IsSubject);
     bool IsSubject(PlacedBlock who) => who.Means(subject) && !who.Equals(subject);
 
@@ -36,5 +38,6 @@ internal class DefinitionSearch
     Option<PlacedBlock> BlockAfter(PlacedBlock from) => Block(ToTheRight(from));
     static bool IsConjunction(PlacedBlock block) => block.Means(Conjunction);
     static Coordinate ToTheRight(PlacedBlock block) => (block.X + 1, block.Y);
+    static Coordinate Down(PlacedBlock block) => (block.X, block.Y - 1);
     Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
 }

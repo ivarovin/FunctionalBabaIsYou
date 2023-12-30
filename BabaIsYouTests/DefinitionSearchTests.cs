@@ -140,4 +140,17 @@ public class DefinitionSearchTests
             .AllDefinitionsOf(Rock.AtOrigin())
             .Should().Contain(Push);
     }
+
+    [Test]
+    public void AttachDefinition_ToSubject_Vertically()
+    {
+        new[]
+            {
+                BabaSubject.AtOrigin(),
+                ToBe.AtOrigin().MoveDown(),
+                You.AtOrigin().MoveDown(2)
+            }
+            .DefinitionOf(Baba.AtSomewhere())
+            .Means(You).Should().BeTrue();
+    }
 }
