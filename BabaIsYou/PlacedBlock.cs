@@ -5,14 +5,15 @@ public readonly struct PlacedBlock
     const string SubjectSuffix = "Subject";
 
     public readonly Coordinate whereIs;
-    public readonly string whatDepicts;
+    public string whatDepicts => allThatDepicts.First();
+    public readonly IEnumerable<string> allThatDepicts;
     public int Y => whereIs.Y;
     public int X => whereIs.X;
 
     PlacedBlock(Coordinate whereIs, string whatDepicts)
     {
         this.whereIs = whereIs;
-        this.whatDepicts = whatDepicts;
+        this.allThatDepicts = new[] { whatDepicts };
     }
 
     public bool Means(string something) => whatDepicts.Contains(something);
@@ -25,4 +26,8 @@ public readonly struct PlacedBlock
 
     public static implicit operator PlacedBlock((Coordinate whereIs, string whatDepicts) block) =>
         new(block.whereIs, block.whatDepicts);
+
+    public override bool Equals(object? other)
+        => other is PlacedBlock block && whereIs.Equals(block.whereIs) &&
+           allThatDepicts.SequenceEqual(block.allThatDepicts);
 }
