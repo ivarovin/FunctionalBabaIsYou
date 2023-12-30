@@ -18,6 +18,6 @@ internal static class Grammar
                 () => subject
             );
 
-    public static IEnumerable<string> AllDefinitionsOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
+    public static IEnumerable<string> AllDefinitionsOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject) 
         => new DefinitionSearch(blocks, subject).AllDefinitions.SelectMany(x => x.WhatDepicts);
 }

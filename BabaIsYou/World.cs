@@ -12,12 +12,8 @@ public record World
     public World(IEnumerable<PlacedBlock> all) => this.all = all;
     bool IsWin(PlacedBlock actor) => all.DefinitionOf(actor).Means(Win);
 
-    public World Move(Direction towards) => new
-    (
-        all.Replace(AllOfYou(), MovedYou(towards))
-            .Except(DefeatedAt(towards))
-            .Replace(ToBePushed(towards), Push(towards))
-    );
+    public World Move(Direction to)
+        => new(all.Replace(AllOfYou(), MovedYou(to)).Except(DefeatedAt(to)).Replace(ToBePushed(to), Push(to)));
 
     IEnumerable<PlacedBlock> Push(Direction towards) => ToBePushed(towards).Select(Step(towards));
     Func<PlacedBlock, PlacedBlock> Step(Direction towards) => block => block.Moving(towards).Commit();

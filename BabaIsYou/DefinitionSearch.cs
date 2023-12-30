@@ -8,11 +8,10 @@ internal class DefinitionSearch
 {
     readonly IEnumerable<PlacedBlock> blocks;
     readonly PlacedBlock subject;
-
     public IEnumerable<PlacedBlock> AllDefinitions => Definition.SelectMany(JoinWithNextDefinition);
     public IEnumerable<Option<PlacedBlock>> Definition => WhereIsDefinition.Map(Block);
     IEnumerable<Coordinate> WhereIsDefinition => LinkingVerb.Map(ToTheRight).Append(LinkingVerb.Map(Down));
-    Option<PlacedBlock> LinkingVerb => blocks.Where(IsLinkingVerb).FirstOrNone(LinkedToSubject);
+    IEnumerable<PlacedBlock> LinkingVerb => blocks.Where(IsLinkingVerb).Where(LinkedToSubject);
 
     public DefinitionSearch(IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
     {
