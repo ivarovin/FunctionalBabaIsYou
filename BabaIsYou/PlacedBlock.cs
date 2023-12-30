@@ -23,4 +23,6 @@ public readonly struct PlacedBlock
 
     public static implicit operator PlacedBlock((Coordinate whereIs, string whatDepicts) block) =>
         new(block.whereIs, block.whatDepicts);
+
+    public Movement Moving(Direction towards) => new(this, towards);
 }

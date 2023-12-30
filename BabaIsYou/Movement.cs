@@ -10,4 +10,6 @@ public readonly struct Movement
         this.Who = who;
         this.Direction = direction;
     }
+
+    public PlacedBlock Commit() => (Who.whereIs + Direction, Who.whatDepicts);
 }

@@ -16,30 +16,24 @@ public record World
             .Concat(MoveYou(direction))
             .Except(DefeatedAt(direction))
             .Except(PushableByYou(direction))
-            .Concat(PushableByYou(direction).Select(Move(direction)))
+            .Concat(PushableByYou(direction).Select(x => x.Moving(direction).Commit()))
     );
 
     IEnumerable<PlacedBlock> PushableByYou(Coordinate movingTo) => You().SelectMany(InFront(movingTo));
 
-    Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate movingTo)
-        => block => PushableAhead(new(block, movingTo)).SelectMany(OtherThanYou);
+    Func<PlacedBlock, IEnumerable<PlacedBlock>> InFront(Coordinate towards)
+        => block => PushableAhead(block.Moving(towards)).SelectMany(OtherThanYou);
 
     IEnumerable<PlacedBlock> OtherThanYou(Coordinate where) => all.At(where).Where(IsNotYou);
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(PhraseBuilder.Push);
-    IEnumerable<PlacedBlock> MoveYou(Coordinate towards) => You().Select(who => TryMove(who, towards));
-    PlacedBlock TryMove(PlacedBlock who, Coordinate towards) => CanMove(who, towards) ? Move(towards)(who) : who;
-    bool CanMove(PlacedBlock block, Coordinate towards) => !BlocksAt(AfterLastPushable(block, towards)).Any(IsStop);
+    IEnumerable<PlacedBlock> MoveYou(Coordinate towards) => You().Select(who => TryMove(who.Moving(towards)));
+    PlacedBlock TryMove(Movement move) => CanMove(move) ? move.Commit() : move.Who;
+    bool CanMove(Movement move) => !BlocksAt(AfterLastPushable(move)).Any(IsStop);
     static bool IsStop(PlacedBlock who) => who.Means(PhraseBuilder.Stop);
-
-    Coordinate AfterLastPushable(PlacedBlock from, Coordinate towards) =>
-        PushableAhead(new(from, towards)).LastOr(from.whereIs) + towards;
-
-    IEnumerable<Coordinate> PushableAhead(Movement move) =>
-        all.Where(IsAhead(move)).Where(IsPushable).Map(Position);
-
+    Coordinate AfterLastPushable(Movement move) => PushableAhead(move).LastOr(move.Who.whereIs) + move.Direction;
+    IEnumerable<Coordinate> PushableAhead(Movement move) => all.Where(IsAhead(move)).Where(IsPushable).Map(Position);
     Coordinate Position(PlacedBlock block) => block.whereIs;
     IEnumerable<PlacedBlock> You() => all.Where(IsYou);
-    Func<PlacedBlock, PlacedBlock> Move(Coordinate direction) => from => (from.whereIs + direction, from.whatDepicts);
     bool IsNotYou(PlacedBlock actor) => !IsYou(actor);
     bool IsYou(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.You);
     bool IsWin(PlacedBlock actor) => all.DefinitionOf(actor).Means(PhraseBuilder.Win);
