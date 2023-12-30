@@ -124,13 +124,13 @@ public class DefinitionSearchTests
     public void Find_DefinitionOf_PlacedBlock()
     {
         BabaIsYou.DefinitionOf(Baba.AtMiddle()).whereIs.Should().Be(Middle);
-        BabaIsYou.DefinitionOf(Baba.AtMiddle()).whatDepicts.Should().Be(You);
+        BabaIsYou.DefinitionOf(Baba.AtMiddle()).Means(You).Should().BeTrue();
     }
 
     [Test]
     public void Block_UsedAsSubject_DoesNotHave_Definition()
     {
-        BabaIsYou.DefinitionOf(BabaSubject.AtOrigin()).whatDepicts.Should().Be(BabaSubject);
+        BabaIsYou.DefinitionOf(BabaSubject.AtOrigin()).Means(BabaSubject).Should().BeTrue();
     }
 
     [Test]
