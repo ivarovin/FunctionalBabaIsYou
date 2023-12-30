@@ -1,5 +1,6 @@
 using FunctionalBabaIsYou.Tests;
 using LanguageExt;
+using static FunctionalBabaIsYou.Vocabulary;
 using static LanguageExt.Option<FunctionalBabaIsYou.PlacedBlock>;
 
 namespace FunctionalBabaIsYou;
@@ -18,13 +19,10 @@ public class DefinitionSearch
         this.subject = subject;
     }
 
-    static bool IsLinkingVerb(PlacedBlock x) => x.whatDepicts == "is";
-    static bool IsConjunction(PlacedBlock x) => x.whatDepicts == "and";
-    bool AtRightOfSubject(PlacedBlock block) => Subject.Any(AtLeftOf(block));
-    static Func<PlacedBlock, bool> AtLeftOf(PlacedBlock what) => block => block.X == what.X - 1 && block.Y == what.Y;
+    static bool IsLinkingVerb(PlacedBlock block) => block.Means(Vocabulary.LinkingVerb);
+    bool AtRightOfSubject(PlacedBlock what) => Subject.Any(subject => subject.X == what.X - 1 && subject.Y == what.Y);
     IEnumerable<PlacedBlock> Subject => blocks.Where(IsSubject);
-    bool IsSubject(PlacedBlock who) 
-        => who.whatDepicts.EndsWith("Subject") && who.whatDepicts.Contains(subject.whatDepicts) && !who.Equals(subject);
+    bool IsSubject(PlacedBlock who) => who.whatDepicts.Contains(subject.whatDepicts) && !who.Equals(subject);
     public IEnumerable<PlacedBlock> AllDefinitions() => DefinitionsAfter(Definition).Append(Definition);
 
     IEnumerable<PlacedBlock> DefinitionsAfter(Option<PlacedBlock> from)
@@ -36,7 +34,8 @@ public class DefinitionSearch
 
     Option<PlacedBlock> NextDefinition(PlacedBlock from) => ConjunctionAfter(from).Map(BlockAfter).IfNone(None);
     Option<PlacedBlock> ConjunctionAfter(PlacedBlock block) => BlockAfter(block).Where(IsConjunction);
-    static Coordinate ToTheRight(PlacedBlock x) => (x.X + 1, x.Y);
-    Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
     Option<PlacedBlock> BlockAfter(PlacedBlock from) => Block(ToTheRight(from));
+    static bool IsConjunction(PlacedBlock block) => block.Means(Conjunction);
+    static Coordinate ToTheRight(PlacedBlock block) => (block.X + 1, block.Y);
+    Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
 }

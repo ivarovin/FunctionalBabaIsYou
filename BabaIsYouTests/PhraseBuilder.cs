@@ -2,19 +2,19 @@ namespace FunctionalBabaIsYou.Tests;
 
 public static class PhraseBuilder
 {
-    public static string You => "You";
-    public static string Win => "Win";
-    public static string ToBe => "is";
-    public static string And => "and";
+    public static string You => Vocabulary.You;
+    public static string Win => Vocabulary.Win;
+    public static string ToBe => Vocabulary.LinkingVerb;
+    public static string And => Vocabulary.Conjunction;
     public static string Baba => "Baba";
     public static string BabaSubject => "BabaSubject";
     public static string Wall => "Wall";
     public static string Flag => "Flag";
     public static string Rock => "Rock";
     public static string RockSubject => "RockSubject";
-    public static string Push => "Push";
-    public static string Stop => "Stop";
-    public static string Defeat => "Defeat";
+    public static string Push => Vocabulary.Push;
+    public static string Stop => Vocabulary.Stop;
+    public static string Defeat => Vocabulary.Defeat;
     public static Coordinate Origin => (0, 0);
     public static Coordinate Middle => (1, 0);
     public static Coordinate Right => (2, 0);
