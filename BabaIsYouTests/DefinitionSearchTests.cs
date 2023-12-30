@@ -3,9 +3,6 @@ using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 
 namespace FunctionalBabaIsYou.Tests.Grammar;
 
-//Objetivo final
-//1. Formar una frase de arriba a abajo
-
 public class DefinitionSearchTests
 {
     [Test]
