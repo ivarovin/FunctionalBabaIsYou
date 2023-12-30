@@ -9,9 +9,7 @@ public static class PhraseBuilder
     public static string Baba => "Baba";
     public static string BabaSubject => "BabaSubject";
     public static string Wall => "Wall";
-    public static string WallSubject => "WallSubject";
     public static string Flag => "Flag";
-    public static string FlagSubject => "FlagSubject";
     public static string Rock => "Rock";
     public static string RockSubject => "RockSubject";
     public static string Push => "Push";
@@ -22,22 +20,22 @@ public static class PhraseBuilder
     public static Coordinate Right => (2, 0);
 
     public static IEnumerable<PlacedBlock> BabaIsYou
-        => new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle(), You.AtRight() };
+        => new[] { Baba.AtOrigin().AsSubject(), ToBe.AtMiddle(), You.AtRight() };
 
     public static IEnumerable<PlacedBlock> FlagIsWin
-        => new[] { FlagSubject.AtOrigin(), ToBe.AtMiddle(), Win.AtRight() };
+        => new[] { Flag.AtOrigin().AsSubject(), ToBe.AtMiddle(), Win.AtRight() };
 
     public static IEnumerable<PlacedBlock> BabaIsRock
-        => new[] { BabaSubject.AtOrigin(), ToBe.AtMiddle(), Rock.AtRight() };
+        => new[] { Baba.AtOrigin().AsSubject(), ToBe.AtMiddle(), Rock.AtRight() };
 
     public static IEnumerable<PlacedBlock> RockIsPush
-        => new[] { RockSubject.AtOrigin(), ToBe.AtMiddle(), Push.AtRight() };
+        => new[] { Rock.AtOrigin().AsSubject(), ToBe.AtMiddle(), Push.AtRight() };
     
     public static IEnumerable<PlacedBlock> WallIsStop
-        => new[] { WallSubject.AtOrigin(), ToBe.AtMiddle(), Stop.AtRight() };
+        => new[] { Wall.AtOrigin().AsSubject(), ToBe.AtMiddle(), Stop.AtRight() };
 
     public static IEnumerable<PlacedBlock> RockIsDefeat
-        => new[] { RockSubject.AtOrigin(), ToBe.AtMiddle(), Defeat.AtRight() };
+        => new[] { Rock.AtOrigin().AsSubject(), ToBe.AtMiddle(), Defeat.AtRight() };
 
     public static PlacedBlock At(this string what, int x, int y) => ((x, y), what);
     public static PlacedBlock At(this string what, Coordinate where) => (where, what);
