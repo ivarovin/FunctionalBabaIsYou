@@ -123,7 +123,7 @@ public class DefinitionSearchTests
     [Test]
     public void Find_DefinitionOf_PlacedBlock()
     {
-        BabaIsYou.DefinitionOf(Baba.AtMiddle()).whereIs.Should().Be(Middle);
+        BabaIsYou.DefinitionOf(Baba.AtMiddle()).WhereIs.Should().Be(Middle);
         BabaIsYou.DefinitionOf(Baba.AtMiddle()).Means(You).Should().BeTrue();
     }
 

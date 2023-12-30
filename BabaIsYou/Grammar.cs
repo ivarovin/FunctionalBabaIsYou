@@ -6,7 +6,7 @@ internal static class Grammar
         => new DefinitionSearch(blocks, ((2, 0), subject))
             .Definition.FirstSome().Match
             (
-                x => x.allThatDepicts.First(),
+                x => x.WhatDepicts.First(),
                 () => subject
             );
 
@@ -14,10 +14,10 @@ internal static class Grammar
         => new DefinitionSearch(blocks, subject)
             .Definition.FirstSome().Match
             (
-                _ => (subject.whereIs, new DefinitionSearch(blocks, subject).AllDefinitions.Select(x => x.whatDepicts)),
+                _ => (whereIs: subject.WhereIs, new DefinitionSearch(blocks, subject).AllDefinitions.SelectMany(x => x.WhatDepicts)),
                 () => subject
             );
 
     public static IEnumerable<string> AllDefinitionsOf(this IEnumerable<PlacedBlock> blocks, PlacedBlock subject)
-        => new DefinitionSearch(blocks, subject).AllDefinitions.Select(x => x.whatDepicts);
+        => new DefinitionSearch(blocks, subject).AllDefinitions.SelectMany(x => x.WhatDepicts);
 }

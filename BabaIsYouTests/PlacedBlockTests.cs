@@ -22,6 +22,6 @@ public class PlacedBlockTests
     [Test]
     public void Keep_AllDefinitions_AfterMoving()
     {
-        PlacedBlock.CreateDepicting(You, Rock).Moving(Direction.Down).Commit().allThatDepicts.Should().HaveCount(2);
+        PlacedBlock.CreateDepicting(You, Rock).Moving(Direction.Down).Commit().WhatDepicts.Should().HaveCount(2);
     }
 }

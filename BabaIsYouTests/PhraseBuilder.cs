@@ -46,24 +46,24 @@ public static class PhraseBuilder
 
     public static IEnumerable<PlacedBlock> MoveToRight(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
-        => blocks.Select(x => (PlacedBlock)((x.whereIs.X + howManyTimes, x.whereIs.Y), x.whatDepicts));
+        => blocks.Select(x => (PlacedBlock)((x.WhereIs.X + howManyTimes, x.WhereIs.Y), x.WhatDepicts));
 
     public static IEnumerable<PlacedBlock> Down(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
-        => blocks.Select(x => (PlacedBlock)((x.whereIs.X, x.whereIs.Y - howManyTimes), x.whatDepicts));
+        => blocks.Select(x => (PlacedBlock)((x.WhereIs.X, x.WhereIs.Y - howManyTimes), x.WhatDepicts));
 
     public static IEnumerable<PlacedBlock> Up(
         this IEnumerable<PlacedBlock> blocks, int howManyTimes = 1)
-        => blocks.Select(x => (PlacedBlock)((x.whereIs.X, x.whereIs.Y + howManyTimes), x.whatDepicts));
+        => blocks.Select(x => (PlacedBlock)((x.WhereIs.X, x.WhereIs.Y + howManyTimes), x.WhatDepicts));
 
     public static PlacedBlock MoveDown(this PlacedBlock block, int howManyTimes = 1)
-        => ((block.whereIs.X, block.whereIs.Y - howManyTimes), block.whatDepicts);
+        => ((block.WhereIs.X, block.WhereIs.Y - howManyTimes), block.WhatDepicts);
 
     public static PlacedBlock MoveToRight(this PlacedBlock block, int howManyTimes)
-        => ((block.whereIs.X + howManyTimes, block.whereIs.Y), block.whatDepicts);
+        => ((block.WhereIs.X + howManyTimes, block.WhereIs.Y), block.WhatDepicts);
 
     public static PlacedBlock MoveToLeft(this PlacedBlock block, int howManyTimes)
-        => ((block.whereIs.X - howManyTimes, block.whereIs.Y), block.whatDepicts);
+        => ((block.WhereIs.X - howManyTimes, block.WhereIs.Y), block.WhatDepicts);
 
     public static IEnumerable<PlacedBlock> AndRock(this IEnumerable<PlacedBlock> blocks)
         => blocks.AppendConjunction().AppendDefinition(Rock);
@@ -72,11 +72,11 @@ public static class PhraseBuilder
         => blocks.AppendConjunction().AppendDefinition(Push);
 
     public static IEnumerable<PlacedBlock> AppendDefinition(this IEnumerable<PlacedBlock> blocks, string definition)
-        => blocks.Append(definition.At(blocks.Last().whereIs + Direction.Right));
+        => blocks.Append(definition.At(blocks.Last().WhereIs + Direction.Right));
 
     public static IEnumerable<PlacedBlock> AppendConjunction(this IEnumerable<PlacedBlock> blocks)
-        => blocks.Append(And.At(blocks.Last().whereIs + Direction.Right));
+        => blocks.Append(And.At(blocks.Last().WhereIs + Direction.Right));
     
     public static IEnumerable<PlacedBlock> Vertically(this IEnumerable<PlacedBlock> blocks)
-        => blocks.Select(block => (PlacedBlock)((block.whereIs.Y, -block.whereIs.X), block.whatDepicts));
+        => blocks.Select(block => (PlacedBlock)((block.WhereIs.Y, -block.WhereIs.X), block.WhatDepicts));
 }

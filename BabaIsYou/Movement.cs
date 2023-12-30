@@ -11,5 +11,5 @@ internal readonly struct Movement
         this.Direction = direction;
     }
 
-    public PlacedBlock Commit() => (Who.whereIs + Direction, Who.allThatDepicts);
+    public PlacedBlock Commit() => (Who.WhereIs + Direction, Who.WhatDepicts);
 }

@@ -4,31 +4,27 @@ public readonly struct PlacedBlock
 {
     const string SubjectSuffix = "Subject";
 
-    public readonly Coordinate whereIs;
-    public string whatDepicts => allThatDepicts.First();
-    public readonly IEnumerable<string> allThatDepicts;
-    public int Y => whereIs.Y;
-    public int X => whereIs.X;
+    public readonly Coordinate WhereIs;
+    public readonly IEnumerable<string> WhatDepicts;
+    public int Y => WhereIs.Y;
+    public int X => WhereIs.X;
 
     PlacedBlock(Coordinate whereIs, string whatDepicts)
     {
-        this.whereIs = whereIs;
-        this.allThatDepicts = new[] { whatDepicts };
+        this.WhereIs = whereIs;
+        this.WhatDepicts = new[] { whatDepicts };
     }
 
-    PlacedBlock(Coordinate whereIs, IEnumerable<string> allThatDepicts)
+    PlacedBlock(Coordinate whereIs, IEnumerable<string> whatDepicts)
     {
-        this.whereIs = whereIs;
-        this.allThatDepicts = allThatDepicts;
+        this.WhereIs = whereIs;
+        this.WhatDepicts = whatDepicts;
     }
 
-    public bool Means(string something) => allThatDepicts.Any(block => block.Contains(something));
-    public bool Means(PlacedBlock other) => other.allThatDepicts.All(Means);
+    public bool Means(string something) => WhatDepicts.Any(block => block.Contains(something));
+    public bool Means(PlacedBlock other) => other.WhatDepicts.All(Means);
     internal Movement Moving(Direction towards) => new(this, towards);
-    public PlacedBlock AsSubject() => (whereIs, allThatDepicts.First() + SubjectSuffix);
-
-    public static implicit operator (Coordinate whereIs, string whatDepicts)(PlacedBlock placedBlock) =>
-        (placedBlock.whereIs, placedBlock.whatDepicts);
+    public PlacedBlock AsSubject() => (WhereIs, WhatDepicts.First() + SubjectSuffix);
 
     public static implicit operator PlacedBlock((Coordinate whereIs, string whatDepicts) block) =>
         new(block.whereIs, block.whatDepicts);
@@ -37,8 +33,8 @@ public readonly struct PlacedBlock
         new(block.whereIs, block.allThatDepicts);
 
     public override bool Equals(object? other)
-        => other is PlacedBlock block && whereIs.Equals(block.whereIs) &&
-           allThatDepicts.SequenceEqual(block.allThatDepicts);
+        => other is PlacedBlock block && WhereIs.Equals(block.WhereIs) &&
+           WhatDepicts.SequenceEqual(block.WhatDepicts);
 
     public static PlacedBlock CreateDepicting(params string[] whatDepicts) => ((0, 0), whatDepicts);
 }

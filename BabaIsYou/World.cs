@@ -28,12 +28,12 @@ public record World
     bool CanMove(Movement move) => !IsStop(AfterLastPushable(move));
     bool IsStop(Coordinate at) => BlocksAt(at).Any(block => block.Means(Stop));
     public IEnumerable<PlacedBlock> BlocksAt(Coordinate where) => all.At(where).Select(all.DefinitionOf);
-    Coordinate AfterLastPushable(Movement move) => PushableAhead(move).LastOr(move.Who.whereIs) + move.Direction;
+    Coordinate AfterLastPushable(Movement move) => PushableAhead(move).LastOr(move.Who.WhereIs) + move.Direction;
     IEnumerable<Coordinate> PushableAhead(Movement move) => all.Where(IsAhead(move)).Where(IsPushable).Map(Position);
-    Coordinate Position(PlacedBlock block) => block.whereIs;
+    Coordinate Position(PlacedBlock block) => block.WhereIs;
     bool IsPushable(PlacedBlock what) => all.AllDefinitionsOf(what).Contains(Vocabulary.Push);
     IEnumerable<PlacedBlock> DefeatedAt(Coordinate to) => MovedYou(to).Where(IsDefeat);
-    bool IsDefeat(PlacedBlock you) => BlocksAt(you.whereIs).Any(block => block.Means(Defeat));
+    bool IsDefeat(PlacedBlock you) => BlocksAt(you.WhereIs).Any(block => block.Means(Defeat));
     IEnumerable<PlacedBlock> ToBePushed(Coordinate movingTo) => AllOfYou().SelectMany(PushableInFront(movingTo));
 
     Func<PlacedBlock, IEnumerable<PlacedBlock>> PushableInFront(Coordinate towards)

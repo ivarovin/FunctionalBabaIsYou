@@ -39,5 +39,5 @@ internal class DefinitionSearch
     static bool IsConjunction(PlacedBlock block) => block.Means(Conjunction);
     static Coordinate ToTheRight(PlacedBlock block) => (block.X + 1, block.Y);
     static Coordinate Down(PlacedBlock block) => (block.X, block.Y - 1);
-    Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.whereIs == at);
+    Option<PlacedBlock> Block(Coordinate at) => blocks.FirstOrNone(x => x.WhereIs == at);
 }
