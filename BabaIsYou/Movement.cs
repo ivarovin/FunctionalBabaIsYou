@@ -1,15 +1,16 @@
-namespace FunctionalBabaIsYou;
-
-internal readonly struct Movement
+namespace FunctionalBabaIsYou
 {
-    public readonly PlacedBlock Who;
-    public readonly Coordinate Direction;
-
-    public Movement(PlacedBlock who, Coordinate direction)
+    internal readonly struct Movement
     {
-        this.Who = who;
-        this.Direction = direction;
-    }
+        public readonly PlacedBlock Who;
+        public readonly Coordinate Direction;
 
-    public PlacedBlock Commit() => (Who.WhereIs + Direction, Who.WhatDepicts);
+        public Movement(PlacedBlock who, Coordinate direction)
+        {
+            this.Who = who;
+            this.Direction = direction;
+        }
+
+        public PlacedBlock Commit() => (Who.WhereIs + Direction, Who.WhatDepicts);
+    }
 }

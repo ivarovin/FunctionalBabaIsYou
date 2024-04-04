@@ -1,10 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using static FunctionalBabaIsYou.Sight;
 using static FunctionalBabaIsYou.Vocabulary;
 
-namespace FunctionalBabaIsYou;
-
-public record World
+namespace FunctionalBabaIsYou
 {
+    public record World
+    {
     readonly IEnumerable<PlacedBlock> all;
     public bool IsOver => !AllOfYou().Any() || Won;
     public bool Won => AllOfYou().Any(IsAtAny(Wins));
@@ -37,4 +40,5 @@ public record World
 
     IEnumerable<PlacedBlock> OtherThanYou(Coordinate at) => all.At(at).Where(IsNotYou);
     bool IsNotYou(PlacedBlock actor) => !IsYou(actor);
+    }
 }

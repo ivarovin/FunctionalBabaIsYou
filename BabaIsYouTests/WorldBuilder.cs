@@ -1,18 +1,19 @@
-namespace FunctionalBabaIsYou.Tests;
-
-public class WorldBuilder
+namespace FunctionalBabaIsYou.Tests
 {
-    IEnumerable<PlacedBlock> actors = Array.Empty<PlacedBlock>();
-    IEnumerable<PlacedBlock> blocks = Array.Empty<PlacedBlock>();
-
-    public World Build() => new(actors.Concat(blocks));
-
-    public WorldBuilder AndBlocks(IEnumerable<PlacedBlock> blocks)
+    public class WorldBuilder
     {
-        this.blocks = this.blocks.Concat(blocks);
-        return this;
-    }
+        IEnumerable<PlacedBlock> actors = Array.Empty<PlacedBlock>();
+        IEnumerable<PlacedBlock> blocks = Array.Empty<PlacedBlock>();
 
-    public static WorldBuilder IntroduceToWorld(params PlacedBlock[] actors) => new() { actors = actors };
-    public static WorldBuilder EmptyWorldWithBlocks(params PlacedBlock[] blocks) => new() { blocks = blocks };
+        public World Build() => new(actors.Concat(blocks));
+
+        public WorldBuilder AndBlocks(IEnumerable<PlacedBlock> blocks)
+        {
+            this.blocks = this.blocks.Concat(blocks);
+            return this;
+        }
+
+        public static WorldBuilder IntroduceToWorld(params PlacedBlock[] actors) => new() { actors = actors };
+        public static WorldBuilder EmptyWorldWithBlocks(params PlacedBlock[] blocks) => new() { blocks = blocks };
+    }
 }

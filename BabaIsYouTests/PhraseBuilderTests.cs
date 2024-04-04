@@ -1,23 +1,24 @@
 using FluentAssertions;
 using static FunctionalBabaIsYou.Tests.PhraseBuilder;
 
-namespace FunctionalBabaIsYou.Tests.Grammar;
-
-public class PhraseBuilderTests
+namespace FunctionalBabaIsYou.Tests.Grammar
 {
-    [Test]
-    public void AppendSecondDefinition()
+    public class PhraseBuilderTests
     {
-        BabaIsYou.AndRock().Should().BeEquivalentTo
-        (
-            new[]
-            {
-                BabaSubject.At(Origin),
-                ToBe.At(Middle),
-                You.At(Right),
-                And.At((3,0)),
-                Rock.At((4,0))
-            }
-        );
+        [Test]
+        public void AppendSecondDefinition()
+        {
+            BabaIsYou.AndRock().Should().BeEquivalentTo
+            (
+                new[]
+                {
+                    BabaSubject.At(Origin),
+                    ToBe.At(Middle),
+                    You.At(Right),
+                    And.At((3,0)),
+                    Rock.At((4,0))
+                }
+            );
+        }
     }
 }
